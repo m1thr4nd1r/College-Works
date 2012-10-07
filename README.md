@@ -1,4 +1,4 @@
 College-Works
 =============
 
-Since they are the code of my college homeworks, probably they suck BUT I'm open to suggestions about any one of them :)
+These are the code of my college homeworks, don't expect too much of them, but I'm open to any suggetions about anyone of them :) 
