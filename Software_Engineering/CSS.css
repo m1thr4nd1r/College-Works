@@ -1,0 +1,142 @@
+       BODY, TD {
+                /*background-color: darkslategray; */
+                background-image: url("/images/wmbg.jpg");
+                font-family: sans-serif;
+                position: fixed;
+                background-repeat: no-repeat;
+       }
+
+        A {
+                color: white;
+        }
+
+        A:Hover {
+                color: yellow;
+        }
+        
+        .listaP {
+            display: none;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 360px; /* 400 */
+            left: 160px; /* 150 fica colado com o menu das cidades (Valor anterior: 300) */
+            background: none;
+        }
+        
+        .listaH{
+            display: none;
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 550px; /* 420 */
+            left: 160px; /* 890 fica colado com o menu de passagens (Valor anterior: 550) */
+        }
+
+        H1 { 
+                font-variant: small-caps;
+                background-color: black;
+                color: white; 
+                padding: 10px;
+                width: 100%;
+        }
+        
+        H4 { 
+                font-size: 12pt;
+                background-color: transparent;
+                text-align: justify;
+                color: white;
+        }
+    
+        #imgpos { 
+            position: absolute;  
+            right: -400px; /* posiciona a 90px para a esquerda */ 
+            top: 75px; /* posiciona a 70px para baixo */
+        }
+               
+        #footer { 
+            font-size: 8pt;
+            position:fixed; 
+            color: white;
+            bottom:0px; 
+            width:100%; 
+        }
+        
+        a.menu:hover{
+            background-color: #e3eeff;
+            display:block;
+            padding-left:0;
+            font-weight:bold;
+            border-left:10px solid #333333;
+            border-bottom:1px solid #006699;
+            color:#006699; }
+
+        .nav1{ 
+            display:inline-block; 
+            font-variant: small-caps;
+            background-color: black;
+            color: white; 
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 25px;
+            } 
+
+        .nav1:hover:hover{
+            background-color:white;
+            color:black;
+        }
+
+        li:hover ul ul, li.over ul ul {  
+            display:none;  
+        } 
+
+        li:hover ul, li li:hover ul, li.over ul, li li.over ul {  
+            display: block;     
+        } 
+
+        li:hover ul, li.over ul {  
+            display: block;     
+        }
+
+    .data { 
+        background-color:#dedede;
+        right: 0px;
+        top: 0px;
+        color:#3e3e3e; 
+        float:right; 
+        position:fixed; 
+        padding:40px 5px 0px; 
+    }
+    
+    .data .mes { 
+        text-transform: uppercase; 
+        font-size:25px; 
+    }
+    .data .dia { 
+        font-size:36px; 
+        line-height:45px;
+        position:absolute; 
+        left:5px; 
+        top:0px; 
+    }
+    
+    .data .ano { 
+        display:block; 
+        font-size:12px; 
+        position:absolute; 
+        right:-5px; 
+        top:15px; 
+        -webkit-transform: rotate(-90deg); 
+        -moz-transform: rotate(-90deg);
+        -o-transform: rotate(90deg);
+    
+    }   
+    
+    .data .ano { 
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3); 
+        right:-10px!important; 
+        top:8px!important; 
+    }
+
+  
