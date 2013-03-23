@@ -24,6 +24,7 @@ public:
     string getCode();
     char getCaracter();
     void print();
+    void addCharCode(char ch);
 private:
     char caracter;
     unsigned short ocorrence;

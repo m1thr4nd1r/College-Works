@@ -34,6 +34,11 @@ void Symbol::setCode(string code)
     this->code = code;
 }
 
+void Symbol::addCharCode(char ch)
+{
+    this->code.push_back(ch);
+}
+
 string Symbol::getCode()
 {
     return this->code;

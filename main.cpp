@@ -81,54 +81,73 @@ string encode(string in, vector<Symbol> v)
     return out;
 }
 
-void makeTree(vector<string> & t, vector<Symbol> s, vector<Symbol> s1, bool flag)
+void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
 {
-    double sum = 0;
-    short i = 0, j = 0;
-    string symbols = "", rest = "";
+    double sum = 0, w = 0;
+    short i = 0, j = 0, z = 0;
+    string symbols = "", rest = "", test = "";
     
-    calculateProbability(s);
+    z = calculateProbability(s);
     
     do
     {
         sum += s[i].getProbability();
+        s[i].addCharCode('0');
+        test = s[i].getCode();
         symbols.push_back(s[i].getCaracter());
         i++;
-        j++;
-    }while (sum < 0.5);
+        w += sum + s[i].getProbability();
+    }while (w < 0.5);
+    
+    double a = abs((1 - w) - w);
+    double b = abs((1 - sum) - sum);
+    
+    if (b > a)
+    {
+        sum = w;
+        symbols.push_back(s[i].getCaracter());
+        s[i].addCharCode('0');
+        test = s[i].getCode();
+        i++;
+    }
+    
+    j = i;
     
     while (i < s.size())
     {
         rest.push_back(s[i].getCaracter());
+        s[i].addCharCode('1');
+        test = s[i].getCode();
         i++;
     }
     
     t.push_back(symbols);
     t.push_back(rest);
     
+    vector<Symbol> newS (s.begin(),s.begin()+j);
+    vector<Symbol> newS1 (s.begin()+j,s.end()); // (s.begin()+j+1 se for no windows)
+    
     if (j > 1)
     {
-        vector<Symbol> newS (s.begin(),s.begin()+j);
-        vector<Symbol> newS1 (s.begin()+j,s.end()); // (s.begin()+j+1 se for no windows)
-        
         if (flag)    
         {
-            makeTree(t,newS1,newS,false);
-            makeTree(t,newS,newS1,false);
+            makeTree(t,newS1,false);
+            makeTree(t,newS,false);
         }
         else
         {
-            makeTree(t,newS,newS1,true);
-            makeTree(t,newS1,newS,false);
+            makeTree(t,newS,true);
+            makeTree(t,newS1,false);
         }
     }
     else if (i > 2)
-    {
-        vector<Symbol> newS1 (s.begin(),s.begin()+j);
-        vector<Symbol> newS (s.begin()+j,s.end()); // (s.begin()+j+1 se for no windows)
-        
-        makeTree(t,newS,newS1,false);
-    }
+        makeTree(t,newS1,false);
+    
+    for (int i = 0; i < s.size(); i++)
+        if (i < j)
+            s[i].setCode(newS[i].getCode());
+        else
+            s[i].setCode(newS1[i-j].getCode());
 }
 
 int main(int argc, char** argv) 
@@ -140,6 +159,9 @@ int main(int argc, char** argv)
     unsigned short num_bit = 1;
     
     input = "AAAAAABBBBBCCCCDDDEEF";
+//    input = "AAAAAAAAAAAAAAABBBBBBBCCCCCCDDDDDDEEEEE";
+//    input = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
+//    input = "AAAAABBBCD";
 //    input = "AABCCD";
 //    input = "AABAAB";
     
@@ -185,7 +207,7 @@ int main(int argc, char** argv)
     {
         string code = integerToBinary(i);
         code.insert(code.begin(),num_bit-code.size(),'0');
-        symbols[i].setCode(code);
+//        symbols[i].setCode(code);
         chars += symbols[i].getCaracter();
     }
     
@@ -195,10 +217,17 @@ int main(int argc, char** argv)
     
     tree.push_back(chars);
     
-    makeTree(tree,symbols,symbols,false);
+    makeTree(tree,symbols,false);
     
     for (int i = 0; i < tree.size(); i++)
         cout << " " << tree[i] << " ";
+    
+    cout << endl;
+    
+    for (int i = 0; i < symbols.size(); i++)
+        symbols[i].print();
+    
+    cout<<encode(input,symbols)<<" Bits: "<<encode(input,symbols).size();
     
     return 0;
 }
