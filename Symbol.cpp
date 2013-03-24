@@ -54,7 +54,37 @@ double Symbol::getProbability()
     return this->probability;
 }
 
-void Symbol::print()
+//void Symbol::print()
+//{
+//    cout<< this->caracter << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
+//}
+
+string Symbol::signature()
 {
-    cout<< this->caracter << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
+    string out = "", temp = "";
+    
+    temp = integerToBinary((short)this->caracter);
+    
+    fill(&temp, 8 - temp.size());
+    
+    out+= temp;
+    
+    temp = integerToBinary((short)this->code.size());
+    
+    fill(&temp,6 - temp.size());
+    
+    unsigned short a = temp.size() + this->code.size();
+    
+    out+= temp;
+    
+    temp = this->code;
+    
+    unsigned diff = (!(a % 8)) ? 0 : (a/8) + 1;
+    
+    if (diff != 0)
+        fill(&temp, (8 * diff) - a);
+    
+    out+= temp;
+    
+    return out;
 }

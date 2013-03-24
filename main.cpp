@@ -6,13 +6,29 @@
  */
 
 #include <iostream>
-#include <cmath>
 #include <vector>
-#include <sstream>
 #include <algorithm>
+#include <fstream>
 #include "Symbol.h"
 
 using namespace std;
+
+string toBin(string in, vector <Symbol> v, short num_bit)
+{
+    string out = "", code = "";
+    for (short j = 0; j < in.size(); j++)
+        for (short i = 0; i < v.size(); i++)
+        {
+            code = "";
+            if (in[j] == v[i].getCaracter())
+            {
+                code = integerToBinary(i);
+                fill(&code,num_bit-code.size());
+                out+= code;
+            }
+        }
+    return out;
+}
 
 unsigned short calculateProbability(vector<Symbol> & s)
 {
@@ -47,26 +63,6 @@ bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char 
 bool compare(Symbol s1, Symbol s2)
 {
     return (s1.getOcorrence() > s2.getOcorrence());
-}
-
-string integerToBinary(short n)
-{
-    string text = "";
-    stringstream ss;
-    
-    if (n == 0 || n == 1) 
-    {
-        ss << n;
-        text = ss.str();
-    }
-    else {
-        text = integerToBinary(n >> 1);
-        ss.str("");
-        ss << (n & 0x1);
-        text.append(ss.str());
-    }
-    
-    return text;
 }
 
 string encode(string in, vector<Symbol> v)
@@ -150,6 +146,24 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
             s[i].setCode(newS1[i-j].getCode());
 }
 
+string stringToBits(string text)
+{
+    string bite = "", output = "";;
+    unsigned short j = 0;
+    
+    while (j + 8 < text.size())
+    {
+        bite.assign(text, j, 8);
+        output+= (char) binToInt(bite);
+        j+= 8;
+    }
+
+    bite.assign(text, j, 8);
+    output+= (char) binToInt(bite);
+    
+    return output;
+}
+
 int main(int argc, char** argv) 
 {
     std::vector<Symbol> symbols;
@@ -204,14 +218,9 @@ int main(int argc, char** argv)
     string chars = "";
         
     for (short i = 0; i < symbols.size(); i++)
-    {
-        string code = integerToBinary(i);
-        code.insert(code.begin(),num_bit-code.size(),'0');
-//        symbols[i].setCode(code);
         chars += symbols[i].getCaracter();
-    }
     
-    cout<<encode(input,symbols)<<" Bits: "<<encode(input,symbols).size();
+    cout<<toBin(input,symbols, num_bit)<<" Bits: "<<toBin(input,symbols, num_bit).size()<< endl;
     
     vector<string> tree;
     
@@ -219,15 +228,34 @@ int main(int argc, char** argv)
     
     makeTree(tree,symbols,false);
     
-    for (int i = 0; i < tree.size(); i++)
-        cout << " " << tree[i] << " ";
+//    for (int i = 0; i < tree.size(); i++)
+//        cout << " " << tree[i] << " ";
     
-    cout << endl;
+//    cout << endl;
     
-    for (int i = 0; i < symbols.size(); i++)
-        symbols[i].print();
+//    for (int i = 0; i < symbols.size(); i++)
+//        symbols[i].print();
     
-    cout<<encode(input,symbols)<<" Bits: "<<encode(input,symbols).size();
+    string encoded = encode(input,symbols);
+    
+    cout<< encoded <<" Bits: "<< encoded.size() << " " << endl;
+    
+    string output = "";
+    for (unsigned short i = 0; i < symbols.size(); i++)
+        output += stringToBits(symbols[i].signature());
+    
+    output += stringToBits(encoded);
+    
+    fstream outFile;
+    
+    outFile.open("output.out",  fstream::binary | fstream::out | fstream::app);
+    
+    for (int i = 0; i < output.size(); i++)
+        outFile.put(output[i]);
+    
+    cout<<output;
+    
+    outFile.close();
     
     return 0;
 }

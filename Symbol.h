@@ -8,8 +8,8 @@
 #ifndef SYMBOL_H
 #define	SYMBOL_H
 
-#include <string>
-#include <iostream>
+//#include <iostream>
+#include "Functions.h"
 
 using namespace std;
 
@@ -23,8 +23,9 @@ public:
     double getProbability();
     string getCode();
     char getCaracter();
-    void print();
+//    void print();
     void addCharCode(char ch);
+    string signature();
 private:
     char caracter;
     unsigned short ocorrence;
