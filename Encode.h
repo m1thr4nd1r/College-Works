@@ -19,7 +19,7 @@ string encode(string input);
 
 bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char current);
 
-void makeTree(vector<string> & t, vector<Symbol> & s, bool flag);
+void makeCodes(vector<Symbol> & s, bool flag);
 
 string stringToBits(string text);
 

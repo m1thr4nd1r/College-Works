@@ -6,7 +6,7 @@
 
 using namespace std;
 
-string chartoBin(string in, vector <Symbol> v, short num_bit)
+string inToBin(string in, vector <Symbol> v, short num_bit)
 {
     string out = "", code = "";
     for (short j = 0; j < in.size(); j++)
@@ -53,7 +53,7 @@ bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char 
     return false;
 }
 
-bool compare(Symbol s1, Symbol s2)
+bool maior(Symbol s1, Symbol s2)
 {
     return (s1.getOcorrence() > s2.getOcorrence());
 }
@@ -70,11 +70,11 @@ string charToSF(string in, vector<Symbol> v)
     return out;
 }
 
-void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
+void makeCodes(vector<Symbol> & s)
 {
     double sum = 0, w = 0;
     short i = 0, j = 0, z = 0;
-    string symbols = "", rest = "", test = "";
+    string symbols = "", rest = "";
     
     z = calculateProbability(s);
     
@@ -82,7 +82,6 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
     {
         sum += s[i].getProbability();
         s[i].addCharCode('0');
-        test = s[i].getCode();
         symbols.push_back(s[i].getCharacter());
         i++;
         w += sum + s[i].getProbability();
@@ -96,7 +95,6 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
         sum = w;
         symbols.push_back(s[i].getCharacter());
         s[i].addCharCode('0');
-        test = s[i].getCode();
         i++;
     }
     
@@ -106,31 +104,19 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
     {
         rest.push_back(s[i].getCharacter());
         s[i].addCharCode('1');
-        test = s[i].getCode();
         i++;
     }
-    
-    t.push_back(symbols);
-    t.push_back(rest);
     
     vector<Symbol> newS (s.begin(),s.begin()+j);
     vector<Symbol> newS1 (s.begin()+j,s.end()); // (s.begin()+j+1 se for no windows)
     
     if (j > 1)
     {
-        if (flag)    
-        {
-            makeTree(t,newS1,false);
-            makeTree(t,newS,false);
-        }
-        else
-        {
-            makeTree(t,newS,true);
-            makeTree(t,newS1,false);
-        }
+        makeCodes(newS); // true
+        makeCodes(newS1);
     }
     else if (i > 2)
-        makeTree(t,newS1,false);
+        makeCodes(newS1);
     
     for (int i = 0; i < s.size(); i++)
         if (i < j)
@@ -139,22 +125,57 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
             s[i].setCode(newS1[i-j].getCode());
 }
 
-string stringToBits(string text)
+string outArvore(vector <Symbol> symbols, string encoded)
 {
-    string bite = "", output = "";;
-    unsigned short j = 0;
+    string output = intToBin(symbols.size()), code = symbols.front().getCode(), c1 = "", c2 = "";
+    short unsigned index = 0;
     
-    while (j + 8 < text.size())
+    while (index < symbols.size() - 1)
     {
-        bite.assign(text, j, 8);
-        output+= (char) binToInt(bite);
-        j+= 8;
+        c1 = symbols[index].getCode();
+        c2 = symbols[index+1].getCode();
+        
+        index++;
+        
+        code+= '1';
+        
+        if (((c1.size() == c2.size()) && (c1[0] != c2[0])) || (c1.size() != c2.size()))
+            code+= '0';
     }
-
-    bite.assign(text, j, 8);
-    output+= (char) binToInt(bite);
+    
+    fill(&output,8-output.size());
+    
+    output+= code + '1';
+    
+    for (short i = 0; i < symbols.size(); i++)
+    {
+        string ch = intToBin(symbols[i].getCharacter());
+        fill(&ch, 8-ch.size());
+        output += ch;
+    }
+    
+    output += encoded;
     
     return output;
+}
+
+void writeOutput(string output, string outputOLD)
+{
+    fstream outFile;
+    
+    outFile.open("output.out",  fstream::binary | fstream::out | fstream::ate);
+    
+    for (int i = 0; i < output.size(); i++)
+        outFile.put(output[i]);
+    
+    outFile.close();
+    
+    outFile.open("output.old",  fstream::binary | fstream::out | fstream::ate);
+    
+    for (int i = 0; i < output.size(); i++)
+        outFile.put(outputOLD[i]);
+    
+    outFile.close();
 }
 
 string encode(string input)
@@ -168,75 +189,55 @@ string encode(string input)
     
     for (short i = 0; i < input.size(); i++)
     {
-        bool flag = false;
         if (input[i] != symbol)
         {
-            if (!exists(symbols,&ocorrence,&symbol,input[i]))
+            if (!exists(symbols,&ocorrence,&symbol,input[i])) // Se o simbolo não existe na lista de simbolos...
             {
-                Symbol* s = new Symbol(symbol,ocorrence);
-                symbols.push_back(*s);
+                Symbol* s = new Symbol(symbol,ocorrence); // Cria um novo simbolo
+                symbols.push_back(*s); // Adiciona na lista de simbolos
                 ocorrence = 1;
-                symbol = input[i];
+                symbol = input[i]; // Pega o proximo simbolo
             }
         }
         else
-        {
-            flag = false;
             ocorrence++;
-        }
     }
     
-    if (!exists(symbols,&ocorrence,&symbol,' '))
+    if (!exists(symbols,&ocorrence,&symbol,' ')) // Se o ultimo simbolo nao existe na lista de simbolos...
     {
-        Symbol* s = new Symbol(symbol,ocorrence);
-        symbols.push_back(*s);
+        Symbol* s = new Symbol(symbol,ocorrence); // Cria um novo simbolo
+        symbols.push_back(*s); // Adiciona na lista de simbolos
     }
     
-    sort(symbols.begin(), symbols.end(), compare);
+    sort(symbols.begin(), symbols.end(), maior); // Ordenar os simbolos crescentemente de acordo com a ocorrencia
     
-    while (symbols.size() > pow(2,num_bit))
+    while (symbols.size() > pow(2,num_bit)) // Conta quantos bits serao necessarios para representar os simbolos
         num_bit++;
-    
-    
-    string chars = "";
         
-    for (short i = 0; i < symbols.size(); i++)
-        chars += symbols[i].getCharacter();
-    
-    cout<<chartoBin(input,symbols, num_bit)<<" Bits: "<<chartoBin(input,symbols, num_bit).size()<< endl;
-    
-    vector<string> tree;
-    
-    tree.push_back(chars);
-    
-    makeTree(tree,symbols,false);
-    
-//    for (int i = 0; i < tree.size(); i++)
-//        cout << " " << tree[i] << " ";
-    
-//    cout << endl;
-    
-//    for (int i = 0; i < symbols.size(); i++)
-//        symbols[i].print();
+    cout<<inToBin(input,symbols, num_bit)<<" Bits: "<<inToBin(input,symbols, num_bit).size()<< endl; // Imprime os simbolos em binario de acordo com sua ocorrencia
+   
+    makeCodes(symbols); // Cria os codigos em Shannon Fano de cada simbolo
     
     string encoded = charToSF(input,symbols);
     
     cout<< encoded <<" Bits: "<< encoded.size() << " " << endl;
     
-    string output = "";
+    string output = outArvore(symbols, encoded);
+    
+    output = binToByte(output);
+    
+//    METODO ANTIGO PARA EFEITO DE COMPARACAO
+    
+    string outputOLD = "";
+    
     for (unsigned short i = 0; i < symbols.size(); i++)
-        output += stringToBits(symbols[i].signature());
+        outputOLD += binToByte(symbols[i].signature());
     
-    output += stringToBits(encoded);
+    outputOLD += binToByte(encoded);
     
-    fstream outFile;
+//    FIM METODO ANTIGO
     
-    outFile.open("output.out",  fstream::binary | fstream::out | fstream::ate);
+    writeOutput(output, outputOLD);
     
-    for (int i = 0; i < output.size(); i++)
-        outFile.put(output[i]);
-    
-    outFile.close();
-    
-    return output;
+    return encoded;
 }

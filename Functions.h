@@ -13,7 +13,9 @@
 
 using namespace std;
 
-void fill(string *text, short count);
+void fill(string *text, short count, char liquid='0');
+
+string binToByte(string text);
 
 string intToBin(short n);
 

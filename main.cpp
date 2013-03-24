@@ -8,47 +8,81 @@
 #include <iostream>
 #include <fstream>
 #include "Encode.h"
+#include "Node.h"
 
 using namespace std;
 
-Symbol makeSymbol(string glyphs, unsigned short *i)
+void remake_tree(string *encoded, Node** root)
 {
-    Symbol *s = new Symbol(glyphs[0], 0);
-    string bite = "", qnt = "", code = "";
-    unsigned short count = 0;
+    char bit = (*encoded)[0];
     
-    bite = intToBin(glyphs[1]);
+    (*encoded).erase((*encoded).begin());
     
-    fill(&bite,8-bite.size());
-    
-    qnt.assign(bite,0,6);
-    code.assign(bite,6,2);
-    
-    count = binToInt(qnt);
-    
-    (*i)+= 2;
-    
-    if (count > 2)
+    if (bit == '0')
     {
-        bite = intToBin((short)glyphs[2]);
-        fill(&bite,8-bite.size());
-        code+= bite;
-        (*i)++;
-        
-        if (count > 10)
-        {
-            bite = intToBin((short)glyphs[3]);
-            fill(&bite,8-bite.size());
-            code+= bite;
-            (*i)++;
-        }
-        
-        code.erase(code.begin(),code.end()-count);
-    }
-        
-    s->setCode(code);
+        Node * n = new Node();
     
-    return *s;
+        n->parent = *root;
+        
+        n->setBit('0');
+        (*root)->child0 = n;
+        remake_tree(encoded,&n);
+                
+        remake_tree(encoded,root);
+    }    
+    else if (((*root)->child0 != NULL) && ((*root)->child1 == NULL) && (bit == '1'))
+    {
+        Node *n = new Node();
+        n->parent = *root;
+        n->setBit('1');
+        (*root)->child1 = n;
+        remake_tree(encoded,&n);
+        
+        remake_tree(encoded,root);
+    }
+    else
+        (*encoded).insert((*encoded).begin(),1,bit);
+}
+
+void finishTree(string *codes, Node* root)
+{
+    if (root->child0 != NULL)
+        finishTree(codes,root->child0);
+    if (root->child1 != NULL)
+        finishTree(codes,root->child1);
+    
+    if ((root->child0 == NULL) && (root->child1 == NULL))
+    {
+        root->setSymbol((*codes)[0]);
+        (*codes).erase((*codes).begin());
+    }   
+}
+
+char extractCharacter(Node *root, string *msg)
+{
+    if ((root->child0 == NULL) && (root->child1 == NULL))
+        return root->getSymbol();
+    else
+    {
+        if ((*msg)[0] == '0')
+        {
+            (*msg).erase((*msg).begin());
+            return extractCharacter(root->child0,msg);
+        }
+        else
+        {
+            (*msg).erase((*msg).begin());
+            return extractCharacter(root->child1,msg);
+        }
+    }
+}
+
+string decode(Node *root, string msg)
+{
+    string decoded = "";
+    while (!msg.empty())
+        decoded+= extractCharacter(root,&msg);
+    return decoded;
 }
 
 int main(int argc, char** argv) {
@@ -61,40 +95,76 @@ int main(int argc, char** argv) {
 //    input = "AAAAABBBCD";
 //    input = "AABCCD";
 //    input = "AABAAB";
+//    input = "AABABBCCCD";
+//    input = "AB";
     
 //    cin>>input;
     
     output = encode(input);
-    
+        
     fstream inFile;
     
     inFile.open("output.out",  fstream::binary | fstream::in | fstream::app);
     
     while(inFile.good())
-        encoded+= inFile.get();
+    {
+        char sheep = inFile.get();
+        string bin = "";
+        if ((int)sheep < 0)
+        {
+            short unsigned i = (short unsigned) sheep + 256;
+            bin = intToBin(i);
+            fill(&bin,8-bin.size());
+            encoded+= bin;
+        }
+        else
+        {
+            bin = intToBin(sheep);
+            fill(&bin,8-bin.size());
+            encoded+= bin;
+        }
+    }
     
     inFile.close();
     
-    encoded.erase(encoded.end()-1); // Removendo o caracter do EOF
+    encoded.erase(encoded.end()-8,encoded.end()); // Removendo o caracter do EOF
     
-    unsigned short start = 0;
-    string current = "";
-    bool flag = false;
-    vector <Symbol> symbols;
+    string out = "";
     
-    while (!flag)
+    out = binToByte(encoded);
+    
+    out.assign(encoded,0,8);
+    
+    unsigned short qnt = binToInt(out);
+    
+    encoded.erase(encoded.begin(),encoded.begin() + 8); 
+    
+    Node *root = new Node();
+    
+    remake_tree(&encoded, &root);
+    
+    string chars = "";
+    
+    encoded.erase(encoded.begin());
+    
+    for (unsigned short i = 0; i < qnt; i++)
     {
-        current.assign(encoded,start,start+4);
-        
-        if (current.empty())
-            flag = true;
-        else
-            symbols.push_back(makeSymbol(current, &start));
+        out.assign(encoded,0,8);
+        encoded.erase(encoded.begin(),encoded.begin() + 8); 
+        chars += binToInt(out);
     }
     
-    encoded.erase(encoded.begin(),encoded.end()-start);
+    finishTree(&chars,root);
     
-    cout << "tes";
+    out.assign(encoded,encoded.size()-8,8);
+    
+    encoded.erase(encoded.size()-8,8);
+    
+    encoded += intToBin(binToInt(out));
+    
+    out = decode(root,encoded);
+    
+    cout << out;
     
     return 0;
 }

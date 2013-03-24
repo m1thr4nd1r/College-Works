@@ -29,7 +29,25 @@ string intToBin(short n)
     return text;
 }
 
-void fill(string *text, short count)
+void fill(string *text, short count, char liquid)
 {
-    (*text).insert((*text).begin(),count,'0');
+    (*text).insert((*text).begin(),count,liquid);
+}
+
+string binToByte(string text)
+{
+    string bite = "", output = "";
+    unsigned short j = 0;
+    
+    while (j + 8 < text.size())
+    {
+        bite.assign(text, j, 8);
+        output+= (char) binToInt(bite);
+        j+= 8;
+    }
+
+    bite.assign(text, j, 8);
+    output+= (char) binToInt(bite);
+    
+    return output;
 }

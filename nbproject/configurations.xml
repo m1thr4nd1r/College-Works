@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>Encode.h</itemPath>
       <itemPath>Functions.h</itemPath>
+      <itemPath>Node.h</itemPath>
       <itemPath>Symbol.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -13,6 +14,7 @@
                    projectFiles="true">
       <itemPath>Encode.cpp</itemPath>
       <itemPath>Functions.cpp</itemPath>
+      <itemPath>Node.cpp</itemPath>
       <itemPath>Symbol.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
