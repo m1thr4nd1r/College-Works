@@ -36,8 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/Symbol.o \
+	${OBJECTDIR}/Encode.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/Functions.o
+	${OBJECTDIR}/Functions.o \
+	${OBJECTDIR}/Node.o
 
 
 # C Compiler Flags
@@ -69,6 +71,11 @@ ${OBJECTDIR}/Symbol.o: Symbol.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Symbol.o Symbol.cpp
 
+${OBJECTDIR}/Encode.o: Encode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Encode.o Encode.cpp
+
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -78,6 +85,11 @@ ${OBJECTDIR}/Functions.o: Functions.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Functions.o Functions.cpp
+
+${OBJECTDIR}/Node.o: Node.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Node.o Node.cpp
 
 # Subprojects
 .build-subprojects:

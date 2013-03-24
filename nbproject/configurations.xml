@@ -4,12 +4,14 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Arquivos de Cabeçalho"
                    projectFiles="true">
+      <itemPath>Encode.h</itemPath>
       <itemPath>Functions.h</itemPath>
       <itemPath>Symbol.h</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Arquivos de Código-Fonte"
                    projectFiles="true">
+      <itemPath>Encode.cpp</itemPath>
       <itemPath>Functions.cpp</itemPath>
       <itemPath>Symbol.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
@@ -29,6 +31,8 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>Node.cpp</itemPath>
+    <itemPath>Node.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
