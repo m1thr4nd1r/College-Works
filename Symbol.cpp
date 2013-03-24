@@ -8,7 +8,7 @@
 #include "Symbol.h"
 
 Symbol::Symbol(char x, unsigned short oc) {
-    this->caracter = x;
+    this->character = x;
     this->ocorrence = oc;
     this->code = "";
     this->probability = 0;
@@ -19,14 +19,19 @@ void Symbol::addOcorrence(short ocorrence)
     this->ocorrence+= ocorrence;
 }
 
-char Symbol::getCaracter()
+char Symbol::getCharacter()
 {
-    return this->caracter;
+    return this->character;
 }
 
 unsigned short Symbol::getOcorrence()
 {
     return this->ocorrence;
+}
+
+void Symbol::setCharacter(char ch)
+{
+    this->character = ch;
 }
 
 void Symbol::setCode(string code)
@@ -56,24 +61,24 @@ double Symbol::getProbability()
 
 //void Symbol::print()
 //{
-//    cout<< this->caracter << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
+//    cout<< this->character << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
 //}
 
 string Symbol::signature()
 {
     string out = "", temp = "";
     
-    temp = integerToBinary((short)this->caracter);
+    temp = intToBin((short)this->character);
     
     fill(&temp, 8 - temp.size());
     
     out+= temp;
     
-    temp = integerToBinary((short)this->code.size());
+    temp = intToBin((short)this->code.size());
     
     fill(&temp,6 - temp.size());
     
-    unsigned short a = temp.size() + this->code.size();
+    unsigned short a = 6 + this->code.size();
     
     out+= temp;
     

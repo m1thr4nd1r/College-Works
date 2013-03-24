@@ -15,7 +15,7 @@ using namespace std;
 
 void fill(string *text, short count);
 
-string integerToBinary(short n);
+string intToBin(short n);
 
 short binToInt(string n);
 

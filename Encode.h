@@ -15,7 +15,7 @@ unsigned short calculateProbability(vector<Symbol> & s);
 
 bool compare(Symbol s1, Symbol s2);
 
-void encode(string input);
+string encode(string input);
 
 bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char current);
 
@@ -23,9 +23,9 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag);
 
 string stringToBits(string text);
 
-string toBin(string in, vector <Symbol> v, short num_bit);
+string charToBin(string in, vector <Symbol> v, short num_bit);
 
-string transform(string in, vector<Symbol> v);
+string charToSF(string in, vector<Symbol> v);
 
 #endif	/* ENCODE_H */
 

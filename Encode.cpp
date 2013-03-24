@@ -6,16 +6,16 @@
 
 using namespace std;
 
-string toBin(string in, vector <Symbol> v, short num_bit)
+string chartoBin(string in, vector <Symbol> v, short num_bit)
 {
     string out = "", code = "";
     for (short j = 0; j < in.size(); j++)
         for (short i = 0; i < v.size(); i++)
         {
             code = "";
-            if (in[j] == v[i].getCaracter())
+            if (in[j] == v[i].getCharacter())
             {
-                code = integerToBinary(i);
+                code = intToBin(i);
                 fill(&code,num_bit-code.size());
                 out+= code;
             }
@@ -41,7 +41,7 @@ bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char 
     short j = 0;
     while(j < v.size())
     {
-        if (v[j].getCaracter() == *caracter)
+        if (v[j].getCharacter() == *caracter)
         {
             v[j].addOcorrence(*ocorrence);
             *caracter = current;
@@ -58,13 +58,13 @@ bool compare(Symbol s1, Symbol s2)
     return (s1.getOcorrence() > s2.getOcorrence());
 }
 
-string transform(string in, vector<Symbol> v)
+string charToSF(string in, vector<Symbol> v)
 {
     string out = "";
     for (short j = 0; j < in.size(); j++)
         for (short i = 0; i < v.size(); i++)
         {
-            if (in[j] == v[i].getCaracter())
+            if (in[j] == v[i].getCharacter())
                 out+= v[i].getCode();
         }
     return out;
@@ -83,7 +83,7 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
         sum += s[i].getProbability();
         s[i].addCharCode('0');
         test = s[i].getCode();
-        symbols.push_back(s[i].getCaracter());
+        symbols.push_back(s[i].getCharacter());
         i++;
         w += sum + s[i].getProbability();
     }while (w < 0.5);
@@ -94,7 +94,7 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
     if (b > a)
     {
         sum = w;
-        symbols.push_back(s[i].getCaracter());
+        symbols.push_back(s[i].getCharacter());
         s[i].addCharCode('0');
         test = s[i].getCode();
         i++;
@@ -104,7 +104,7 @@ void makeTree(vector<string> & t, vector<Symbol> & s, bool flag)
     
     while (i < s.size())
     {
-        rest.push_back(s[i].getCaracter());
+        rest.push_back(s[i].getCharacter());
         s[i].addCharCode('1');
         test = s[i].getCode();
         i++;
@@ -157,7 +157,7 @@ string stringToBits(string text)
     return output;
 }
 
-void encode(string input)
+string encode(string input)
 {
     std::vector<Symbol> symbols;
     char symbol = ' ';
@@ -201,9 +201,9 @@ void encode(string input)
     string chars = "";
         
     for (short i = 0; i < symbols.size(); i++)
-        chars += symbols[i].getCaracter();
+        chars += symbols[i].getCharacter();
     
-    cout<<toBin(input,symbols, num_bit)<<" Bits: "<<toBin(input,symbols, num_bit).size()<< endl;
+    cout<<chartoBin(input,symbols, num_bit)<<" Bits: "<<chartoBin(input,symbols, num_bit).size()<< endl;
     
     vector<string> tree;
     
@@ -219,7 +219,7 @@ void encode(string input)
 //    for (int i = 0; i < symbols.size(); i++)
 //        symbols[i].print();
     
-    string encoded = transform(input,symbols);
+    string encoded = charToSF(input,symbols);
     
     cout<< encoded <<" Bits: "<< encoded.size() << " " << endl;
     
@@ -231,12 +231,12 @@ void encode(string input)
     
     fstream outFile;
     
-    outFile.open("output.out",  fstream::binary | fstream::out | fstream::app);
+    outFile.open("output.out",  fstream::binary | fstream::out | fstream::ate);
     
     for (int i = 0; i < output.size(); i++)
         outFile.put(output[i]);
     
-    cout<<output;
-    
     outFile.close();
+    
+    return output;
 }

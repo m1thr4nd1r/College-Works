@@ -38,8 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Symbol.o \
 	${OBJECTDIR}/Encode.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/Functions.o \
-	${OBJECTDIR}/Node.o
+	${OBJECTDIR}/Functions.o
 
 
 # C Compiler Flags
@@ -85,11 +84,6 @@ ${OBJECTDIR}/Functions.o: Functions.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Functions.o Functions.cpp
-
-${OBJECTDIR}/Node.o: Node.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -MMD -MP -MF $@.d -o ${OBJECTDIR}/Node.o Node.cpp
 
 # Subprojects
 .build-subprojects:

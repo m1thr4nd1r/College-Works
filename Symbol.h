@@ -18,16 +18,17 @@ public:
     Symbol(char x, unsigned short oc);
     void setCode(string code);
     void setProbability(double x);
+    void setCharacter(char ch);
     void addOcorrence(short ocorrence);
     unsigned short getOcorrence();
     double getProbability();
     string getCode();
-    char getCaracter();
+    char getCharacter();
 //    void print();
     void addCharCode(char ch);
     string signature();
 private:
-    char caracter;
+    char character;
     unsigned short ocorrence;
     double probability;
     string code;

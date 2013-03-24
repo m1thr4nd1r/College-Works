@@ -9,7 +9,7 @@ short binToInt(string n)
     return sum;
 }
 
-string integerToBinary(short n)
+string intToBin(short n)
 {
     string text = "";
     stringstream ss;
@@ -20,7 +20,7 @@ string integerToBinary(short n)
         text = ss.str();
     }
     else {
-        text = integerToBinary(n >> 1);
+        text = intToBin(n >> 1);
         ss.str("");
         ss << (n & 0x1);
         text.append(ss.str());
