@@ -39,6 +39,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/Encode.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/Functions.o \
+	${OBJECTDIR}/Decode.o \
 	${OBJECTDIR}/Node.o
 
 
@@ -85,6 +86,11 @@ ${OBJECTDIR}/Functions.o: Functions.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Functions.o Functions.cpp
+
+${OBJECTDIR}/Decode.o: Decode.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/Decode.o Decode.cpp
 
 ${OBJECTDIR}/Node.o: Node.cpp 
 	${MKDIR} -p ${OBJECTDIR}

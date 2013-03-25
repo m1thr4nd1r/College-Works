@@ -1,95 +1,14 @@
-/* 
- * File:   main.cpp
- * Author: M1thr4nd1r
- *
- * Created on 23 de Março de 2013, 21:48
- */
-
+#include <cstdlib>
 #include <iostream>
-#include <fstream>
 #include "Encode.h"
-#include "Node.h"
+#include "Decode.h"
 
 using namespace std;
 
-void remake_tree(string *encoded, Node** root)
+string tests()
 {
-    char bit = (*encoded)[0];
-    
-    (*encoded).erase((*encoded).begin());
-    
-    if (bit == '0')
-    {
-        Node * n = new Node();
-    
-        n->parent = *root;
-        
-        n->setBit('0');
-        (*root)->child0 = n;
-        remake_tree(encoded,&n);
-                
-        remake_tree(encoded,root);
-    }    
-    else if (((*root)->child0 != NULL) && ((*root)->child1 == NULL) && (bit == '1'))
-    {
-        Node *n = new Node();
-        n->parent = *root;
-        n->setBit('1');
-        (*root)->child1 = n;
-        remake_tree(encoded,&n);
-        
-        remake_tree(encoded,root);
-    }
-    else
-        (*encoded).insert((*encoded).begin(),1,bit);
-}
-
-void finishTree(string *codes, Node* root)
-{
-    if (root->child0 != NULL)
-        finishTree(codes,root->child0);
-    if (root->child1 != NULL)
-        finishTree(codes,root->child1);
-    
-    if ((root->child0 == NULL) && (root->child1 == NULL))
-    {
-        root->setSymbol((*codes)[0]);
-        (*codes).erase((*codes).begin());
-    }   
-}
-
-char extractCharacter(Node *root, string *msg)
-{
-    if ((root->child0 == NULL) && (root->child1 == NULL))
-        return root->getSymbol();
-    else
-    {
-        if ((*msg)[0] == '0')
-        {
-            (*msg).erase((*msg).begin());
-            return extractCharacter(root->child0,msg);
-        }
-        else
-        {
-            (*msg).erase((*msg).begin());
-            return extractCharacter(root->child1,msg);
-        }
-    }
-}
-
-string decode(Node *root, string msg)
-{
-    string decoded = "";
-    while (!msg.empty())
-        decoded+= extractCharacter(root,&msg);
-    return decoded;
-}
-
-int main(int argc, char** argv) {
-
-    string input = "", output = "", encoded = "";
-    
-    input = "AAAAAABBBBBCCCCDDDEEF";
+    string input = "";
+//    input = "AAAAAABBBBBCCCCDDDEEF";
 //    input = "AAAAAAAAAAAAAAABBBBBBBCCCCCCDDDDDDEEEEE";
 //    input = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC";
 //    input = "AAAAABBBCD";
@@ -97,75 +16,69 @@ int main(int argc, char** argv) {
 //    input = "AABAAB";
 //    input = "AABABBCCCD";
 //    input = "AB";
+    input = "AAAAABCD";
+    return input;
+}
+
+int main(int argc, char** argv) {
+
+    string input = "", coded = "", decoded = "", raw = "", bin = "", sh = "";
+//  coded   = Mensagem codificada utilizando o metodo de Shannon-Fano e representada em bytes
+//  input   = Entrada (string simples)
+//  bin     = Mensagem binaria simples
+//  sh      = Mensagem binaria utilizando Shannon-Fano
+//  decoded = Mensagem, lida do arquivo, decodificada
+    unsigned short choice;
     
-//    cin>>input;
-    
-    output = encode(input);
-        
-    fstream inFile;
-    
-    inFile.open("output.out",  fstream::binary | fstream::in | fstream::app);
-    
-    while(inFile.good())
+    do
     {
-        char sheep = inFile.get();
-        string bin = "";
-        if ((int)sheep < 0)
+        cout << "Codificação de um texto utilizando o algoritmo de Shannon-Fano" << endl << endl;
+        cout << "1: Codificar" << endl;
+        cout << "2: Decodificar" << endl;
+        cout << "Escolha a opcao (0 para sair) : ";
+    
+    
+        cin>>choice;
+    
+        switch (choice)
         {
-            short unsigned i = (short unsigned) sheep + 256;
-            bin = intToBin(i);
-            fill(&bin,8-bin.size());
-            encoded+= bin;
+            case 1:
+                    cout << "Digite a string a ser codificada: " << endl;
+                    cin >> input;
+                    coded = encode(input, &bin, &sh);
+                    cout << "Mensagem binaria (Simples)       : " << bin << " | numero de bits: " << bin.size() << endl;
+                    cout << "Mensagem binaria (Shannon-Fano)  : " << sh << " | numero de bits: " << sh.size() << endl << endl;
+                    cout << "Entrada            : " << input << endl;
+                    cout << "Entrada Codificada : " << coded << endl;
+                    break;
+            case 2:
+                    cout << "Arquivo 'output.out' a ser decodificado, certifique-se que o mesmo existe" << endl;
+                    decoded = decode(&raw);
+                    cout << "Saida              : " << raw << endl;
+                    cout << "Saida Decodificada : " << decoded << endl;
+                    break;
+            case 3:
+                    input = tests();
+                    coded = encode(input, &bin, &sh);
+                    decoded = decode(&raw);
+                    cout << "Mensagem binaria (Simples)       : " << bin << " | numero de bits: " << bin.size() << endl;
+                    cout << "Mensagem binaria (Shannon-Fano)  : " << sh << " | numero de bits: " << sh.size() << endl << endl;
+                    cout << "Entrada            : " << input << endl;
+                    cout << "Entrada Codificada : " << coded << endl << endl;
+                    cout << "Saida              : " << raw << endl;
+                    cout << "Saida Decodificada : " << decoded << endl << endl;
+                break;
         }
-        else
-        {
-            bin = intToBin(sheep);
-            fill(&bin,8-bin.size());
-            encoded+= bin;
-        }
-    }
+    }while (choice != 0);
     
-    inFile.close();
+//  Limpando Memoria
     
-    encoded.erase(encoded.end()-8,encoded.end()); // Removendo o caracter do EOF
-    
-    string out = "";
-    
-    out = binToByte(encoded);
-    
-    out.assign(encoded,0,8);
-    
-    unsigned short qnt = binToInt(out);
-    
-    encoded.erase(encoded.begin(),encoded.begin() + 8); 
-    
-    Node *root = new Node();
-    
-    remake_tree(&encoded, &root);
-    
-    string chars = "";
-    
-    encoded.erase(encoded.begin());
-    
-    for (unsigned short i = 0; i < qnt; i++)
-    {
-        out.assign(encoded,0,8);
-        encoded.erase(encoded.begin(),encoded.begin() + 8); 
-        chars += binToInt(out);
-    }
-    
-    finishTree(&chars,root);
-    
-    out.assign(encoded,encoded.size()-8,8);
-    
-    encoded.erase(encoded.size()-8,8);
-    
-    encoded += intToBin(binToInt(out));
-    
-    out = decode(root,encoded);
-    
-    cout << out;
+    sh.clear();
+    coded.clear();
+    decoded.clear();
+    input.clear();
+    bin.clear();
+    raw.clear();
     
     return 0;
 }
-

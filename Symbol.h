@@ -1,14 +1,7 @@
-/* 
- * File:   Symbol.h
- * Author: M1thr4nd1r
- *
- * Created on 6 de Março de 2013, 10:09
- */
-
 #ifndef SYMBOL_H
 #define	SYMBOL_H
 
-#include <iostream>
+//#include <iostream>
 #include "Functions.h"
 
 using namespace std;
@@ -22,9 +15,10 @@ public:
     void addOcorrence(short ocorrence);
     unsigned short getOcorrence();
     double getProbability();
+    void calculateProbability(unsigned short prob_total);
     string getCode();
     char getCharacter();
-    void print();
+//    void print();
     void addCharCode(char ch);
     string signature();
 private:
@@ -36,4 +30,3 @@ private:
 };
 
 #endif	/* SYMBOL_H */
-

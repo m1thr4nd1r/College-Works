@@ -1,10 +1,3 @@
-/* 
- * File:   Node.h
- * Author: M1thr4nd1r
- *
- * Created on 24 de Março de 2013, 15:03
- */
-
 #ifndef NODE_H
 #define	NODE_H
 

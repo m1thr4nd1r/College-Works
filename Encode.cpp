@@ -1,126 +1,111 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <fstream>
-#include "Symbol.h"
+#include "Encode.h"
 
-using namespace std;
-
+// Converte a mensagem in para binario, utilizando o numero num_bit de bits
 string inToBin(string in, vector <Symbol> v, short num_bit)
 {
     string out = "", code = "";
     for (short j = 0; j < in.size(); j++)
         for (short i = 0; i < v.size(); i++)
-        {
-            code = "";
             if (in[j] == v[i].getCharacter())
             {
                 code = intToBin(i);
                 fill(&code,num_bit-code.size());
                 out+= code;
             }
-        }
     return out;
 }
 
-unsigned short calculateProbability(vector<Symbol> & s)
-{
-    unsigned short prob_total = 0;
-    
-    for (short i = 0; i < s.size(); i++)
-        prob_total+= s[i].getOcorrence();
-    
-    for (short i = 0; i < s.size(); i++)
-        s[i].setProbability( abs( (double) s[i].getOcorrence() / ( (double)prob_total ) ) );
-    
-    return prob_total;
-}
-
-bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char current)
-{
-    short j = 0;
-    while(j < v.size())
-    {
-        if (v[j].getCharacter() == *caracter)
-        {
-            v[j].addOcorrence(*ocorrence);
-            *caracter = current;
-            *ocorrence = 1;
-            return true;
-        }
-        j++;
-    }
-    return false;
-}
-
-bool maior(Symbol s1, Symbol s2)
-{
-    return (s1.getOcorrence() > s2.getOcorrence());
-}
-
+// Converte a mensagem in para binario de acordo com a codificação de Shannon-Fano
 string charToSF(string in, vector<Symbol> v)
 {
     string out = "";
     for (short j = 0; j < in.size(); j++)
         for (short i = 0; i < v.size(); i++)
-        {
             if (in[j] == v[i].getCharacter())
                 out+= v[i].getCode();
-        }
     return out;
 }
 
+// Se um o caracter ja existe na lista de simbolos, incrementa a ocorrencia deste simbolo
+bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char current)
+{
+    for (unsigned short i = 0; i < v.size(); i++) // Varrendo a lista de simbolos
+        if (v[i].getCharacter() == *caracter)
+        {
+            v[i].addOcorrence(*ocorrence);
+            *caracter = current; // Pega o proximo caracter (current) para ser analisado
+            *ocorrence = 1; // Reseta a ocorrencia
+            return true;
+        }
+    return false;
+}
+
+// Função de comparação para saber qual é o maior entre dois simbolos
+bool maior(Symbol s1, Symbol s2)
+{
+    return (s1.getOcorrence() > s2.getOcorrence());
+}
+
+// Cria os codigos de cada simbolo de acordo com Shannon-Fano
 void makeCodes(vector<Symbol> & s)
 {
-    double sum = 0, w = 0;
+    double x = 0, w = 0;
     short i = 0, j = 0, z = 0;
-    string symbols = "", rest = "";
     
-    z = calculateProbability(s);
+    for (short i = 0; i < s.size(); i++)
+    // Calcula a quantidade total de simbolos
+        z+= s[i].getOcorrence();
+    
+    for (short i = 0; i < s.size(); i++)
+        s[i].calculateProbability(z);
     
     do
+    // Atribui o codigo zero aos simbolos do lado esquerdo da arvore
     {
-        sum += s[i].getProbability();
+        x += s[i].getProbability();
         s[i].addCharCode('0');
-        symbols.push_back(s[i].getCharacter());
         i++;
-        w += sum + s[i].getProbability();
+        w += x + s[i].getProbability();
     }while (w < 0.5);
     
-    double a = abs((1 - w) - w);
-    double b = abs((1 - sum) - sum);
+    // Calcula a diferença de probabilidade das partes da arvore
+    w = abs((1 - w) - w);
+    x = abs((1 - x) - x);
     
-    if (b > a)
+    if (x > w)
+//  Neste caso é melhor pegar o proximo elemento 
+//  (sua probabilidade fica mais equilibrada com a do outro lado da arvore)
     {
-        sum = w;
-        symbols.push_back(s[i].getCharacter());
         s[i].addCharCode('0');
         i++;
-    }
+    }    
     
     j = i;
-    
     while (i < s.size())
+    // Atribui o codigo um aos simbolos do lado direito da arvore
     {
-        rest.push_back(s[i].getCharacter());
         s[i].addCharCode('1');
         i++;
     }
     
-    vector<Symbol> newS (s.begin(),s.begin()+j);
+    // Separa o vector de simbolos em duas partes a depender da probabilidade dos mesmos
+    vector<Symbol> newS (s.begin(),s.begin()+j); 
     vector<Symbol> newS1 (s.begin()+j,s.end()); // (s.begin()+j+1 se for no windows)
-    
+        
     if (j > 1)
+//  Neste caso existem mais do que um elementos do lado esquerdo, logo é necessario expandir ambos os lados da arvore  
     {
-        makeCodes(newS); // true
+        makeCodes(newS);
         makeCodes(newS1);
     }
     else if (i > 2)
+//  Neste caso existe mais do que dois elementos do lado direito, logo so é necessario expandir o lado direito da arvore
         makeCodes(newS1);
     
     for (int i = 0; i < s.size(); i++)
+    // Atribui o codigo dos simbolos de acordo com a posição dos mesmos na arvore
         if (i < j)
-            s[i].setCode(newS[i].getCode());
+           s[i].setCode(newS[i].getCode());
         else
             s[i].setCode(newS1[i-j].getCode());
 }
@@ -132,58 +117,57 @@ string outArvore(vector <Symbol> symbols, string encoded)
     
     while (index < symbols.size() - 1)
     {
-        c1 = symbols[index].getCode();
-        c2 = symbols[index+1].getCode();
+        c1 = symbols[index].getCode(); // Codigo do elemento mais significativo
+        c2 = symbols[index+1].getCode(); // Codigo do segundo elemento mais significativo
         
         index++;
         
         code+= '1';
         
         if (((c1.size() == c2.size()) && (c1[0] != c2[0])) || (c1.size() != c2.size()))
+        // Se o tamanho dos codigos forem diferentes ou, forem iguais mas o ultimo bit for diferente
             code+= '0';
     }
     
-    fill(&output,8-output.size());
+    fill(&output,8-output.size()); // Aumenta a quantidade de bits da saida para um byte
     
-    output+= code + '1';
+    output+= code + '1'; // Adiciona-se o bit 1 para finalizar a representação da arvore
     
     for (short i = 0; i < symbols.size(); i++)
     {
-        string ch = intToBin(symbols[i].getCharacter());
-        fill(&ch, 8-ch.size());
-        output += ch;
+        string ch = intToBin(symbols[i].getCharacter()); // Transforma o codigo ASCII do simbolo em binario
+        fill(&ch, 8-ch.size()); // Aumenta a quantidade de bits do codigo para um byte
+        output += ch; // Adiciona-se o codigo de cada simbolo
     }
     
-    output += encoded;
+    output += encoded; // Adiciona-se a mensagem codificada em Shannon-Fano
+    
+    output = binToByte(output); // Transforma a sequencia binaria em bytes
     
     return output;
 }
 
-void writeOutput(string output, string outputOLD)
-{
-    fstream outFile;
-    
-    outFile.open("output.out",  fstream::binary | fstream::out | fstream::ate);
-    
-    for (int i = 0; i < output.size(); i++)
-        outFile.put(output[i]);
-    
-    outFile.close();
-    
-    outFile.open("output.old",  fstream::binary | fstream::out | fstream::ate);
-    
-    for (int i = 0; i < output.size(); i++)
-        outFile.put(outputOLD[i]);
-    
-    outFile.close();
-}
+//    METODO ANTIGO PARA EFEITO DE COMPARACAO
 
-string encode(string input)
+string outOLD(vector <Symbol> symbols, string encoded)
 {
-    std::vector<Symbol> symbols;
+    string outputOLD = "";
+    
+    for (unsigned short i = 0; i < symbols.size(); i++)
+        outputOLD += binToByte(symbols[i].signature());
+    
+    outputOLD += binToByte(encoded);
+    
+    return outputOLD;
+}
+    
+//    FIM METODO ANTIGO
+
+// Constroi o vector que guardará todos os simbolos
+void makeVector(string input, vector <Symbol> &symbols)
+{
     char symbol = ' ';
     unsigned short ocorrence = 0;
-    unsigned short num_bit = 1;
     
     symbol = input[0];
     
@@ -210,34 +194,37 @@ string encode(string input)
     }
     
     sort(symbols.begin(), symbols.end(), maior); // Ordenar os simbolos crescentemente de acordo com a ocorrencia
+}
+
+// Codifica uma entrada num arquivo binario utilizando a codificação de Shannon-Fano
+string encode(string input, string *codedBin, string *encoded)
+{
+    std::vector<Symbol> symbols;
+    unsigned short num_bit = 1;
+    
+    makeVector(input,symbols); // Constroi o vector com os simbolos
     
     while (symbols.size() > pow(2,num_bit)) // Conta quantos bits serao necessarios para representar os simbolos
         num_bit++;
-        
-    cout<<inToBin(input,symbols, num_bit)<<" Bits: "<<inToBin(input,symbols, num_bit).size()<< endl; // Imprime os simbolos em binario de acordo com sua ocorrencia
+    
+    *codedBin = inToBin(input,symbols, num_bit); // String com a mensagem em binario simples
    
-    makeCodes(symbols); // Cria os codigos em Shannon Fano de cada simbolo
+    makeCodes(symbols); // Cria os codigos em Shannon-Fano de cada simbolo
     
-    string encoded = charToSF(input,symbols);
+    *encoded = charToSF(input,symbols); // String com a mensagem na codificação de Shannon-Fano
     
-    cout<< encoded <<" Bits: "<< encoded.size() << " " << endl;
+    string output = outArvore(symbols, *encoded); // Saida do algoritmo de Shannon-Fano
     
-    string output = outArvore(symbols, encoded);
+    string outputOLD = outOLD(symbols, *encoded); // Saida do algoritmo com a representação antiga (So para comparar)
     
-    output = binToByte(output);
+    writeOutput(output, outputOLD); // Escreve a(s) saida(s) no arquivo
     
-//    METODO ANTIGO PARA EFEITO DE COMPARACAO
+    // Limpando memoria
     
-    string outputOLD = "";
+    symbols.clear();
+    outputOLD.clear();
     
-    for (unsigned short i = 0; i < symbols.size(); i++)
-        outputOLD += binToByte(symbols[i].signature());
+    // ---------------
     
-    outputOLD += binToByte(encoded);
-    
-//    FIM METODO ANTIGO
-    
-    writeOutput(output, outputOLD);
-    
-    return encoded;
+    return output;
 }
