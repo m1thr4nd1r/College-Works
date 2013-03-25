@@ -89,7 +89,7 @@ string shToIn(Node *root, string msg)
 }
 
 // Decodifica um arquivo binario que contem uma codificação Shannon-Fano
-string decode(string *raw) 
+string decode(string *raw, string in) 
 {
     string out = "", chars = "", encoded = "";
     unsigned short qnt = 0;
@@ -111,6 +111,12 @@ string decode(string *raw)
     
     encoded.erase(encoded.begin());  // Apaga o bit que delimita o final da arvore
     
+    out.assign(encoded,encoded.size()-8,8);  // Associa a out os ultimos 8 bits da string codificada
+    
+    encoded.erase(encoded.size()-8,8); // Remove bits ja verificados da string
+    
+    encoded.erase(encoded.size()-8,8-binToInt(out)); // Remove 8 menos a quantidade, binaria de out, do começo do ultimo byte
+    
     for (unsigned short i = 0; i < qnt; i++)
 //  Transforma a quantidade qnt de bytes subsequentes em simbolos      
     {
@@ -120,13 +126,6 @@ string decode(string *raw)
     }
     
     finishTree(&chars,root); // Associa os simbolos encontrados as folhas da arvore de Shannon-Fano
-    
-    out.assign(encoded,encoded.size()-8,8);  // Associa a out os ultimos 8 bits da string codificada
-    
-    encoded.erase(encoded.size()-8,8); // Remove bits ja verificados da string
-    
-    encoded += intToBin(binToInt(out)); // Transforma out em um numero inteiro,
-//  para em seguida transforma-lo numa sequencia binaria, e entao associa-lo a string codificada novamente
     
     out = shToIn(root,encoded); // Decodifica a string codificada com o algoritmo de Shannon-Fano
     

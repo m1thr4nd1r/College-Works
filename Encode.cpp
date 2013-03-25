@@ -22,7 +22,10 @@ string charToSF(string in, vector<Symbol> v)
     for (short j = 0; j < in.size(); j++)
         for (short i = 0; i < v.size(); i++)
             if (in[j] == v[i].getCharacter())
+            {
                 out+= v[i].getCode();
+                break;
+            }
     return out;
 }
 
@@ -69,10 +72,10 @@ void makeCodes(vector<Symbol> & s)
     }while (w < 0.5);
     
     // Calcula a diferença de probabilidade das partes da arvore
-    w = abs((1 - w) - w);
-    x = abs((1 - x) - x);
+    w = 1 - w;
+    x = 1 - x;
     
-    if (x > w)
+    if (x < w)
 //  Neste caso é melhor pegar o proximo elemento 
 //  (sua probabilidade fica mais equilibrada com a do outro lado da arvore)
     {
@@ -102,12 +105,12 @@ void makeCodes(vector<Symbol> & s)
 //  Neste caso existe mais do que dois elementos do lado direito, logo so é necessario expandir o lado direito da arvore
         makeCodes(newS1);
     
-    for (int i = 0; i < s.size(); i++)
+    for (int y = 0; y < s.size(); y++)
     // Atribui o codigo dos simbolos de acordo com a posição dos mesmos na arvore
-        if (i < j)
-           s[i].setCode(newS[i].getCode());
+        if (y < j)
+           s[y].setCode(newS[y].getCode());
         else
-            s[i].setCode(newS1[i-j].getCode());
+            s[y].setCode(newS1[y-j].getCode());
 }
 
 string outArvore(vector <Symbol> symbols, string encoded)
@@ -124,7 +127,7 @@ string outArvore(vector <Symbol> symbols, string encoded)
         
         code+= '1';
         
-        if (((c1.size() == c2.size()) && (c1[0] != c2[0])) || (c1.size() != c2.size()))
+        if (((c1.size() == c2.size()) && (c1[0] != c2[0]) && (c1.size() != 1)) || (c1.size() != c2.size()))
         // Se o tamanho dos codigos forem diferentes ou, forem iguais mas o ultimo bit for diferente
             code+= '0';
     }

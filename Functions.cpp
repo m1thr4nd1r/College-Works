@@ -53,6 +53,8 @@ string binToByte(string text)
     bite.assign(text, j, 8);
     output+= (char) binToInt(bite);
     
+    output+= (char) bite.size();
+    
     return output;
 }
 
