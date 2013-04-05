@@ -1,9 +1,12 @@
 #ifndef FUNCTIONS_H
 #define	FUNCTIONS_H
 
-#include <sstream>
 #include <cmath>
+#include <sstream>
 #include <fstream>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,9 +14,13 @@ void fill(string *text, short count, char liquid='0');
 
 string binToByte(string text);
 
-void writeOutput(string output, string outputOLD);
+void writeOutput(string output, string *file);
 
-string readOutput(string *raw);
+string readOutput(string *input, string *file);
+
+bool readFile(string *input, string *file);
+
+bool writeFile(string content, string *file);
 
 string intToBin(short n);
 

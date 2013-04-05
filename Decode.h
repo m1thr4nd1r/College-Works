@@ -13,9 +13,9 @@ void finishTree(string *codes, Node* root);
 
 char extractCharacter(Node *root, string *msg);
 
-string shToIn(Node *root, string msg);
+string shToIn(Node *root, string *msg);
 
-string decode(string *raw, string in);
+string decode(string input, string *file, string sh = "");
 
 #endif	/* DECODE_H */
 

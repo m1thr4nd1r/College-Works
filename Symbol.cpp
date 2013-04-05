@@ -52,43 +52,9 @@ double Symbol::getProbability()
     return this->probability;
 }
 
-//void Symbol::print()
-//{
-//    cout<< this->character << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
-//}
-
-string Symbol::signature()
-// Cria a assinatura de um simbolo (Utilizado no metodo antigo de representação da tabela de Shannon-Fano)
+void Symbol::print()
 {
-    string out = "", temp = "";
-    
-    temp = intToBin((short)this->character);
-    
-    // O primeiro byte é para o caracter
-    fill(&temp, 8 - temp.size());
-    
-    out+= temp;
-    
-    temp = intToBin((short)this->code.size());
-    
-    // Os proximos 6 bits dizem com quantos bits sao necessarios para representar o codigo Shannon-Fano do simbolo
-    fill(&temp,6 - temp.size());
-    
-    unsigned short a = 6 + this->code.size();
-    
-    out+= temp;
-    
-    temp = this->code;
-    
-    unsigned diff = (!(a % 8)) ? 0 : (a/8) + 1;
-    
-    if (diff != 0)
-//      Os proximos bits sao o codigo Shannon-Fano do simbolo  
-        fill(&temp, (8 * diff) - a);
-    
-    out+= temp;
-    
-    return out;
+    cout<< this->character << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
 }
 
 void Symbol::calculateProbability(unsigned short prob_total)

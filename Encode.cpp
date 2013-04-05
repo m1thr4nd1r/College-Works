@@ -113,9 +113,10 @@ void makeCodes(vector<Symbol> & s)
             s[y].setCode(newS1[y-j].getCode());
 }
 
-string outArvore(vector <Symbol> symbols, string encoded)
+string outArvore(vector <Symbol> symbols, string encoded, string *code)
 {
-    string output = intToBin(symbols.size()), code = symbols.front().getCode(), c1 = "", c2 = "";
+    string outBin = "", c1 = "", c2 = "";
+    *code = symbols.front().getCode();
     short unsigned index = 0;
     
     while (index < symbols.size() - 1)
@@ -125,46 +126,48 @@ string outArvore(vector <Symbol> symbols, string encoded)
         
         index++;
         
-        code+= '1';
+        (*code) += '1';
         
         if (((c1.size() == c2.size()) && (c1[0] != c2[0]) && (c1.size() != 1)) || (c1.size() != c2.size()))
         // Se o tamanho dos codigos forem diferentes ou, forem iguais mas o ultimo bit for diferente
-            code+= '0';
+            (*code) += '0';
     }
     
-    fill(&output,8-output.size()); // Aumenta a quantidade de bits da saida para um byte
+    outBin += *code + '1'; // Adiciona-se o bit 1 para finalizar a representação da arvore
     
-    output+= code + '1'; // Adiciona-se o bit 1 para finalizar a representação da arvore
+//    code.clear();
+    c1.clear();
+    c2.clear();
     
     for (short i = 0; i < symbols.size(); i++)
     {
-        string ch = intToBin(symbols[i].getCharacter()); // Transforma o codigo ASCII do simbolo em binario
-        fill(&ch, 8-ch.size()); // Aumenta a quantidade de bits do codigo para um byte
-        output += ch; // Adiciona-se o codigo de cada simbolo
+        c1 = intToBin((unsigned char) symbols[i].getCharacter()); // Transforma o codigo ASCII do simbolo em binario
+        fill(&c1, 8-c1.size()); // Aumenta a quantidade de bits do codigo para um byte
+        outBin += c1; // Adiciona-se o codigo de cada simbolo
     }
     
-    output += encoded; // Adiciona-se a mensagem codificada em Shannon-Fano
+    c1.clear();
+    outBin += encoded; // Adiciona-se a mensagem codificada em Shannon-Fano
     
-    output = binToByte(output); // Transforma a sequencia binaria em bytes
+    encoded.clear();
     
-    return output;
-}
+    index = 0;
+    
+    while (index + 8 < outBin.size())
+    {
+        c1.assign(outBin, index, 8); // Atribui a substring de text com tamanho 8 começando de j
+        outBin.erase(index,8);
+        c2 += (char) binToInt(c1); // Transforma a string binaria bite em um numero inteiro
+    }
 
-//    METODO ANTIGO PARA EFEITO DE COMPARACAO
-
-string outOLD(vector <Symbol> symbols, string encoded)
-{
-    string outputOLD = "";
+    c1.assign(outBin, index, 8);
     
-    for (unsigned short i = 0; i < symbols.size(); i++)
-        outputOLD += binToByte(symbols[i].signature());
+    c2 += (char) binToInt(c1);
     
-    outputOLD += binToByte(encoded);
+    c2 += (char) c1.size();
     
-    return outputOLD;
+    return c2;
 }
-    
-//    FIM METODO ANTIGO
 
 // Constroi o vector que guardará todos os simbolos
 void makeVector(string input, vector <Symbol> &symbols)
@@ -200,34 +203,48 @@ void makeVector(string input, vector <Symbol> &symbols)
 }
 
 // Codifica uma entrada num arquivo binario utilizando a codificação de Shannon-Fano
-string encode(string input, string *codedBin, string *encoded)
+string encode(string *input, string *codedBin, string *encoded, string *file)
 {
     std::vector<Symbol> symbols;
     unsigned short num_bit = 1;
+    bool flag = true;
     
-    makeVector(input,symbols); // Constroi o vector com os simbolos
+    if ((file != NULL) && (!file->empty()))
+         flag = readFile(input,file);
+    else
+         *file = "output";
+        
+    if (flag)
+    {
+        
+        makeVector(*input,symbols); // Constroi o vector com os simbolos
+
+        while (symbols.size() > pow(2,num_bit)) // Conta quantos bits serao necessarios para representar os simbolos
+            num_bit++;
+
+        *codedBin = inToBin(*input,symbols, num_bit); // String com a mensagem em binario simples
+
+        makeCodes(symbols); // Cria os codigos em Shannon-Fano de cada simbolo
+
+        for (int i = 0; i < symbols.size(); i++)
+            symbols[i].print();
+        
+        *encoded = charToSF(*input,symbols); // String com a mensagem na codificação de Shannon-Fano
+
+        input->clear();
+        
+        string output = outArvore(symbols, *encoded, input); // Saida do algoritmo de Shannon-Fano
+
+        writeOutput(output, file); // Escreve a(s) saida(s) no arquivo
+
+        // Limpando memoria
+
+        symbols.clear();
     
-    while (symbols.size() > pow(2,num_bit)) // Conta quantos bits serao necessarios para representar os simbolos
-        num_bit++;
+        // ---------------
+        
+        return output;
+    }
     
-    *codedBin = inToBin(input,symbols, num_bit); // String com a mensagem em binario simples
-   
-    makeCodes(symbols); // Cria os codigos em Shannon-Fano de cada simbolo
-    
-    *encoded = charToSF(input,symbols); // String com a mensagem na codificação de Shannon-Fano
-    
-    string output = outArvore(symbols, *encoded); // Saida do algoritmo de Shannon-Fano
-    
-    string outputOLD = outOLD(symbols, *encoded); // Saida do algoritmo com a representação antiga (So para comparar)
-    
-    writeOutput(output, outputOLD); // Escreve a(s) saida(s) no arquivo
-    
-    // Limpando memoria
-    
-    symbols.clear();
-    outputOLD.clear();
-    
-    // ---------------
-    
-    return output;
+    return "";
 }
