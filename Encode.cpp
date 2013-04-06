@@ -19,7 +19,7 @@ string inToBin(string in, vector <Symbol> v, short num_bit)
 string charToSF(string in, vector<Symbol> v)
 {
     string out = "";
-    for (short j = 0; j < in.size(); j++)
+    for (int j = 0; j < in.size(); j++)
         for (short i = 0; i < v.size(); i++)
             if (in[j] == v[i].getCharacter())
             {
@@ -30,11 +30,13 @@ string charToSF(string in, vector<Symbol> v)
 }
 
 // Se um o caracter ja existe na lista de simbolos, incrementa a ocorrencia deste simbolo
-bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char current)
+bool exists(vector<Symbol> & v, int *ocorrence, char *caracter, char current)
 {
-    for (unsigned short i = 0; i < v.size(); i++) // Varrendo a lista de simbolos
+    for (int i = 0; i < v.size(); i++) // Varrendo a lista de simbolos
         if (v[i].getCharacter() == *caracter)
         {
+            if (v[i].getOcorrence() > 16000)
+                char c = 'o';
             v[i].addOcorrence(*ocorrence);
             *caracter = current; // Pega o proximo caracter (current) para ser analisado
             *ocorrence = 1; // Reseta a ocorrencia
@@ -52,7 +54,7 @@ bool maior(Symbol s1, Symbol s2)
 // Cria os codigos de cada simbolo de acordo com Shannon-Fano
 void makeCodes(vector<Symbol> & s)
 {
-    double x = 0, w = 0;
+    double x = 0, w = 0, a =0;
     short i = 0, j = 0, z = 0;
     
     for (short i = 0; i < s.size(); i++)
@@ -68,14 +70,15 @@ void makeCodes(vector<Symbol> & s)
         x += s[i].getProbability();
         s[i].addCharCode('0');
         i++;
-        w += x + s[i].getProbability();
+        w = x + s[i].getProbability();
     }while (w < 0.5);
     
     // Calcula a diferença de probabilidade das partes da arvore
-    w = 1 - w;
-    x = 1 - x;
+    w = abs(0.5 - w);
+    x = abs(0.5 - x);
+    a = abs(w - x);
     
-    if (x < w)
+    if (!((a < std::numeric_limits<double>::epsilon())&&(a!=0))&&(w < x))
 //  Neste caso é melhor pegar o proximo elemento 
 //  (sua probabilidade fica mais equilibrada com a do outro lado da arvore)
     {
@@ -126,14 +129,28 @@ string outArvore(vector <Symbol> symbols, string encoded, string *code)
         
         index++;
         
-        (*code) += '1';
+        int i = 0;
+        while (c1[i] == c2[i])
+            i++;
         
-        if (((c1.size() == c2.size()) && (c1[0] != c2[0]) && (c1.size() != 1)) || (c1.size() != c2.size()))
-        // Se o tamanho dos codigos forem diferentes ou, forem iguais mas o ultimo bit for diferente
-            (*code) += '0';
+        c2.erase(0,i);
+        
+        (*code) += c2;
+                
+        
+//        char c = (*code)[code->size() - 1];
+//        
+//        if (c != '1')
+//            (*code) += '1';
+//        
+//        if (((c1.size() == c2.size()) && (c1[0] != c2[0]) && (c1.size() != 1)) || (c1.size() != c2.size()))
+//        // Se o tamanho dos codigos forem diferentes ou, forem iguais mas o ultimo bit for diferente
+//            (*code) += '0';
     }
     
-    outBin += *code + '1'; // Adiciona-se o bit 1 para finalizar a representação da arvore
+    *code += '1'; // Adiciona-se o bit 1 para finalizar a representação da arvore
+    
+    outBin = *code; 
     
 //    code.clear();
     c1.clear();
@@ -173,11 +190,11 @@ string outArvore(vector <Symbol> symbols, string encoded, string *code)
 void makeVector(string input, vector <Symbol> &symbols)
 {
     char symbol = ' ';
-    unsigned short ocorrence = 0;
+    int ocorrence = 0;
     
     symbol = input[0];
     
-    for (short i = 0; i < input.size(); i++)
+    for (int i = 0; i < input.size(); i++)
     {
         if (input[i] != symbol)
         {

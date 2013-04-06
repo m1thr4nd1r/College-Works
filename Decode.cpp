@@ -141,7 +141,7 @@ string decode(string input, string *file, string sh)
     
     finishTree(&encoded,root); // Associa os simbolos encontrados as folhas da arvore de Shannon-Fano
     
-    num = shToIn(root,&input); // Decodifica a string codificada com o algoritmo de Shannon-Fano
+    num = shToIn(root,&encoded); // Decodifica a string codificada com o algoritmo de Shannon-Fano
     
     writeFile(num,file);
     

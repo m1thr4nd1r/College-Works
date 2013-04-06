@@ -4,6 +4,8 @@
 #include "Symbol.h"
 #include <vector>
 #include <algorithm>
+#include <limits>
+
 
 unsigned short calculateProbability(vector<Symbol> & s);
 

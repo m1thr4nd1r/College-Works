@@ -92,8 +92,9 @@ int main(int argc, char** argv) {
                     else
                     {
 //                        string raw = "neo.bat";
-                        string file = "jogos.txt";
+                        string file = "bd.jpeg";
                         coded = encode(&input, &bin, &sh, &file);
+                        
                         decoded = decode(coded, &file, input);
 //                        cout << "Mensagem binaria (Simples)       : " << bin << " | numero de bits: " << bin.size() << endl;
 //                        cout << "Mensagem binaria (Shannon-Fano)  : " << sh << " | numero de bits: " << sh.size() << endl << endl;
