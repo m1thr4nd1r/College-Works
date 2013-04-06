@@ -17,6 +17,10 @@ bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char 
 
 void makeCodes(vector<Symbol> & s, bool flag);
 
+string PesquisaBinaria ( vector<Symbol> v, char in , int N);
+
+bool ordena(Symbol s1, Symbol s2);
+
 string stringToBits(string text);
 
 string charToBin(string in, vector <Symbol> v, short num_bit);

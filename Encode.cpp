@@ -19,15 +19,40 @@ string inToBin(string in, vector <Symbol> v, short num_bit)
 string charToSF(string in, vector<Symbol> v)
 {
     string out = "";
-    for (int j = 0; j < in.size(); j++)
-        for (short i = 0; i < v.size(); i++)
+    sort(v.begin(), v.end(), ordena);
+    /* for (int i = 0; i < v.size(); i++){
+         v[i].print();
+    }*/
+    for (int j = 0; j < in.size(); j++){
+        out+=PesquisaBinaria(v,in[j],v.size());
+    }
+        /*for (short i = 0; i < v.size(); i++)
             if (in[j] == v[i].getCharacter())
             {
                 out+= v[i].getCode();
                 break;
-            }
+            }*/
     return out;
 }
+
+string PesquisaBinaria ( vector<Symbol> v, char in , int N)
+{
+     int inf = 0; //Limite inferior      (o primeiro elemento do vetor em C é zero          )
+     int sup = N-1; //Limite superior    (termina em um número a menos 0 à 9 são 10 numeros )
+     int meio;
+     while (inf <= sup) 
+     {
+          meio = inf + (sup-inf)/2;
+          if (in == v[meio].getCharacter())
+               return v[meio].getCode();
+          else if (in > v[meio].getCharacter())
+               sup = meio-1;
+          else
+               inf = meio+1;
+     }
+     return "";   // não encontrado
+}
+
 
 // Se um o caracter ja existe na lista de simbolos, incrementa a ocorrencia deste simbolo
 bool exists(vector<Symbol> & v, int *ocorrence, char *caracter, char current)
@@ -51,6 +76,10 @@ bool maior(Symbol s1, Symbol s2)
     return (s1.getOcorrence() > s2.getOcorrence());
 }
 
+bool ordena(Symbol s1, Symbol s2)
+{
+    return ((unsigned char)s1.getCharacter() > (unsigned char)s2.getCharacter());
+}
 // Cria os codigos de cada simbolo de acordo com Shannon-Fano
 void makeCodes(vector<Symbol> & s)
 {

@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
                     else
                     {
 //                        string raw = "neo.bat";
-                        string file = "bd.jpeg";
+                        string file = "1";
                         coded = encode(&input, &bin, &sh, &file);
                         
                         decoded = decode(coded, &file, input);
