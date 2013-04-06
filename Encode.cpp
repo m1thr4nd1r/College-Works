@@ -19,19 +19,17 @@ string inToBin(string in, vector <Symbol> v, short num_bit)
 string charToSF(string in, vector<Symbol> v)
 {
     string out = "";
-    sort(v.begin(), v.end(), ordena);
-    /* for (int i = 0; i < v.size(); i++){
-         v[i].print();
-    }*/
+    //sort(v.begin(), v.end(), ordena);
     for (int j = 0; j < in.size(); j++){
-        out+=PesquisaBinaria(v,in[j],v.size());
-    }
-        /*for (short i = 0; i < v.size(); i++)
+//        out+=PesquisaBinaria(v,in[j],v.size());
+//    }
+        for (short i = 0; i < v.size(); i++)
             if (in[j] == v[i].getCharacter())
             {
                 out+= v[i].getCode();
                 break;
-            }*/
+            }
+    }
     return out;
 }
 
@@ -249,37 +247,37 @@ void makeVector(string input, vector <Symbol> &symbols)
 }
 
 // Codifica uma entrada num arquivo binario utilizando a codificação de Shannon-Fano
-string encode(string *input, string *codedBin, string *encoded, string *file)
+string encode(string *input, string *file)
 {
     std::vector<Symbol> symbols;
     unsigned short num_bit = 1;
     bool flag = true;
     
-    if ((file != NULL) && (!file->empty()))
-         flag = readFile(input,file);
-    else
-         *file = "output";
+    if (file == NULL)
+        file = new string();
+    
+    *file = *input;    
+    
+    if ((input != NULL) && (!input->empty()))
+         flag = readFile(input);
         
     if (flag)
     {
-        
         makeVector(*input,symbols); // Constroi o vector com os simbolos
 
         while (symbols.size() > pow(2,num_bit)) // Conta quantos bits serao necessarios para representar os simbolos
             num_bit++;
 
-        *codedBin = inToBin(*input,symbols, num_bit); // String com a mensagem em binario simples
-
         makeCodes(symbols); // Cria os codigos em Shannon-Fano de cada simbolo
 
-        for (int i = 0; i < symbols.size(); i++)
-            symbols[i].print();
+//        for (int i = 0; i < symbols.size(); i++)
+//            symbols[i].print();
         
-        *encoded = charToSF(*input,symbols); // String com a mensagem na codificação de Shannon-Fano
+        string encoded = charToSF(*input,symbols); // String com a mensagem na codificação de Shannon-Fano
 
         input->clear();
         
-        string output = outArvore(symbols, *encoded, input); // Saida do algoritmo de Shannon-Fano
+        string output = outArvore(symbols, encoded, input); // Saida do algoritmo de Shannon-Fano
 
         writeOutput(output, file); // Escreve a(s) saida(s) no arquivo
 

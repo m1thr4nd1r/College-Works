@@ -16,9 +16,7 @@ string binToByte(string text);
 
 void writeOutput(string output, string *file);
 
-string readOutput(string *input, string *file);
-
-bool readFile(string *input, string *file);
+bool readFile(string *input);
 
 bool writeFile(string content, string *file);
 

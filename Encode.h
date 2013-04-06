@@ -11,7 +11,7 @@ unsigned short calculateProbability(vector<Symbol> & s);
 
 bool compare(Symbol s1, Symbol s2);
 
-string encode(string *input, string *bin, string *encoded, string *file = NULL);
+string encode(string *input, string *file);
 
 bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char current);
 

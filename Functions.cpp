@@ -75,35 +75,16 @@ void writeOutput(string output, string *file)
     outFile.close();
 }
 
-bool readFile(string *in, string *file)
+bool readFile(string *in)
 {
     ifstream inFile;    
     
-    inFile.open(file->c_str(), ios::in | ios::binary);
+    inFile.open(in->c_str(), ios::in | ios::binary);
     
     if (!inFile)
         return false;
     
-//    inFile.seekg(0, ios::end);
-//    size_t i = inFile.tellg();
-//    char* buf = new char[i];
-//    inFile.seekg(0, ios::beg);
-//    inFile.read (buf, i);
-//    inFile.close();
-//    string s;
-//    s.assign (buf, i);
-//    delete [] buf;
-//
-//    ifstream infile("JVelha.exe", ios::in | ios::binary);
-//    vector<char> result;
-//    copy(istreambuf_iterator<char>(infile),istreambuf_iterator<char>(),back_inserter(result));
-//    
-//    for (int i = 0; i < result.size(); i++)
-//        (*in) += result[i];
-//    
-//    inFile.open("JVelha.exe", ios::in | ios::binary);
-//    
-//    string in2 = "";
+    in->clear();
     
     while(inFile.good())
         (*in) += inFile.get();
@@ -111,48 +92,6 @@ bool readFile(string *in, string *file)
     in->erase(in->end()-1);
     
     return true;
-}
-
-// Le a entrada do arquivo
-string readOutput(string *input, string *file)
-{
-    string encoded = "";
-    fstream inFile;
-    
-    // Abre o arquivo no modo binario, para operaçoes de saida
-    inFile.open(file->c_str(),  fstream::binary | fstream::in | fstream::app);
-    
-    while(inFile.good())
-    {
-//  Enquanto nenhuma flag de erro é acionada      
-    
-//        encoded += (unsigned char)inFile.get();
-    
-//      Le um byte do arquivo
-        char sheep = inFile.get();
-        string bin = "";
-        (*input)+= sheep;
-        if ((int)sheep < 0)
-//      Se sheep for negativo, pegamos o complemento do mesmo      
-        {
-            short unsigned i = (short unsigned) sheep + 256;
-            bin = intToBin(i);
-            fill(&bin,8-bin.size());
-            encoded+= bin;
-        }
-        else      
-        {
-            bin = intToBin(sheep);
-            fill(&bin,8-bin.size());
-            encoded+= bin;
-        }
-    }
-    
-    inFile.close();
-    
-    (*input).erase((*input).end()-1); // Removendo o byte de EOF
-    
-    return encoded;
 }
 
 bool writeFile(string output, string *file)

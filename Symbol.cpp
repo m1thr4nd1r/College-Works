@@ -52,10 +52,10 @@ double Symbol::getProbability()
     return this->probability;
 }
 
-void Symbol::print()
-{
-    cout<< this->character << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
-}
+//void Symbol::print()
+//{
+//    cout<< this->character << " " << this->ocorrence << " " << this->code << " " << this->probability << endl;
+//}
 
 void Symbol::calculateProbability(unsigned short prob_total)
 {

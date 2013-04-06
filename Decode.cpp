@@ -91,38 +91,29 @@ string shToIn(Node *root, string *msg)
 {
     string decoded = "";
     while (!msg->empty())
-    {
-        if (msg->size() < 10)
-            string oi = "oi eu sou o goku";
         decoded+= extractCharacter(root,msg);
-    }
-    
     
     return decoded;
 }
 
 // Decodifica um arquivo binario que contem uma codificação Shannon-Fano
-string decode(string input, string *file, string sh) 
+string decode(string *input, string extra) 
 {
     string num = "", encoded = "";
     Node *root = NULL;
     
-    if (input.empty())
-        encoded = sh;
-    else
+    if (!((input->empty()) || (input == NULL)))
     {
-//        encoded = readOutput(&input,file);
-    
-        string test = "";
-        readFile(&test, file);
+        string file = *input;
+        readFile(&file);
 
-        for (int i = 0; i < test.size(); i++)
+        for (int i = 0; i < file.size(); i++)
         {
-            string bin = intToBin((unsigned char) test[i]);
+            string bin = intToBin((unsigned char) file[i]);
             fill(&bin,8-bin.size());
             encoded += bin;
         }
-        test.clear();
+        file.clear();
     }
     
 //    encoded.erase(encoded.end()-8,encoded.end()); // Removendo os ultimos 8 bits correspondentes ao caracter de EOF
@@ -143,7 +134,7 @@ string decode(string input, string *file, string sh)
     
     num = shToIn(root,&encoded); // Decodifica a string codificada com o algoritmo de Shannon-Fano
     
-    writeFile(num,file);
+    writeFile(num,input);
     
     return num;
 }
