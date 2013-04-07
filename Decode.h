@@ -15,7 +15,7 @@ char extractCharacter(Node *root, string *msg);
 
 string shToIn(Node *root, string *msg);
 
-string decode(string *input, string encoded);
+string decode(string *input);
 
 #endif	/* DECODE_H */
 

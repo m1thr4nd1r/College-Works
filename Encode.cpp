@@ -1,38 +1,27 @@
 #include "Encode.h"
 
-// Converte a mensagem in para binario, utilizando o numero num_bit de bits
-string inToBin(string in, vector <Symbol> v, short num_bit)
-{
-    string out = "", code = "";
-    for (short j = 0; j < in.size(); j++)
-        for (short i = 0; i < v.size(); i++)
-            if (in[j] == v[i].getCharacter())
-            {
-                code = intToBin(i);
-                fill(&code,num_bit-code.size());
-                out+= code;
-            }
-    return out;
-}
-
 // Converte a mensagem in para binario de acordo com a codificação de Shannon-Fano
 string charToSF(string in, vector<Symbol> v)
 {
     string out = "";
-    //sort(v.begin(), v.end(), ordena);
-    for (int j = 0; j < in.size(); j++){
+//    --- Metodo utilizando PesquisaBinaria (Com erro) ---
+//    sort(v.begin(), v.end(), ordena);
+//    for (int j = 0; j < in.size(); j++)
 //        out+=PesquisaBinaria(v,in[j],v.size());
-//    }
+//    --- ---- --- --- ---- --- --- ---- --- --- ---- ---
+    
+    for (int j = 0; j < in.size(); j++)
         for (short i = 0; i < v.size(); i++)
             if (in[j] == v[i].getCharacter())
             {
                 out+= v[i].getCode();
                 break;
             }
-    }
+    
     return out;
 }
 
+// Funcão para realizar PesquisaBinaria (Atualmente com erro)
 string PesquisaBinaria ( vector<Symbol> v, char in , int N)
 {
      int inf = 0; //Limite inferior      (o primeiro elemento do vetor em C é zero          )
@@ -51,15 +40,12 @@ string PesquisaBinaria ( vector<Symbol> v, char in , int N)
      return "";   // não encontrado
 }
 
-
 // Se um o caracter ja existe na lista de simbolos, incrementa a ocorrencia deste simbolo
 bool exists(vector<Symbol> & v, int *ocorrence, char *caracter, char current)
 {
     for (int i = 0; i < v.size(); i++) // Varrendo a lista de simbolos
         if (v[i].getCharacter() == *caracter)
         {
-            if (v[i].getOcorrence() > 16000)
-                char c = 'o';
             v[i].addOcorrence(*ocorrence);
             *caracter = current; // Pega o proximo caracter (current) para ser analisado
             *ocorrence = 1; // Reseta a ocorrencia
@@ -68,16 +54,18 @@ bool exists(vector<Symbol> & v, int *ocorrence, char *caracter, char current)
     return false;
 }
 
-// Função de comparação para saber qual é o maior entre dois simbolos
+// Função de comparação para saber qual simbolo tem mais ocorrencia
 bool maior(Symbol s1, Symbol s2)
 {
     return (s1.getOcorrence() > s2.getOcorrence());
 }
 
+// Funcao de comparaçao para saber qual é o que tem caracter mais alto
 bool ordena(Symbol s1, Symbol s2)
 {
     return ((unsigned char)s1.getCharacter() > (unsigned char)s2.getCharacter());
 }
+
 // Cria os codigos de cada simbolo de acordo com Shannon-Fano
 void makeCodes(vector<Symbol> & s)
 {
@@ -157,22 +145,12 @@ string outArvore(vector <Symbol> symbols, string encoded, string *code)
         index++;
         
         int i = 0;
-        while (c1[i] == c2[i])
+        while (c1[i] == c2[i]) // Enquanto os bits de dois simbolos vizinhos forem iguais
             i++;
         
-        c2.erase(0,i);
+        c2.erase(0,i); // Remova os i bits iguais entre os dois simbolos
         
-        (*code) += c2;
-                
-        
-//        char c = (*code)[code->size() - 1];
-//        
-//        if (c != '1')
-//            (*code) += '1';
-//        
-//        if (((c1.size() == c2.size()) && (c1[0] != c2[0]) && (c1.size() != 1)) || (c1.size() != c2.size()))
-//        // Se o tamanho dos codigos forem diferentes ou, forem iguais mas o ultimo bit for diferente
-//            (*code) += '0';
+        (*code) += c2; // Adicione o resto ao codigo da arvore
     }
     
     *code += '1'; // Adiciona-se o bit 1 para finalizar a representação da arvore
@@ -247,31 +225,29 @@ void makeVector(string input, vector <Symbol> &symbols)
 }
 
 // Codifica uma entrada num arquivo binario utilizando a codificação de Shannon-Fano
-string encode(string *input, string *file)
+string encode(string *input, int *sizeB, int *sizeA)
 {
     std::vector<Symbol> symbols;
     unsigned short num_bit = 1;
-    bool flag = true;
-    
-    if (file == NULL)
-        file = new string();
-    
-    *file = *input;    
-    
+    bool flag = false;
+    string file = "";
+
     if ((input != NULL) && (!input->empty()))
-         flag = readFile(input);
-        
+    {
+        file = *input;
+        flag = readFile(input);
+    }
+    
     if (flag)
     {
+        *sizeB = input->size();
+        
         makeVector(*input,symbols); // Constroi o vector com os simbolos
 
         while (symbols.size() > pow(2,num_bit)) // Conta quantos bits serao necessarios para representar os simbolos
             num_bit++;
 
         makeCodes(symbols); // Cria os codigos em Shannon-Fano de cada simbolo
-
-//        for (int i = 0; i < symbols.size(); i++)
-//            symbols[i].print();
         
         string encoded = charToSF(*input,symbols); // String com a mensagem na codificação de Shannon-Fano
 
@@ -279,7 +255,9 @@ string encode(string *input, string *file)
         
         string output = outArvore(symbols, encoded, input); // Saida do algoritmo de Shannon-Fano
 
-        writeOutput(output, file); // Escreve a(s) saida(s) no arquivo
+        *sizeA = output.size();
+        
+        writeOutput(output, &file); // Escreve a(s) saida(s) no arquivo
 
         // Limpando memoria
 

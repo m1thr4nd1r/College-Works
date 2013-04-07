@@ -6,12 +6,7 @@
 #include <algorithm>
 #include <limits>
 
-
-unsigned short calculateProbability(vector<Symbol> & s);
-
-bool compare(Symbol s1, Symbol s2);
-
-string encode(string *input, string *file);
+string encode(string *input, int *sizeB, int *sizeA);
 
 bool exists(vector<Symbol> & v, unsigned short *ocorrence, char *caracter, char current);
 
@@ -20,10 +15,6 @@ void makeCodes(vector<Symbol> & s, bool flag);
 string PesquisaBinaria ( vector<Symbol> v, char in , int N);
 
 bool ordena(Symbol s1, Symbol s2);
-
-string stringToBits(string text);
-
-string charToBin(string in, vector <Symbol> v, short num_bit);
 
 string charToSF(string in, vector<Symbol> v);
 

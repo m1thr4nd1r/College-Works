@@ -97,7 +97,7 @@ string shToIn(Node *root, string *msg)
 }
 
 // Decodifica um arquivo binario que contem uma codificação Shannon-Fano
-string decode(string *input, string extra) 
+string decode(string *input) 
 {
     string num = "", encoded = "";
     Node *root = NULL;
@@ -105,19 +105,17 @@ string decode(string *input, string extra)
     if (!((input->empty()) || (input == NULL)))
     {
         string file = *input;
-        readFile(&file);
+        readFile(&file); // Le o arquivo file, file passa a ter todo o conteudo do arquivo
 
         for (int i = 0; i < file.size(); i++)
         {
-            string bin = intToBin((unsigned char) file[i]);
-            fill(&bin,8-bin.size());
-            encoded += bin;
+            num = intToBin((unsigned char) file[i]); // Transforma cada byte em um numero inteiro binario
+            fill(&num,8-num.size()); // Transforma o inteiro binario numa sequencia de 8 bits
+            encoded += num; 
         }
-        file.clear();
+        num.clear();
     }
-    
-//    encoded.erase(encoded.end()-8,encoded.end()); // Removendo os ultimos 8 bits correspondentes ao caracter de EOF
-    
+
     root = new Node();
     
     remake_tree(&encoded, &root); // Reconstroi a arvore de Shannon-Fano baseado na string codificada
@@ -134,7 +132,7 @@ string decode(string *input, string extra)
     
     num = shToIn(root,&encoded); // Decodifica a string codificada com o algoritmo de Shannon-Fano
     
-    writeFile(num,input);
+    writeFile(num,input); // Escreve a saida decodificada no arquivo input.dec
     
     return num;
 }
