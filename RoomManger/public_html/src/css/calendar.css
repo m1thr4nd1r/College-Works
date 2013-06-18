@@ -1,0 +1,101 @@
+$primary: #83befc;
+$secondary: #fff;
+$tertiary: #9cceff;
+$quaternary: #b0dbff;
+$quinary: #4ba2fa;
+$inactive: #bfbfbf;
+
+* {user-select: none;}
+
+header {
+  text-align: center;
+  color: $primary;
+  font: 30px Calibri Light, sans-serif;
+  cursor: default;
+  margin-left: auto;
+  margin-right: auto;
+  animation:fade 1s ease both;
+}
+
+#month {
+  width: 500px;
+  display: inline-block;
+  transition: 0.3s;}
+#month:hover {color: $quinary;}
+#month:active {color: $secondary;}
+
+#backmonth {
+  color: $quaternary;
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent;
+	border-right: 20px solid;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;}
+#backmonth:hover {color: $quinary;}
+#backmonth:active {color: $secondary;}
+
+#forwardmonth {
+  color: $quaternary;
+	border-top: 20px solid transparent;
+	border-bottom: 20px solid transparent;
+	border-left: 20px solid;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s;}
+#forwardmonth:hover {color: $quinary;}
+#forwardmonth:active {color: $secondary;}
+
+.dayofweek {
+  float: left;
+  font: 35px Calibri Light, sans-serif;
+  line-height: 88px;
+  cursor: default;
+}
+
+#container {
+  width: 630px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  animation:fade 1s 0.5s ease both;
+}
+
+li {
+  background: $primary;
+  color: $secondary;
+  float: left;
+  border: 1px solid;
+  width: 88px;
+  height: 88px;
+  font: 25px Calibri Light, sans-serif;
+  text-align: center;
+  line-height: 88px;
+  cursor: pointer;}
+li:hover {background: $quaternary;}
+
+.selected {background: $quinary}
+
+.weekend {background: $tertiary;}
+
+#blockthirtytwo {background: $inactive; cursor: default;}
+#blockthirtythree {background: $inactive; cursor: default;}
+#blockthirtyfour {background: $inactive; cursor: default;}
+#blockthirtyfive {background: $inactive; cursor: default;}
+
+#monday{background: $quinary;}
+#tuesday{background: $quinary;}
+#wednesday{background: $quinary;}
+#thursday{background: $quinary;}
+#friday{background: $quinary;}
+#saturday{background: $quinary;}
+#sunday{background: $quinary;}
+
+@keyframes fade {0% {opacity: 0; transform: translateY(-20px);}}
