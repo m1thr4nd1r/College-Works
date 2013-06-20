@@ -5823,7 +5823,10 @@ a {
 
 /*************************/
 
-.table tbody tr td {
+#reservas.table tbody tr td {
+  &{
+    text-align: center;
+  }
   &.success {
     background-color: #dff0d8;
   }
@@ -5838,7 +5841,7 @@ a {
   }
 }
 
-.table-hover tbody tr td {
+#reservas.table-hover tbody tr td {
   &.success:hover {
     background-color: #d0e9c6;
   }
@@ -5853,7 +5856,7 @@ a {
   }
 }
 
-.table thead th {
+#reservas.table thead th {
   &.success > td {
     background-color: #dff0d8;
   }
@@ -5868,7 +5871,7 @@ a {
   }
 }
 
-.table-hover thead th {
+#reservas.table-hover thead th {
   &.success:hover > td {
     background-color: #d0e9c6;
   }
