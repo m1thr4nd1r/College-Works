@@ -40,7 +40,7 @@
 				<div class="navbar navbar-inverse">
 				  <div class="navbar-inner2">
 					<div class="container">
-					  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"></button>
+					  <p:button styleClass="btn btn-navbar"></p:button>
 					  <a class="brand" href="./index.html">RoomsManager</a>
 					  <div class="nav-collapse collapse">
 						<ul class="nav">
@@ -54,34 +54,32 @@
 				</div>
 			</header>
 	    </p:layoutUnit>
+	    <p:growl id="growl" showDetail="false" life="3000" />
 	    <p:layoutUnit position="center" id="conteudo">
-		    <div class="container-fluid offset4 span10">
+	    	<div class="container-fluid offset4 span10">
 				<div class="row-fluid">
-					<p:fieldset legend="Login" id="formulario" styleClass="span4">
-						<p:message for="form"></p:message>
-						<h:form id="form" styleClass="span8">
-							<p:growl id="growl" showDetail="false" life="5000" />  
-							<div class="offset2">
-								<div class="span10">
-									<div class="span12">
-										<p:outputLabel>Nome do Usuário</p:outputLabel>
-										<p:inputText id="usuario" value="#{loginBean.usuario}" required="true" title="Usuário" requiredMessage="O campo usuário é Obrigatório"/>
-										<p:watermark value="Usuário" for="usuario"></p:watermark>
+					<p:message for="form"></p:message>
+					<h:form id="form" styleClass="span8">
+						<div class="offset2">
+							<div class="span10">
+								<div class="span12">
+									<p:outputLabel>Nome do Usuário</p:outputLabel>
+									<p:inputText id="usuario" value="#{loginBean.usuario}" required="true" title="Usuário" requiredMessage="O campo usuário é Obrigatório"/>
+									<p:watermark value="Usuário" for="usuario"></p:watermark>
 <!-- 										<p:message for="usuario"/> -->
-									</div>
-									<div class="span12">
-										<label>Senha</label>
-										<p:password id="senha" value="#{loginBean.senha}" required="true" title="Senha" requiredMessage="O campo senha é Obrigatório"/>
-										<p:watermark value="Senha" for="senha"></p:watermark>
-<!-- 										<p:message for="senha"/> -->
-									</div>
 								</div>
-								<div class="span10">
-									<p:commandButton id="loginButton" actionListener="#{loginBean.login}" ajax="false" update="growl" value="Enviar" />
+								<div class="span12">
+									<label>Senha</label>
+									<p:password id="senha" value="#{loginBean.senha}" required="true" title="Senha" requiredMessage="O campo senha é Obrigatório"/>
+									<p:watermark value="Senha" for="senha"></p:watermark>
+<!-- 										<p:message for="senha"/> -->
 								</div>
 							</div>
-						</h:form>
-					</p:fieldset>
+							<div class="span10">
+								<p:commandButton id="loginButton" actionListener="#{loginBean.login}" ajax="false" update="growl" value="Enviar" />
+							</div>
+						</div>
+					</h:form>
 				</div>
        		</div>
 	   </p:layoutUnit>
