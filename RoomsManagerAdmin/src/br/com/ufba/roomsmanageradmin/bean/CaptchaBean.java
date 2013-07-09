@@ -1,4 +1,4 @@
-package br.com.view;
+package br.com.ufba.roomsmanageradmin.bean;
 
 import javax.faces.application.FacesMessage;  
 import javax.faces.context.FacesContext;  

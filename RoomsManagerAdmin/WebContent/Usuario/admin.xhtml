@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets" 
+      xmlns:f="http://java.sun.com/jsf/core" 
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>RoomsManagerAdmin</title>
+</head>  
+<h:body> 
+ <h2>Registration Form</h2>
+ <h:form>
+  <p:fieldset legend="Registration Form" widgetVar="regWidget" style="width: 600px;">
+   
+   <h:panelGrid columns="3" width="550" border="0">
+    
+    <h:outputLabel value="Nome de Usuario" />
+    <p:inputText></p:inputText>
+    
+    <h:outputLabel value="Senha" />
+    <p:password></p:password>
+    
+    <h:outputLabel value="Nome" />
+    <p:inputText></p:inputText>
+    
+    <h:outputLabel value="Email" />
+    <p:inputText></p:inputText>
+    
+    <h:outputLabel value="Numero de Cadastro" />
+    <p:inputText></p:inputText>
+    
+<!--     <h:outputLabel value="DOB" /> -->
+<!--     <p:calendar value=""></p:calendar> -->
+    
+<!--     <h:outputLabel value="Gender" /> -->
+<!--     <h:selectOneRadio id="gender"></h:selectOneRadio> -->
+    
+<!--     <h:outputLabel value="Interests" /> -->
+<!--     <p:selectManyCheckbox id="interests"></p:selectManyCheckbox> -->
+    
+    <p:commandButton value="Cadastrar" ajax="false"></p:commandButton>
+   </h:panelGrid>
+  </p:fieldset>
+ </h:form>  
+</h:body>
+</html>

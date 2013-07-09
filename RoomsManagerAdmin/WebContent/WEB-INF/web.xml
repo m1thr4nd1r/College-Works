@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>roomsManagerAdmin</display-name>
   <welcome-file-list>
     <welcome-file>index.jsf</welcome-file>
@@ -22,4 +22,14 @@
     <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
     <param-value>6LfwZwoAAAAAAEhRyntKF1PBzysAJLzqp2v-GMRR</param-value>
   </context-param>
+  <servlet>
+    <description></description>
+    <display-name>teste</display-name>
+    <servlet-name>teste</servlet-name>
+    <servlet-class>br.com.ufba.roomsmanageradmin.controller.teste</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>teste</servlet-name>
+    <url-pattern>/teste</url-pattern>
+  </servlet-mapping>
 </web-app>

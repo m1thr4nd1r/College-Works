@@ -1,4 +1,4 @@
-package br.com.controller;
+package br.com.ufba.roomsmanageradmin.model;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
