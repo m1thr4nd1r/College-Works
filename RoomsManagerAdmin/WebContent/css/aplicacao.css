@@ -39,3 +39,7 @@ body{
 	width: 435px !important; 
 	padding: 0 2em  !important;
 }
+
+#conteudo > .ui-fieldset-legend{
+	width: 94%;
+}
