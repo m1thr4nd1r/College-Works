@@ -60,19 +60,19 @@
 							</p:inputText>
 							
 							<p:outputLabel for="num_cadastro">Numero de Cadastro</p:outputLabel>
-							<p:inputMask id="num_cadastro" value="#{usuarioBean.num_cadastro}" title="Numero de Cadastro" mask="999999."/>
+							<p:inputMask id="num_cadastro" value="#{usuarioBean.num_cadastro}" title="Numero de Cadastro" mask="999999"/>
 							
 							<p:outputPanel id="selectTipo">  
 								  <p:outputLabel for="tipo">Tipo do Funcionario</p:outputLabel> 
 							      <p:selectOneRadio  id="tipo" value="#{usuarioBean.tipo}" layout="custom" required="true">  
-							          <f:selectItem  itemLabel="Sim" itemValue="1" />  
-							          <f:selectItem  itemLabel="Não" itemValue="0" />						           
+							          <f:selectItem  itemLabel="Administrador" itemValue="1" />  
+							          <f:selectItem  itemLabel="Funcionario" itemValue="0" />						           
 							    </p:selectOneRadio> 
 								<h:panelGrid columns="2">  
 									<p:radioButton id="opt1" for="tipo" itemIndex="1"/>  
-									<h:outputLabel for="opt1" value="Sim" />  								
+									<h:outputLabel for="opt1" value="Administrador" />  								
 									<p:radioButton id="opt0" for="tipo" itemIndex="0"/>  
-									<h:outputLabel for="opt0" value="Não" />								  
+									<h:outputLabel for="opt0" value="Funcionario"/>								  
 								</h:panelGrid>
 							</p:outputPanel>
 							
@@ -82,7 +82,7 @@
 							<div class="span12">
 								<div class="bt span">
 									<div class="span2">
-								  		<p:commandButton value="Enviar" actionListener="#{UsuarioBean.create}"/>
+								  		<p:commandButton value="Enviar" id="enviar" ajax="false" actionListener="#{usuarioBean.salvar}"/>
 								  	</div>
 								  	<div class="span2">
 								  		<p:commandButton value="Resetar" type="reset"/>
