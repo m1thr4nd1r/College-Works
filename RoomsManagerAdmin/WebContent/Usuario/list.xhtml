@@ -10,9 +10,23 @@
 <title>Lista de Usuarios</title>
 </head>
 <body>
-	<h3>Usuarios</h3>  
-	<p:dataList value="#{UsuarioBean.usuarios}" var="user" itemType="disc">  
-	    #{user.tipo}, #{user.username}, <a>www.google.com.br</a>  
-	</p:dataList>  
+	<h3>Lista de Usuarios</h3>
+	
+	<h:form prependId="false">
+		<p:dataTable id="lista" var="usuario" value="#{UsuarioBean.usuarios}" rows="1">
+			<p:column headerText="Nome" >
+				<h:outputText value="#{usuario.nome}"/>
+			</p:column>
+			<p:column headerText="Username" >
+				<h:outputText value="#{usuario.username}"/>
+			</p:column>
+			<p:column headerText="Numero de Cadastro" >
+				<h:outputText value="#{usuario.num_cadastro}"/>
+			</p:column>
+			<p:column headerText="Tipo" >
+				<h:outputText value="#{usuario.tipo}"/>
+			</p:column>
+		</p:dataTable>
+	</h:form>
 </body>
 </html>

@@ -1,20 +1,23 @@
 package br.com.ufba.roomsmanageradmin.bean;
 
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
+import javax.faces.bean.ViewScoped;
 
 import br.com.ufba.roomsmanageradmin.model.Usuario;
 
 @ManagedBean
-public class UsuarioBean {
+@ViewScoped
+public class UsuarioBean implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String nome, senha, email, username, num_cadastro, tipo;
-	private static List<Usuario> users =  new ArrayList<Usuario>(); 	
+	private static List<Usuario> usuarios =  new ArrayList<Usuario>(); 	
 	
 	public String getTipo() {
 		return tipo;
@@ -64,11 +67,11 @@ public class UsuarioBean {
 		this.num_cadastro = num_cadastro;
 	}
 	
-	public static List<Usuario> getUsers() {
-		return users;
+	public static List<Usuario> getUsuarios() {
+		return usuarios;
 	}
 
-	public void create(ActionEvent actionEvent)
+	public String create()
 	{
 		Usuario user = new Usuario();
 		
@@ -79,13 +82,8 @@ public class UsuarioBean {
 		user.setNum_cadastro(Integer.valueOf(this.num_cadastro));
 		user.setTipo((this.tipo == "1")? true : false);
 		
-		users.add(user);
+		usuarios.add(user);
 		
-//		FacesContext context = FacesContext.getCurrentInstance();
-//		
-//		if (user.save())
-//		    context.addMessage(null, new FacesMessage("Successful", this.nome + " cadastrado com Sucesso"));
-//		else
-//			context.addMessage(null, new FacesMessage("Successful", this.nome + " nao cadastrado"));
+		return "list?faces-redirect=true";
 	}
 }
