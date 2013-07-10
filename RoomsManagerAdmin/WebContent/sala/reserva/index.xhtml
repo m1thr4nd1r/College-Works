@@ -8,15 +8,9 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>RoomsManagerAdmin::Reserva de Sala</title>
-<script type="text/javascript" src="js/padrao.js"></script>
 <link href="../../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
 <link href="../../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-<link href="../../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
-<style>
-	span.ui-outputlabel-rfi{
-		color: #FF0000;
-	}
-</style> 		
+<link href="../../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" /> 		
 </h:head>
 <h:body>
 		<header>
@@ -25,12 +19,18 @@
 				  <div class="navbar-inner2">
 					<div class="container">
 					  <p:button styleClass="btn btn-navbar"></p:button>
-					  <a class="brand" href="./index.html">RoomsManager</a>
+					  <a class="brand" href="">RoomsManager</a>
 					  <div class="nav-collapse collapse">
 						<ul class="nav">
-						  <li class="">
-							<a href="localhost:3000">Página Inicial</a>
-						  </li>
+							<li class="">
+						  		<a href="../cadastra">Adicionar Sala</a>
+						  	</li>
+						   <li class="">
+						  	 <h:link value="Adicionar Reserva" outcome="index" />
+						   </li>
+						   <li class="">
+						  	 <h:link value="Listar Reserva" outcome="lista" />
+						   </li>
 						</ul>
 					  </div>
 					</div>

@@ -40,6 +40,10 @@ body{
 	padding: 0 2em  !important;
 }
 
-#conteudo > .ui-fieldset-legend{
+legend.ui-fieldset-legend{
 	width: 94%;
+}
+
+span.ui-outputlabel-rfi{
+	color: #FF0000;
 }

@@ -4,6 +4,7 @@ import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
+import javax.swing.JOptionPane;
 
 import br.com.ufba.roomsmanageradmin.model.Login;
 
@@ -21,9 +22,12 @@ public class LoginController extends HttpServlet{
 		session = request.getSession(true);
 		
 		if(login.validate()){
-			session.setAttribute("logado", login);
+			session.setAttribute("nome", user);
+			out.println("<script>location.href='site';</script>");
+			return;
 		}
 		
-		out.println("<script>location.href='index.do';</script>");
+		JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
+		out.println("<script>location.href='index.html';</script>");
 	}
 }

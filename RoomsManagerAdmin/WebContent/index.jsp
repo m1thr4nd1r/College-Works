@@ -1,15 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    %>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>RoomsManagerAdmin :: </title>
+<script type="text/javascript" src="js/padrao.js"></script>
+<link href="css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
+<link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+<link href="css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<%
-	System.out.println(session.getAttribute("logado").toString());
-%>
+   	<header>
+   		<div class="navbar navbar-inverse">
+		  <div class="navbar-inner2">
+			<div class="container">
+			  <a class="brand" href="./index.html">RoomsManager</a>
+			  <div class="nav-collapse collapse">
+				<ul class="nav">
+				  <li class="">
+					<a href="localhost:3000">Página Inicial</a>
+				  </li>
+				</ul>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	</header>
 </body>
 </html>
