@@ -1,13 +1,8 @@
-/*
- * Classe respons�vel pelo gerenciamento da conex�o com Banco
- * 
- */
 package br.com.ufba.roomsmanageradmin.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+
+import javax.swing.JOptionPane;
 /**
  *
  */ 
@@ -24,12 +19,13 @@ public class Myconnection{
             String senha   = "";  
             try
             {
-                Class.forName("com.mysql.jdbc.Driver");
-//                Class.forName("org.postgresql.Driver");           
+            	Class.forName("com.mysql.jdbc.Driver");        
                 connection = DriverManager.getConnection(url, usuario, senha);
                 System.out.println("Conectado!");
             } 
-            catch(Exception e){}
+            catch(Exception e){
+            	JOptionPane.showMessageDialog(null,"FALHA NA CONEXÃO: "+e.toString()); 
+            }
         }
         return connection.createStatement();
     }
@@ -37,7 +33,7 @@ public class Myconnection{
     public Connection getConnection(){  
        try{  
           Class.forName("com.mysql.jdbc.Driver").newInstance();  
-          String driver = "jdbc:mysql://localhost:3306/proufba";  
+          String driver = "jdbc:mysql://localhost:3306/roomsManager_development";  
           Connection con = DriverManager.getConnection(driver,"root","123");   
           return con;  
         }  
