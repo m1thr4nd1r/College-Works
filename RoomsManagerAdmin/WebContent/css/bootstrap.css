@@ -6304,3 +6304,7 @@ a.badge:focus {
 .icon-green {	
   background-image: url("img/glyphicons-halflings-green.png");
 }
+
+[class*="span"] > [class*="span"]{
+	margin-left: 0;
+}

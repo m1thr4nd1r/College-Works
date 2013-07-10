@@ -12,49 +12,30 @@
 		<link href="css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
- 		<style type="text/css">
- 			#topo > .ui-layout-unit-content{
- 				overflow: hidden !important;
- 			}
- 			
- 			#topo, #conteudo, #lateral{
- 				border: 0px;
- 			}
- 			
- 			body{
- 				padding: 0;
- 				margin: 0;
- 			}
- 			
- 			#formulario > legend{
- 				width: 435px !important; 
- 				padding: 0 2em  !important;
- 			}
- 		</style>
         <title>RoomsManagerAdmin</title>
     </h:head>
     <h:body>
     <p:layout fullPage="true">
-	    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
-	    	<header>
-				<div class="navbar navbar-inverse">
-				  <div class="navbar-inner2">
-					<div class="container">
-					  <p:button styleClass="btn btn-navbar"></p:button>
-					  <a class="brand" href="./index.html">RoomsManager</a>
-					  <div class="nav-collapse collapse">
-						<ul class="nav">
-						  <li class="">
-							<a href="localhost:3000">Página Inicial</a>
-						  </li>
-						</ul>
+    	<header>
+		    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
+		    		<div class="navbar navbar-inverse">
+					  <div class="navbar-inner2">
+						<div class="container">
+						  <p:button styleClass="btn btn-navbar"></p:button>
+						  <a class="brand" href="./index.html">RoomsManager</a>
+						  <div class="nav-collapse collapse">
+							<ul class="nav">
+							  <li class="">
+								<a href="localhost:3000">Página Inicial</a>
+							  </li>
+							</ul>
+						  </div>
+						</div>
 					  </div>
 					</div>
-				  </div>
-				</div>
-			</header>
-	    </p:layoutUnit>
-	    <p:growl id="growl" showDetail="false" life="3000" />
+		    </p:layoutUnit>
+		</header>
+		<p:growl id="growl" showDetail="false" life="6000" />
 	    <p:layoutUnit position="center" id="conteudo">
 	    	<div class="container-fluid offset4 span10">
 				<div class="row-fluid">
@@ -64,19 +45,19 @@
 							<div class="span10">
 								<div class="span12">
 									<p:outputLabel>Nome do Usuário</p:outputLabel>
-									<p:inputText id="usuario" value="#{loginBean.usuario}" required="true" title="Usuário" requiredMessage="O campo usuário é Obrigatório"/>
+									<p:inputText id="usuario" value="#{loginBean.login.usuario}" required="true" title="Usuário" requiredMessage="O campo usuário é Obrigatório"/>
 									<p:watermark value="Usuário" for="usuario"></p:watermark>
 <!-- 										<p:message for="usuario"/> -->
 								</div>
 								<div class="span12">
 									<label>Senha</label>
-									<p:password id="senha" value="#{loginBean.senha}" required="true" title="Senha" requiredMessage="O campo senha é Obrigatório"/>
+									<p:password id="senha" value="#{loginBean.login.senha}" required="true" title="Senha" requiredMessage="O campo senha é Obrigatório"/>
 									<p:watermark value="Senha" for="senha"></p:watermark>
 <!-- 										<p:message for="senha"/> -->
 								</div>
 							</div>
 							<div class="span10">
-								<p:commandButton id="loginButton" actionListener="#{loginBean.login}" ajax="false" update="growl" value="Enviar" />
+								<p:commandButton id="loginButton" actionListener="#{loginBean.logado}" ajax="false" update="growl" value="Enviar" />
 							</div>
 						</div>
 					</h:form>

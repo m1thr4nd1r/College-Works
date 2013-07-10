@@ -1,3 +1,41 @@
 #form .span12{
 	margin-left: 0;
 }
+
+.info{
+	color: #8D8D8D;
+	padding-left: 10px;
+	margin-bottom: 2px;
+}
+
+.bt{
+	margin: 10px 0px 10px 0;
+}
+
+._4 > input{
+	width: 75%;
+}
+
+#topo > .ui-layout-unit-content{
+	overflow: hidden !important;
+	border: 0px;
+}
+
+#topo, #conteudo, #lateral,
+#conteudo > .ui-widget-content{
+	border: 0px;
+}
+
+#conteudo > .ui-widget-content{
+	
+}
+
+body{
+	padding: 0;
+	margin: 0;
+}
+
+#formulario > legend{
+	width: 435px !important; 
+	padding: 0 2em  !important;
+}

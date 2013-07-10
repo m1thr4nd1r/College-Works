@@ -1,49 +1,43 @@
 package br.com.ufba.roomsmanageradmin.bean;
-//patydourado@gmail.com
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.primefaces.context.RequestContext;
 
+import br.com.ufba.roomsmanageradmin.model.Login;
+
 @ManagedBean
 public class LoginBean{
-	private String usuario;
-	private String senha;
-
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+	
+	private Login login;
+	
+	public void logado(ActionEvent actionEvent){
 		
-	public void login(ActionEvent actionEvent){
 		RequestContext context = RequestContext.getCurrentInstance();  
         FacesMessage msg = null;  
         boolean loggedIn = false;  
-          
-        if(usuario != null  && usuario.equals("admin") && senha != null  && senha.equals("admin")) {  
+        System.out.println(login.getUsuario()); 
+        
+        if(login.validate()){  
             loggedIn = true;  
-            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bem Vindo", usuario);  
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bem Vindo", login.getUsuario());
         } else {  
             loggedIn = false;  
             msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login ERROR", "Login ou senha inválidas.");  
         }  
           
         FacesContext.getCurrentInstance().addMessage(null, msg);  
-        context.addCallbackParam("loggedIn", loggedIn);  
+        context.addCallbackParam("loggedIn", loggedIn);
+        
+	}
+	
+	public Login getLogin(){
+		return this.login;
 	}
 	
 }
