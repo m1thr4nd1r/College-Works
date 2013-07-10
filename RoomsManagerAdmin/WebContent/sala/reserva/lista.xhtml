@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:h="http://java.sun.com/jsf/html"
+ 	xmlns:p="http://primefaces.org/ui"
+    >
+<h:head>
+  <title>Reserva de Sala :: Sucesso!</title>
+</h:head>
+
+<h:body>
+	<h:form prependId="false">  	
+		<p:dataTable id="reserva" var="reserva" value="#{reservaSalaBean.reservas}"
+			paginator="true" rows="5" 
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+			rowsPerPageTemplate="5,10,15"  
+            >
+			<f:facet name="header">
+				<h:outputText value="Salas Reservadas"/>
+			</f:facet>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Sala"/>
+				</f:facet>
+				<h:outputText value="#{reserva.sala.nome}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Data de Inicio"/>
+				</f:facet>
+				<h:outputText value="#{reserva.dataInicio}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Data de Término"/>
+				</f:facet>
+				<h:outputText value="#{reserva.dataFim}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Horário Inicio"/>
+				</f:facet>
+				<h:outputText value="#{reserva.horarioInicio}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Horário de Término"/>
+				</f:facet>
+				<h:outputText value="#{reserva.horarioTermino}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Responsável"/>
+				</f:facet>
+				<h:outputText value="#{reserva.responsavel}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Reservador para"/>
+				</f:facet>
+				<h:outputText value="#{reserva.reservadoPara}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Evento Privado"/>
+				</f:facet>
+				<h:outputText value="#{reserva.eventoPrivado}"/>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Telefone"/>
+				</f:facet>
+				<h:outputText value="#{reserva.telefone}"/>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			dlg.show();
+		});
+	</script>
+</h:body>	
+</html>

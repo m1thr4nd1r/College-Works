@@ -36,7 +36,7 @@ public class ReservaSalaDAO implements Serializable{
 		String horario2 = h2+":"+m2+":00";
 
 		String sql = "INSERT INTO reserva_sala (sala_id,data_inicio,data_fim,horario_inicio,horario_termino,responsavel,reserva_para,evento_privado,email,telefone,obs)"+
-					 "VALUES("+reserva.getSala_id()+",'"+data1+"','"+data2+"','"+horario1+"','"+horario2+
+					 "VALUES("+reserva.getSala().getId()+",'"+data1+"','"+data2+"','"+horario1+"','"+horario2+
 					 "','"+reserva.getResponsavel()+"','"+reserva.getReservadoPara()+"',"+reserva.isEventoPrivado()+",'"+reserva.getEmail()+"','"+reserva.getTelefone()+"','"+reserva.getObservacao()+"')";
 		
 		System.out.println(sql);
@@ -55,7 +55,7 @@ public class ReservaSalaDAO implements Serializable{
 		ResultSet rs = st.executeQuery(consulta);
 		
 		while(rs.next()){
-			ReservaSala reserva = new ReservaSala(rs.getInt("sala_id"),rs.getString("data_inicio"),rs.getString("data_fim"),rs.getString("horario_inicio"),rs.getString("horario_termino"), rs.getString("responsavel"), rs.getString("reserva_para"),rs.getBoolean("evento_privado"),rs.getString("email"), rs.getString("telefone"),rs.getString("obs"));
+			ReservaSala reserva = new ReservaSala(rs.getInt("sala_id"),rs.getDate("data_inicio"),rs.getDate("data_fim"),rs.getTime("horario_inicio"),rs.getTime("horario_termino"), rs.getString("responsavel"), rs.getString("reserva_para"),rs.getBoolean("evento_privado"),rs.getString("email"), rs.getString("telefone"),rs.getString("obs"));
 			lista.add(reserva);
 		}
 		

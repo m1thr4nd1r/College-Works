@@ -1,6 +1,7 @@
 package br.com.ufba.roomsmanageradmin.model;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParseException;
@@ -10,9 +11,11 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
+import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
+
 public class ReservaSala implements Serializable {
 	
-	private int sala_id;
+	private Sala sala;
 	private Date dataInicio;
 	private Date dataFim;
 	private Date horarioInicio;
@@ -33,7 +36,14 @@ public class ReservaSala implements Serializable {
 			String reservadoPara, boolean eventoPrivado, String email,
 			String telefone, String observacao) {
 		super();
-		this.sala_id = sala_id;
+		
+		SalaDAO s = new SalaDAO();
+		try {
+			this.sala = s.getSalaById(sala_id);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"RESERVA ERRO: "+e.getMessage());
+			e.printStackTrace();
+		}
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
 		this.horarioInicio = horarioInicio;
@@ -51,7 +61,15 @@ public class ReservaSala implements Serializable {
 			String reservadoPara, boolean eventoPrivado, String email,
 			String telefone, String observacao) {
 		super();
-		this.sala_id = sala_id;
+		
+		SalaDAO s = new SalaDAO();
+		try {
+			this.sala = s.getSalaById(sala_id);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"RESERVA ERRO: "+e.getMessage());
+			e.printStackTrace();
+		}
+		
 		this.dataInicio = dataEn(dataInicio);
 		this.dataFim = dataEn(dataFim);
 		this.horarioInicio = stringToDateH(horarioInicio);
@@ -64,12 +82,23 @@ public class ReservaSala implements Serializable {
 		this.observacao = observacao;
 	}
 	
-	public int getSala_id() {
-		return sala_id;
+	public Sala getSala(){
+		return this.sala;
 	}
 
-	public void setSala_id(int sala_id) {
-		this.sala_id = sala_id;
+	public Sala getSala(int sala_id){
+		SalaDAO s = new SalaDAO();
+		try {
+			this.sala = s.getSalaById(sala_id);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"RESERVA ERRO: "+e.getMessage());
+			e.printStackTrace();
+		}
+		return sala;
+	}
+	
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
 
 	public Date getDataInicio() {
