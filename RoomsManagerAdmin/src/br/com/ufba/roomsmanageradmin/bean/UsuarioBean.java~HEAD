@@ -8,7 +8,7 @@ import javax.faces.event.ActionEvent;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
 
 @ManagedBean
-public class usuarioBean {
+public class UsuarioBean {
 	
 	private String nome, senha, email, username, num_cadastro, tipo;
 	

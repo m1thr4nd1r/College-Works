@@ -17,8 +17,9 @@ import br.com.ufba.roomsmanageradmin.dao.ReservaSalaDAO;
 import br.com.ufba.roomsmanageradmin.model.Area;
 import br.com.ufba.roomsmanageradmin.model.ReservaSala;
 
+
+
 @ManagedBean
-@ViewScoped
 public class ReservaSalaBean implements Serializable{
 
 	private ReservaSalaDAO rsDAO = new ReservaSalaDAO();

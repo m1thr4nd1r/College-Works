@@ -12,15 +12,16 @@ public class Myconnection{
     
     public static Statement getStatement() throws SQLException
     {
-        
+    	 System.out.println("Chegou!");
         if(connection == null){
             String url = "jdbc:mysql://localhost:3306/roomsManager_development";
             String usuario = "root";  
-            String senha = "123";  
+            String senha   = "";  
             try
             {
             	Class.forName("com.mysql.jdbc.Driver");        
                 connection = DriverManager.getConnection(url, usuario, senha);
+                System.out.println("Conectado!");
             } 
             catch(Exception e){
             	JOptionPane.showMessageDialog(null,"FALHA NA CONEXÃO: "+e.toString()); 

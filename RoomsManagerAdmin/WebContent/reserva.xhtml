@@ -46,12 +46,24 @@
 				<div class="row-fluid">
 					<p:message for="form"></p:message>
 					<h:form id="form">
+<<<<<<< HEAD
 						<p:panel header="Reserva de Sala">
 							<h:panelGrid>
 								<p:outputLabel>Sala</p:outputLabel>
 								<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaBean.reserva.sala_id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
 						            <f:selectItem itemLabel="Sala 1" itemValue="1" />  
 						        </p:selectOneMenu>
+=======
+						<div class="span4 offset1">
+							<p:outputLabel>Sala</p:outputLabel>
+							<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaBean.sala}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório" var="area">  
+					            <f:selectItem itemLabel=":: Selecione ::" itemValue="" />  
+					            <f:selectItem itemLabel="Dept. de Computação" itemValue="1" />  
+					        </p:selectOneMenu>
+						</div>
+						<div class="span12">
+							<div class="span10">
+>>>>>>> 08be48ac19d08311f8ac9a5741d518e78832811c
 								<p:outputLabel for="dInicio">Data de Inicio</p:outputLabel>
 								<p:calendar id="dInicio" value="#{reservaSalaBean.reserva.dataInicio}" locale="pt_BR" pattern="dd/MM/yyyy" required="true"/>
 								<p:outputLabel for="dTermino">Data de Término</p:outputLabel>
