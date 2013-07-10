@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class Sala implements Serializable{
+	
+	private int id;
 	private String  nome;
 	private boolean quadro;
 	private boolean	retroprojetor;
@@ -14,8 +16,6 @@ public class Sala implements Serializable{
 	private int 	computadores;
 	private int 	capacidade;
 	private int 	setor_id;
-	
-
 	
 	public Sala(){
 	
@@ -36,6 +36,13 @@ public class Sala implements Serializable{
 		this.setor_id = 1;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public boolean isQuadro() {
 		return quadro;

@@ -40,7 +40,7 @@ public class ReservaSalaBean implements Serializable{
 			String HorarioInicio = getHora(reserva.getHorarioInicio().toString());
 			String HorarioTermino = getHora(reserva.getHorarioTermino().toString());
 			
-			ReservaSala res = new ReservaSala(reserva.getSala_id(),dataInicio,dataFim,HorarioInicio,HorarioTermino,reserva.getResponsavel(),reserva.getReservadoPara(),reserva.isEventoPrivado(),reserva.getEmail(),reserva.getTelefone(),reserva.getObservacao());
+			ReservaSala res = new ReservaSala(reserva.getSala().getId(),dataInicio,dataFim,HorarioInicio,HorarioTermino,reserva.getResponsavel(),reserva.getReservadoPara(),reserva.isEventoPrivado(),reserva.getEmail(),reserva.getTelefone(),reserva.getObservacao());
 			rsDAO.salva(res);
 			
 			return "reservaSalaSucesso";

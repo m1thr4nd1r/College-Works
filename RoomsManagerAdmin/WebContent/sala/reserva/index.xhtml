@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:h="http://java.sun.com/jsf/html"
+ 	xmlns:p="http://primefaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>RoomsManagerAdmin::Reserva de Sala</title>
+<script type="text/javascript" src="js/padrao.js"></script>
+<link href="../../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
+<link href="../../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+<link href="../../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+<style>
+	span.ui-outputlabel-rfi{
+		color: #FF0000;
+	}
+</style> 		
+</h:head>
+<h:body>
+		<header>
+		    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
+	    		<div class="navbar navbar-inverse">
+				  <div class="navbar-inner2">
+					<div class="container">
+					  <p:button styleClass="btn btn-navbar"></p:button>
+					  <a class="brand" href="./index.html">RoomsManager</a>
+					  <div class="nav-collapse collapse">
+						<ul class="nav">
+						  <li class="">
+							<a href="localhost:3000">Página Inicial</a>
+						  </li>
+						</ul>
+					  </div>
+					</div>
+				  </div>
+				</div>
+		    </p:layoutUnit>
+		</header>
+		<p:growl id="growl" showDetail="false" life="6000" />
+		<p:layoutUnit position="center" id="conteudo">
+			<div class="container-fluid offset3 span10">
+				<div class="row-fluid">
+					<p:message for="form"></p:message>
+					<h:form id="form">
+						<p:panel header="Reserva de Sala">
+							<h:panelGrid>
+								<p:outputLabel>Sala</p:outputLabel>
+								<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaBean.reserva.sala.id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
+						            <f:selectItem itemLabel="Sala 1" itemValue="1" />  
+						        </p:selectOneMenu>
+								<p:outputLabel for="dInicio">Data de Inicio</p:outputLabel>
+								<p:calendar id="dInicio" value="#{reservaSalaBean.reserva.dataInicio}" locale="pt_BR" pattern="dd/MM/yyyy" required="true"/>
+								<p:outputLabel for="dTermino">Data de Término</p:outputLabel>
+								<p:calendar id="dTermino" value="#{reservaSalaBean.reserva.dataFim}"  locale="pt_BR" pattern="dd/MM/yyyy"/>
+								<p:outputLabel for="hInicio">Horário Inicio</p:outputLabel>
+								<p:calendar id="hInicio" value="#{reservaSalaBean.reserva.horarioInicio}" pattern="HH:mm" timeOnly="true" required="true"/>
+								<p:outputLabel for="hTermino">Horário de Término</p:outputLabel>
+								<p:calendar id="hTermino" value="#{reservaSalaBean.reserva.horarioTermino}" pattern="HH:mm" timeOnly="true" required="true"/>
+								<p:outputLabel for="email">Email</p:outputLabel>
+								<p:inputText id="email" value="#{reservaSalaBean.reserva.email}" required="true" title="Email" requiredMessage="O campo Email é Obrigatório"  validatorMessage="Email inválido">
+									<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+								<h:outputText styleClass="info" value="Preferencialmente, email da UFBA"/>
+								<p:outputLabel for="telefone">Telefone</p:outputLabel>
+								<p:inputMask id="telefone" value="#{reservaSalaBean.reserva.telefone}" title="Telefone" mask="(99)9999-9999."/>
+								<p:outputLabel for="responsavel">Responsável</p:outputLabel>
+								<p:inputText id="responsavel" style="width: 300px" value="#{reservaSalaBean.reserva.responsavel}" required="true" title="Responsavel" requiredMessage="O campo Responsável é Obrigatório"/>
+								<p:outputLabel for="reservado_para">Reservado para</p:outputLabel>
+								<p:inputTextarea id="reservado_para" rows="3" cols="60" counter="counter" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaBean.reserva.reservadoPara}" title="Reservado Para"/>
+								<h:outputText id="counter" styleClass="info" />  
+								<p:outputLabel for="privado"  styleClass="span">Evento privado: </p:outputLabel>
+								<p:selectOneRadio id="privado" value="#{reservaSalaBean.reserva.eventoPrivado}">  
+						            <f:selectItem itemLabel="Sim" itemValue="true"/>  
+						            <f:selectItem itemLabel="Não" itemValue="false" />    
+						        </p:selectOneRadio>
+								<p:outputLabel for="obs">Observação</p:outputLabel>
+								<p:inputTextarea id="obs" rows="3" cols="60" counter="contObs" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaBean.reserva.observacao}" title="Observação"/>
+								<br/>
+								<h:outputText id="contObs" styleClass="info" />
+					  		</h:panelGrid>
+					  	</p:panel>
+						<div class="span12">
+							<div class="bt span">
+								<div class="span2">
+							  		<p:commandButton value="Enviar" id="enviar" ajax="false" actionListener="#{reservaSalaBean.salva}"/>
+							  	</div>
+							  	<div class="span2">
+							  		<p:commandButton value="Resetar" type="reset"/>
+							  	</div>
+						  	</div>
+				  		</div>
+					</h:form>
+				</div>
+			</div>
+		</p:layoutUnit>
+</h:body>
+</html>
