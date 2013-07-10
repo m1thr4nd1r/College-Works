@@ -16,7 +16,7 @@ public class Myconnection{
         if(connection == null){
             String url = "jdbc:mysql://localhost:3306/roomsManager_development";
             String usuario = "root";  
-            String senha   = "123";  
+            String senha   = "123456";  
             try
             {
             	Class.forName("com.mysql.jdbc.Driver");        
