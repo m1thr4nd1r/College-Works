@@ -11,7 +11,7 @@ import br.com.ufba.roomsmanageradmin.model.Sala;
 
 @ManagedBean
 @ViewScoped
-public class CadastraSalaBean implements Serializable{
+public class SalaBean implements Serializable{
 	private static final long serialVersionUID = -6735027036534961738L;
 	private Sala sala = new Sala();
 	
