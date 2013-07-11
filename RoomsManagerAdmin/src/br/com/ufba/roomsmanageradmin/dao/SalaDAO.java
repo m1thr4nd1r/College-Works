@@ -3,6 +3,8 @@ package br.com.ufba.roomsmanageradmin.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 import br.com.ufba.roomsmanageradmin.model.Sala;
 
 public class SalaDAO {
@@ -31,5 +33,18 @@ public class SalaDAO {
 		}
 		
 		return sala;
+	}
+	
+	public void listaSala(ArrayList<Sala> salas) throws SQLException{
+		
+		String consulta = "SELECT * FROM sala ";
+		
+		Statement st = (Statement) Myconnection.getStatement();
+		ResultSet rs = st.executeQuery(consulta);
+		
+		while(rs.next()){
+			salas.add(new Sala(rs.getString("nome"), rs.getBoolean("quadro"), rs.getBoolean("retroprojetor"), rs.getBoolean("multimidia"), rs.getString("tipo"), rs.getBoolean("ar_condicionado"), rs.getInt("computadores"), rs.getInt("capacidade"), rs.getInt("setor_id")));
+		}
+		
 	}
 }
