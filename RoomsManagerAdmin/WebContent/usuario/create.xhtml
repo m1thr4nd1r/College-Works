@@ -5,59 +5,103 @@
       xmlns:f="http://java.sun.com/jsf/core" 
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:p="http://primefaces.org/ui">
-	<head>
+	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>RoomsManagerAdmin</title>
-	</head>  
-	<h:body> 
-		<h2>Cadastro de Usuario</h2>
-		
-		<h:form>
-		 	
-<!-- 			<p:growl id="usuario" showDetail="true" sticky="true" />   -->
-		  
-			<p:fieldset widgetVar="regWidget" style="width: 600px;">
-		  
-<!-- 		  		<p:panel header="Usuario">   -->
-		   
-				<h:panelGrid columns="2" width="550" border="0">
-			    
-			    	<h:outputLabel value="Nome de Usuario" />
-			    	<p:inputText id="user" value="#{usuarioBean.username}">
-			    		<f:validateLength minimum="5"></f:validateLength>
-			    	</p:inputText>
-			    
-			    	<h:outputLabel value="Senha" />
-			    	<p:inputText id="senha" value="#{usuarioBean.senha}">
-			    		<f:validateLength minimum="6" maximum="64"></f:validateLength>
-			    	</p:inputText>
-			    
-			    	<h:outputLabel value="Nome" />
-			    	<p:inputText id="nome" value="#{usuarioBean.nome}">
-			    		<f:validateLength minimum="3" maximum="100"></f:validateLength>
-			    	</p:inputText>
-			    
-			    	<h:outputLabel value="Email" />
-				    <p:inputText id="email" value="#{usuarioBean.email}">
-				    	<f:validateLength minimum="5" maximum="60"></f:validateLength>
-				    </p:inputText>
-			    
-				    <h:outputLabel value="Numero de Cadastro" />
-				    <p:inputText id="num_cadastro" value="#{usuarioBean.num_cadastro}">
-				    	<f:validateRegex pattern="[0-9]{6,20}"></f:validateRegex>
-				    </p:inputText>
-			    
-			    	<h:outputLabel value="Tipo de Usuario" />
-				    <h:selectOneRadio id="tipo" value="#{usuarioBean.tipo}">
-				    	<f:selectItem itemLabel="Administrador" itemValue="1" />
-				    	<f:selectItem itemLabel="Funcionario" itemValue="0" />  
-				    </h:selectOneRadio>
-			        
-			    	<p:commandButton value="Cadastrar" actionListener="#{usuarioBean.create}" update="usuario"></p:commandButton>
-			   
-				</h:panelGrid>
-<!-- 				</p:panel> -->
-			</p:fieldset>
-		</h:form>  
+		<script type="text/javascript" src="../js/padrao.js"></script>
+		<link href="../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+	</h:head>  
+	<h:body>
+	<header>
+	    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
+    		<div class="navbar navbar-inverse">
+			  <div class="navbar-inner2">
+				<div class="container">
+				  <p:button styleClass="btn btn-navbar"></p:button>
+				  <a class="brand" href="">RoomsManager</a>
+				  <div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="">
+					  		<a href="../sala/cadastra.do">Adicionar Sala</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="create.do">Adicionar Usuario</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="list.do">Listar Usuario</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="../sala/reserva/index.do">Adicionar Reserva</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="../sala/reserva/lista.do">Listar Reserva</a>
+					  	</li>
+					</ul>
+				  </div>
+				</div>
+			  </div>
+			</div>
+	    </p:layoutUnit>
+	</header>
+	
+ 		<p:layoutUnit position="center" id="conteudo">
+			<div class="container-fluid offset4 span10">
+				<div class="row-fluid">
+					<p:message for="form"></p:message>
+						<h:form id="form">
+							
+							<p:fieldset legend="Cadastro de Usuario" >
+							<h:panelGrid columns="2">
+							
+							<p:outputLabel for="e-mail">Email</p:outputLabel>
+							<p:inputText id="e-mail" value="#{usuarioBean.usuario.email}" required="true" title="Email" requiredMessage="O campo 'Email' é Obrigatório"  validatorMessage="Email inválido">
+								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</p:inputText>
+							
+							<p:outputLabel for="senha">Senha</p:outputLabel>
+							<p:password id="senha" style="width: 300px" value="#{usuarioBean.usuario.senha}" required="true" title="Senha" requiredMessage="O campo 'Senha' é Obrigatório"/>
+							
+							<p:outputLabel for="nome">Nome</p:outputLabel>
+							<p:inputText id="nome" style="width: 300px" value="#{usuarioBean.usuario.nome}" required="true" title="Nome" requiredMessage="O campo 'Nome' é Obrigatório"/>
+							
+							<p:outputLabel for="num_cadastro">Numero de Cadastro</p:outputLabel>
+							<p:inputMask id="num_cadastro" value="#{usuarioBean.usuario.num_cadastro}" title="Numero de Cadastro" mask="999999"/>
+							
+							<p:outputPanel id="selectTipo">  
+								  <p:outputLabel for="tipo">Tipo do Funcionario</p:outputLabel> 
+							      <p:selectOneRadio  id="tipo" value="#{usuarioBean.usuario.tipo}" layout="custom" required="true">  
+							          <f:selectItem  itemLabel="Administrador" itemValue="True" />  
+							          <f:selectItem  itemLabel="Funcionario" itemValue="False" />						           
+							    </p:selectOneRadio> 
+								<h:panelGrid columns="2">  
+									<p:radioButton id="opt1" for="tipo" itemIndex="1"/>  
+									<h:outputLabel for="opt1" value="Administrador" />  								
+									<p:radioButton id="opt0" for="tipo" itemIndex="0"/>  
+									<h:outputLabel for="opt0" value="Funcionario"/>								  
+								</h:panelGrid>
+							</p:outputPanel>
+							
+							</h:panelGrid>
+							</p:fieldset>
+							
+							<div class="span12">
+								<div class="bt span">
+									<div class="span2">
+								  		<p:commandButton value="Enviar" id="enviar" ajax="false" actionListener="#{usuarioBean.salvar}"/>
+								  	</div>
+								  	<div class="span2">
+								  		<p:commandButton value="Resetar" type="reset"/>
+								  	</div>
+							  	</div>
+					  		</div>
+							
+						</h:form>
+					</div>
+				</div>
+		</p:layoutUnit>  
 	</h:body>
 </html>

@@ -1,32 +1,100 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets" 
-      xmlns:f="http://java.sun.com/jsf/core" 
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:p="http://primefaces.org/ui">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Lista de Usuarios</title>
-</head>
-<body>
-	<h3>Lista de Usuarios</h3>
-	
-	<h:form prependId="false">
-		<p:dataTable id="lista" var="usuario" value="#{UsuarioBean.usuarios}" rows="1">
-			<p:column headerText="Nome" >
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:h="http://java.sun.com/jsf/html"
+ 	xmlns:p="http://primefaces.org/ui"
+    >
+<h:head>
+  <title>Usuario Cadastrado com Sucesso!</title>
+<link href="../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
+<link href="../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+<link href="../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />	
+</h:head>
+
+<h:body>
+	<header>
+	    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
+    		<div class="navbar navbar-inverse">
+			  <div class="navbar-inner2">
+				<div class="container">
+				  <p:button styleClass="btn btn-navbar"></p:button>
+				  <a class="brand" href="">RoomsManager</a>
+				  <div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="">
+					  		<a href="../sala/cadastra.do">Adicionar Sala</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="create.do">Adicionar Usuario</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="list.do">Listar Usuario</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="../sala/reserva/index.do">Adicionar Reserva</a>
+					  	</li>
+					  	<li class="">
+					  		<a href="../sala/reserva/lista.do">Listar Reserva</a>
+					  	</li>
+					</ul>
+				  </div>
+				</div>
+			  </div>
+			</div>
+	    </p:layoutUnit>
+	</header>
+
+	<h:form prependId="false">  	
+		<p:dataTable id="usuarios" var="usuario" value="#{usuarioBean.usuarios}"
+			paginator="true" rows="5" 
+            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+			rowsPerPageTemplate="5,10,15"  
+            >
+			<f:facet name="header">
+				<h:outputText value="Usuarios Cadastrados"/>
+			</f:facet>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Usuario"/>
+				</f:facet>
 				<h:outputText value="#{usuario.nome}"/>
 			</p:column>
-			<p:column headerText="Username" >
-				<h:outputText value="#{usuario.username}"/>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Email"/>
+				</f:facet>
+				<h:outputText value="#{usuario.email}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
 			</p:column>
-			<p:column headerText="Numero de Cadastro" >
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Senha"/>
+				</f:facet>
+				<h:outputText value="#{usuario.senha}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Numero de Cadastro"/>
+				</f:facet>
 				<h:outputText value="#{usuario.num_cadastro}"/>
 			</p:column>
-			<p:column headerText="Tipo" >
+			<p:column>
+				<f:facet name="header">
+					<h:outputText value="Tipo de Usuario"/>
+				</f:facet>
 				<h:outputText value="#{usuario.tipo}"/>
 			</p:column>
 		</p:dataTable>
 	</h:form>
-</body>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			dlg.show();
+		});
+	</script>
+</h:body>	
 </html>

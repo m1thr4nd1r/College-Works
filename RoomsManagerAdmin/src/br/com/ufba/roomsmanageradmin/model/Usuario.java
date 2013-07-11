@@ -3,7 +3,7 @@ package br.com.ufba.roomsmanageradmin.model;
 public class Usuario {
 	
 	private int num_cadastro;
-	private String nome, senha, email, user;
+	private String nome, senha, email;
 	private boolean tipo;
 	
 	public Usuario()
@@ -11,11 +11,19 @@ public class Usuario {
 		this.nome = "";
 		this.senha = "";
 		this.email = "";
-		this.user = "";
 		this.tipo = false;
 	}
 
-	public boolean isAdmin() {
+	public Usuario(String email, String senha, String nome, int num_cadastro, boolean tipo)
+	{
+		this.email = email;
+		this.senha = senha;
+		this.nome = nome;
+		this.num_cadastro = num_cadastro;
+		this.tipo = tipo;
+	}
+	
+	public boolean getTipo() {
 		return tipo;
 	}
 
@@ -29,14 +37,6 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
 	}
 
 	public String getSenha() {
@@ -61,12 +61,5 @@ public class Usuario {
 
 	public void setNum_cadastro(int num_cadastro) {
 		this.num_cadastro = num_cadastro;
-	}
-	
-	public boolean save()
-	{
-		System.out.println("Guardou " + this.nome + " no Banco");
-		
-		return true;
 	}
 }

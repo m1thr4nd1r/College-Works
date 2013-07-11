@@ -1,89 +1,57 @@
 package br.com.ufba.roomsmanageradmin.bean;
 
-
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
+import javax.swing.JOptionPane;
 
+import br.com.ufba.roomsmanageradmin.dao.CadastraUsuarioDAO;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
 
 @ManagedBean
-@ViewScoped
 public class UsuarioBean implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
-	
-	private String nome, senha, email, username, num_cadastro, tipo;
-	private static List<Usuario> usuarios =  new ArrayList<Usuario>(); 	
-	
-	public String getTipo() {
-		return tipo;
+		
+	private CadastraUsuarioDAO userDAO = new CadastraUsuarioDAO();
+	private Usuario usuario = new Usuario();
+	private List usuarios; 
+		
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getNum_cadastro() {
-		return num_cadastro;
-	}
-
-	public void setNum_cadastro(String num_cadastro) {
-		this.num_cadastro = num_cadastro;
+	public List getUsuarios(){
+		
+		try {
+			this.usuarios = userDAO.getUsuarios();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"GETUSERS ERRO: "+e.getMessage());
+			e.printStackTrace();
+		}
+		 
+		return this.usuarios;
 	}
 	
-	public static List<Usuario> getUsuarios() {
-		return usuarios;
-	}
-
-	public String create()
+	public String salvar(ActionEvent ae) throws ParseException
 	{
-		Usuario user = new Usuario();
+		try	{
+				userDAO.salva(usuario);
+				
+				return "index";
+			
+			} catch (SQLException e) {
+				System.out.println("ERRO: "+e.getMessage());
+				e.printStackTrace();
+			}
 		
-		user.setEmail(this.email);
-		user.setNome(this.nome);
-		user.setSenha(this.senha);
-		user.setUser(this.username);
-		user.setNum_cadastro(Integer.valueOf(this.num_cadastro));
-		user.setTipo((this.tipo == "1")? true : false);
-		
-		usuarios.add(user);
-		
-		return "list?faces-redirect=true";
+		return "reserva";
 	}
 }

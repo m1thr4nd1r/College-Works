@@ -23,7 +23,13 @@
 					  <div class="nav-collapse collapse">
 						<ul class="nav">
 							<li class="">
-						  		<a href="../cadastra">Adicionar Sala</a>
+						  		<a href="../cadastra.do">Adicionar Sala</a>
+						  	</li>
+						  	<li class="">
+						  		<a href="../../usuario/create.do">Adicionar Usuario</a>
+						  	</li>
+						  	<li class="">
+						  		<a href="../../usuario/list.do">Listar Usuario</a>
 						  	</li>
 						   <li class="">
 						  	 <h:link value="Adicionar Reserva" outcome="index" />
@@ -44,9 +50,8 @@
 				<div class="row-fluid">
 					<p:message for="form"></p:message>
 					<h:form id="form">
-						<p:panel header="Reserva de Sala">
-							<h:panelGrid>
-								<p:outputLabel>Sala</p:outputLabel>
+						<p:fieldset legend="Reserva de Sala">
+							<div class="offset3">
 								<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaBean.reserva.sala.id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
 						            <f:selectItem itemLabel="Sala 1" itemValue="1" />  
 						        </p:selectOneMenu>
@@ -79,9 +84,9 @@
 								<p:inputTextarea id="obs" rows="3" cols="60" counter="contObs" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaBean.reserva.observacao}" title="Observação"/>
 								<br/>
 								<h:outputText id="contObs" styleClass="info" />
-					  		</h:panelGrid>
-					  	</p:panel>
-						<div class="span12">
+							</div>
+				  		</p:fieldset>
+					  	<div class="span12">
 							<div class="bt span">
 								<div class="span2">
 							  		<p:commandButton value="Enviar" id="enviar" ajax="false" actionListener="#{reservaSalaBean.salva}"/>
