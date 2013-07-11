@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-RoomsManager::Application.config.session_store :cookie_store, key: '_roomsManager_session'
+RoomsManager::Application.config.session_store :cookie_store, key: '_rooms_manager_session'
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information

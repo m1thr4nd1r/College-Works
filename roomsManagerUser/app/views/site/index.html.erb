@@ -61,8 +61,27 @@ $(function() {
 		<div class="row-fluid"> 
 				<div class="span11">
 						<div>
-								<h1>13 de Junho de 2013</h1>
+								<h1><%= DateTime.now.strftime("%d de %B de %Y") %></h1>
+								<h1><%= @count %></h1>
 						</div>
+
+						<table>
+						  <tr>
+						    <th>Name</th>
+						    <th>Title</th>
+						  </tr>
+
+						<% for reserva in @reservas %>							
+						<% date = DateTime.parse(reserva[:data_inicio]) %>
+						  <tr>
+						    <td><%=h date.strftime("%d/%m/%Y") %></td>
+						    <td><%=h reserva[:responsavel] %></td>
+						  </tr>
+						<% end %>
+						</table>
+
+						<br />
+
 						<table id="reservas" class="table table-striped table-bordered">
 								<tbody>
 									<tr>
@@ -85,110 +104,110 @@ $(function() {
 										</tr>
 										<tr>
 												<td class="span4"> Sala 1 </td>
-												<td  class=" error"> <i data-content="Ocupado" class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i data-content="Ocupado" class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 										</tr>
 										<tr>
 												<td> Sala 2 </td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"><i class="icon-red icon-remove"></i></td>
+												<td  class=" error"><i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 										</tr>
 										<tr>
 												<td class="span4"> Sala 3 </td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 										</tr>
 										<tr>
 												<td class="span4"> Sala 4 </td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 										</tr>
 										<tr>
 												<td> Sala 5 </td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 										</tr>
 										<tr>
 												<td class="span4"> Sala 6 </td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
-												<td  class=" error"> <i class="icon-red icon-remove"></i></td>
+												<td  class=" error"> <i class="icon-red"></i></td>
 												<td  class=" success"><i class="icon-green icon-ok"></i></td>
 										</tr>
 								</tbody>

@@ -15,6 +15,7 @@ import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
 
 public class ReservaSala implements Serializable {
 	
+	private int sala_id;
 	private Sala sala;
 	private Date dataInicio;
 	private Date dataFim;
@@ -28,7 +29,7 @@ public class ReservaSala implements Serializable {
 	private String observacao;
 	
 	public ReservaSala() {
-		super();
+		this.sala = new Sala();
 	}
 
 	public ReservaSala(int sala_id, Date dataInicio, Date dataFim,
@@ -69,7 +70,7 @@ public class ReservaSala implements Serializable {
 			JOptionPane.showMessageDialog(null,"RESERVA ERRO: "+e.getMessage());
 			e.printStackTrace();
 		}
-		
+		this.sala_id = sala_id;
 		this.dataInicio = dataEn(dataInicio);
 		this.dataFim = dataEn(dataFim);
 		this.horarioInicio = stringToDateH(horarioInicio);
@@ -84,6 +85,15 @@ public class ReservaSala implements Serializable {
 	
 	public Sala getSala(){
 		return this.sala;
+	}
+
+	
+	public int getSala_id() {
+		return sala_id;
+	}
+
+	public void setSala_id(int sala_id) {
+		this.sala_id = sala_id;
 	}
 
 	public Sala getSala(int sala_id){

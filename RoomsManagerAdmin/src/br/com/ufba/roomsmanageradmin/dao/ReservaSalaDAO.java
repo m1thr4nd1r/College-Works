@@ -36,7 +36,7 @@ public class ReservaSalaDAO implements Serializable{
 		String horario2 = h2+":"+m2+":00";
 
 		String sql = "INSERT INTO reserva_sala (sala_id,data_inicio,data_fim,horario_inicio,horario_termino,responsavel,reserva_para,evento_privado,email,telefone,obs)"+
-					 "VALUES("+reserva.getSala().getId()+",'"+data1+"','"+data2+"','"+horario1+"','"+horario2+
+					 "VALUES("+1+",'"+data1+"','"+data2+"','"+horario1+"','"+horario2+
 					 "','"+reserva.getResponsavel()+"','"+reserva.getReservadoPara()+"',"+reserva.isEventoPrivado()+",'"+reserva.getEmail()+"','"+reserva.getTelefone()+"','"+reserva.getObservacao()+"')";
 		
 		System.out.println(sql);

@@ -18,7 +18,11 @@ public class Sala implements Serializable{
 	private int 	setor_id;
 	
 	public Sala(){
-	
+		this.quadro = true;
+		retroprojetor = true;
+		multimidia = true;
+		arcondicionado = true;
+		setor_id = 1;
 	}
 	
 	public Sala(String nome, boolean quadro, boolean retroprojetor,
