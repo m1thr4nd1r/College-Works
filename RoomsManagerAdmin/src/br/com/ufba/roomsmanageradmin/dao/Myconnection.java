@@ -12,7 +12,7 @@ public class Myconnection{
     
     public static Statement getStatement() throws SQLException
     {
-    	 System.out.println("Chegou!");
+
         if(connection == null){
             String url = "jdbc:mysql://localhost:3306/roomsManager_development";
             String usuario = "root";  

@@ -7,113 +7,86 @@
  	xmlns:p="http://primefaces.org/ui"
     >
 <h:head>
-  <title>Reserva de Sala :: Lista</title>
-<link href="../../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
-<link href="../../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-<link href="../../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+  	<title>RoomsManagerAdmin :: Reservas de Salas</title>
+	<ui:include src="/js_comum.xhtml"></ui:include>
+	<ui:include src="/css_comum.xhtml"></ui:include>
 </h:head>
-
 <h:body>
-	<header>
-	    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
-    		<div class="navbar navbar-inverse">
-			  <div class="navbar-inner2">
-				<div class="container">
-				  <p:button styleClass="btn btn-navbar"></p:button>
-				  <a class="brand" href="">RoomsManager</a>
-				  <div class="nav-collapse collapse">
-					<ul class="nav">
-						<li class="">
-					  		<a href="../cadastra.do">Adicionar Sala</a>
-					  	</li>
-					  	<li class="">
-					  		<a href="../../usuario/create.do">Adicionar Usuario</a>
-					  	</li>
-					  	<li class="">
-					  		<a href="../../usuario/list.do">Listar Usuario</a>
-					  	</li>
-						 <li class="">
-						  	<h:link value="Adicionar Reserva" outcome="index" />
-						 </li>
-						 <li class="">
-						 	<h:link value="Listar Reserva" outcome="lista" />
-						 </li>
-					</ul>
-				  </div>
-				</div>
-			  </div>
-			</div>
-	    </p:layoutUnit>
-	</header>
-	<h:form prependId="false">  	
-		<p:dataTable id="reserva" var="reserva" value="#{reservaSalaBean.reservas}"
-			paginator="true" rows="5" 
-            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-			rowsPerPageTemplate="5,10,15"  
-            >
-			<f:facet name="header">
-				<h:outputText value="Salas Reservadas"/>
-			</f:facet>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Sala"/>
-				</f:facet>
-				<h:outputText value="#{reserva.sala.nome}"/>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Data de Inicio"/>
-				</f:facet>
-				<h:outputText value="#{reserva.dataInicio}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</h:outputText>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Data de Término"/>
-				</f:facet>
-				<h:outputText value="#{reserva.dataFim}">
-					<f:convertDateTime pattern="dd/MM/yyyy" />
-				</h:outputText>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Horário Inicio"/>
-				</f:facet>
-				<h:outputText value="#{reserva.horarioInicio}"/>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Horário de Término"/>
-				</f:facet>
-				<h:outputText value="#{reserva.horarioTermino}"/>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Responsável"/>
-				</f:facet>
-				<h:outputText value="#{reserva.responsavel}"/>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Reservador para"/>
-				</f:facet>
-				<h:outputText value="#{reserva.reservadoPara}"/>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Evento Privado"/>
-				</f:facet>
-				<h:outputText value="#{reserva.eventoPrivado}"/>
-			</p:column>
-			<p:column>
-				<f:facet name="header">
-					<h:outputText value="Telefone"/>
-				</f:facet>
-				<h:outputText value="#{reserva.telefone}"/>
-			</p:column>
-		</p:dataTable>
-	</h:form>
+	<section id="geral">
+		<ui:include src="/header.xhtml"></ui:include>
+		<p:layoutUnit position="center" id="conteudo">
+			<h:form prependId="false">  	
+				<p:dataTable id="reserva" var="reserva" value="#{reservaSalaBean.reservas}"
+					paginator="true" rows="5" 
+		            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+					rowsPerPageTemplate="5,10,15"  
+		            >
+					<f:facet name="header">
+						<h:outputText value="Salas Reservadas"/>
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Sala"/>
+						</f:facet>
+						<h:outputText value="#{reserva.sala.nome}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data de Inicio"/>
+						</f:facet>
+						<h:outputText value="#{reserva.dataInicio}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Data de Término"/>
+						</f:facet>
+						<h:outputText value="#{reserva.dataFim}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Horário Inicio"/>
+						</f:facet>
+						<h:outputText value="#{reserva.horarioInicio}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Horário de Término"/>
+						</f:facet>
+						<h:outputText value="#{reserva.horarioTermino}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Responsável"/>
+						</f:facet>
+						<h:outputText value="#{reserva.responsavel}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Reservador para"/>
+						</f:facet>
+						<h:outputText value="#{reserva.reservadoPara}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Evento Privado"/>
+						</f:facet>
+						<h:outputText value="#{reserva.eventoPrivado}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Telefone"/>
+						</f:facet>
+						<h:outputText value="#{reserva.telefone}"/>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:layoutUnit>
+		<ui:include src="/rodape.xhtml"></ui:include>
+	</section>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			dlg.show();

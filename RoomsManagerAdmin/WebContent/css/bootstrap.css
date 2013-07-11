@@ -6284,6 +6284,10 @@ a.badge:focus {
   border-right: 1px solid #ccc;
 }
 
+.navbar{
+	margin-bottom: 3px !important; /* Tamanho do box-shadow*/ 
+}
+
 @font-face {
   font-family: Impregnable;
   src: url('font/Impregnable_Personal_Use_Only.ttf');

@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
-
-import br.com.ufba.roomsmanageradmin.model.Login;
 
 public class SiteController  extends HttpServlet{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private HttpSession session;
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -22,10 +23,10 @@ public class SiteController  extends HttpServlet{
 		String nome = (String) session.getAttribute("nome");
 		
 		if(nome.isEmpty()){
-			out.println("<script>location.href='index.html';</script>");
+			out.println("<script>location.href='index.do';</script>");
 		}
 		
 		out.println("<script>location.href='sala/reserva/lista.do';</script>");
 	}
-
+	
 }

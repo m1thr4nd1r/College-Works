@@ -16,9 +16,7 @@ public class CadastraSalaBean implements Serializable{
 	private Sala sala = new Sala();
 	
 	public void cadastra(){
-		System.out.println("INSERT INTO sala (nome,quadro,retrojetor,multimidia,tipo,ar_condicionado,computadores,capacidade,setor_id)"+
-				 "VALUES("+sala.getNome()+",'"+sala.isQuadro()+"','"+sala.isRetroprojetor()+"','"+sala.isMultimidia()+"','"+sala.getTipo()+
-				 "','"+sala.isArcondicionado()+"','"+sala.getComputadores()+"','"+sala.getCapacidade()+"','"+sala.getSetor_id()+"')");
+		
 		SalaDAO salaDAO = new SalaDAO();
 		
 		try {

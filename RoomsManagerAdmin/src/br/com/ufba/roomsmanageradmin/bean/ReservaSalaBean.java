@@ -2,19 +2,14 @@ package br.com.ufba.roomsmanageradmin.bean;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.faces.bean.*;
 import javax.faces.event.*;
 import javax.swing.JOptionPane;
 
-import org.primefaces.event.*;
-
 import br.com.ufba.roomsmanageradmin.dao.ReservaSalaDAO;
-import br.com.ufba.roomsmanageradmin.model.Area;
 import br.com.ufba.roomsmanageradmin.model.ReservaSala;
 
 
@@ -22,9 +17,13 @@ import br.com.ufba.roomsmanageradmin.model.ReservaSala;
 @ManagedBean
 public class ReservaSalaBean implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ReservaSalaDAO rsDAO = new ReservaSalaDAO();
 	private ReservaSala reserva = new ReservaSala();
-	private List reservas;
+	private List<ReservaSala> reservas;
 	private int sala_id = 1;
 	
 	public String salva(ActionEvent ae) throws ParseException{
@@ -55,7 +54,7 @@ public class ReservaSalaBean implements Serializable{
 		return "reservaSalaFailed";
 	}
 	
-	public List getReservas(){
+	public List<ReservaSala> getReservas(){
 		
 		try {
 			this.reservas = rsDAO.getReservas();

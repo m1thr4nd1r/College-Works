@@ -9,6 +9,12 @@ import br.com.ufba.roomsmanageradmin.model.*;
 
 public class ReservaSalaDAO implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings("deprecation")
 	public void salva(ReservaSala reserva) throws SQLException, ParseException{
 		
 		int m = reserva.getDataInicio().getMonth()+1;
@@ -46,7 +52,7 @@ public class ReservaSalaDAO implements Serializable{
 		
 	}
 	
-	public List getReservas() throws SQLException{
+	public List<ReservaSala> getReservas() throws SQLException{
 		List <ReservaSala> lista = new ArrayList<ReservaSala>();
 		
 		String consulta = "SELECT * FROM reserva_sala";

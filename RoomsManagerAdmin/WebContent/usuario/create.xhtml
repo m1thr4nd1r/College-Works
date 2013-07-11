@@ -8,47 +8,13 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>RoomsManagerAdmin</title>
-		<script type="text/javascript" src="../js/padrao.js"></script>
-		<link href="../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
-	</h:head>  
-	<h:body>
-	<header>
-	    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
-    		<div class="navbar navbar-inverse">
-			  <div class="navbar-inner2">
-				<div class="container">
-				  <p:button styleClass="btn btn-navbar"></p:button>
-				  <a class="brand" href="">RoomsManager</a>
-				  <div class="nav-collapse collapse">
-					<ul class="nav">
-						<li class="">
-					  		<a href="../sala/cadastra.do">Adicionar Sala</a>
-					  	</li>
-					  	<li class="">
-					  		<a href="create.do">Adicionar Usuario</a>
-					  	</li>
-					  	<li class="">
-					  		<a href="list.do">Listar Usuario</a>
-					  	</li>
-					  	<li class="">
-					  		<a href="../sala/reserva/index.do">Adicionar Reserva</a>
-					  	</li>
-					  	<li class="">
-					  		<a href="../sala/reserva/lista.do">Listar Reserva</a>
-					  	</li>
-					</ul>
-				  </div>
-				</div>
-			  </div>
-			</div>
-	    </p:layoutUnit>
-	</header>
-	
- 		<p:layoutUnit position="center" id="conteudo">
+	<ui:include src="/js_comum.xhtml"></ui:include>
+	<ui:include src="/css_comum.xhtml"></ui:include>
+</h:head>
+<h:body>
+	<section id="geral">
+		<ui:include src="/header.xhtml"></ui:include>
+		<p:layoutUnit position="center" id="conteudo">
 			<div class="container-fluid offset4 span10">
 				<div class="row-fluid">
 					<p:message for="form"></p:message>
@@ -102,6 +68,8 @@
 						</h:form>
 					</div>
 				</div>
-		</p:layoutUnit>  
-	</h:body>
+			</p:layoutUnit>
+		<ui:include src="/rodape.xhtml"></ui:include>  
+	</section>
+</h:body>
 </html>

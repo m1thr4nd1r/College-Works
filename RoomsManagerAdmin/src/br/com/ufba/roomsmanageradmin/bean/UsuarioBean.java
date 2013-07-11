@@ -10,13 +10,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import javax.swing.JOptionPane;
 
-import br.com.ufba.roomsmanageradmin.dao.CadastraUsuarioDAO;
+import br.com.ufba.roomsmanageradmin.dao.UsuarioDAO;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
 
 @ManagedBean
 public class UsuarioBean implements Serializable{
 		
-	private CadastraUsuarioDAO userDAO = new CadastraUsuarioDAO();
+	private UsuarioDAO userDAO = new UsuarioDAO();
 	private Usuario usuario = new Usuario();
 	private List usuarios; 
 		

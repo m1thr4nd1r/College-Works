@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets" 
+       xmlns:f="http://java.sun.com/jsf/core" 
+       xmlns:h="http://java.sun.com/jsf/html"
+ 	   xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>RoomsManagerAdmin :: </title>
+	<ui:include src="/js_comum.xhtml"></ui:include>
+	<ui:include src="/css_comum.xhtml"></ui:include>
+</h:head>
+<h:body>
+	<section id="geral">
+		<ui:include src="/header.xhtml"></ui:include>
+		<p:layoutUnit position="center" id="conteudo">
+			<div class="container-fluid offset4 span8">
+				<div class="row-fluid">
+					<h1 class="titulo_mapa">Mapa Sala</h1>					
+					<h:form id="form">
+					    <p:tree id="mapa" styleClass="mapTree" value="#{mapaSalaBean.root}" var="page" animate="true">
+					        <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">  
+					            <h:outputText value="#{page.titulo}"/>  
+					        </p:treeNode>  
+					        <p:treeNode type="pagina" icon="ui-icon-document">  
+					            <a href="#{page.path}">
+					            	<h:outputText value="#{page.titulo}"/>
+				            	</a>  
+					        </p:treeNode>  
+					    </p:tree>
+					</h:form>
+				</div>
+			</div>
+		</p:layoutUnit>
+		<ui:include src="/rodape.xhtml"></ui:include>
+	</section>
+</h:body>
+</html>

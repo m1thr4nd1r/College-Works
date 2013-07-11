@@ -10,6 +10,10 @@ import br.com.ufba.roomsmanageradmin.model.Login;
 
 public class LoginController extends HttpServlet{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private HttpSession session;
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -28,6 +32,6 @@ public class LoginController extends HttpServlet{
 		}
 		
 		JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
-		out.println("<script>location.href='index.html';</script>");
+		out.println("<script>location.href='"+request.getRequestURL()+"/../index.do';</script>");
 	}
 }

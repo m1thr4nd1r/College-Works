@@ -8,50 +8,20 @@
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>RoomsManagerAdmin::Reserva de Sala</title>
-<link href="../../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
-<link href="../../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-<link href="../../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" /> 		
+	<ui:include src="/js_comum.xhtml"></ui:include>
+	<ui:include src="/css_comum.xhtml"></ui:include>
 </h:head>
 <h:body>
-		<header>
-		    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
-	    		<div class="navbar navbar-inverse">
-				  <div class="navbar-inner2">
-					<div class="container">
-					  <p:button styleClass="btn btn-navbar"></p:button>
-					  <a class="brand" href="">RoomsManager</a>
-					  <div class="nav-collapse collapse">
-						<ul class="nav">
-							<li class="">
-						  		<a href="../cadastra.do">Adicionar Sala</a>
-						  	</li>
-						  	<li class="">
-						  		<a href="../../usuario/create.do">Adicionar Usuario</a>
-						  	</li>
-						  	<li class="">
-						  		<a href="../../usuario/list.do">Listar Usuario</a>
-						  	</li>
-						   <li class="">
-						  	 <h:link value="Adicionar Reserva" outcome="index" />
-						   </li>
-						   <li class="">
-						  	 <h:link value="Listar Reserva" outcome="lista" />
-						   </li>
-						</ul>
-					  </div>
-					</div>
-				  </div>
-				</div>
-		    </p:layoutUnit>
-		</header>
-		<p:growl id="growl" showDetail="false" life="6000" />
+	<section id="geral">
+		<ui:include src="/header.xhtml"></ui:include>
 		<p:layoutUnit position="center" id="conteudo">
+			<p:growl id="growl" showDetail="false" life="6000" />
 			<div class="container-fluid offset3 span10">
 				<div class="row-fluid">
 					<p:message for="form"></p:message>
 					<h:form id="form">
 						<p:fieldset legend="Reserva de Sala">
-							<div class="offset3">
+							<div class="offset3 span4">
 								<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaBean.reserva.sala.id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
 						            <f:selectItem itemLabel="Sala 1" itemValue="1" />  
 						        </p:selectOneMenu>
@@ -100,5 +70,7 @@
 				</div>
 			</div>
 		</p:layoutUnit>
+		<ui:include src="/rodape.xhtml"></ui:include>
+	</section>
 </h:body>
 </html>

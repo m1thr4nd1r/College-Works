@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets" 
+       xmlns:f="http://java.sun.com/jsf/core" 
+       xmlns:h="http://java.sun.com/jsf/html"
+ 	   xmlns:p="http://primefaces.org/ui">
+ 	   
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>RoomsManagerAdmin::Cadastra Sala</title>
+<ui:include src="/js_comum.xhtml"></ui:include>
+<ui:include src="/css_comum.xhtml"></ui:include>
+</h:head>
+<h:body>
+	<section id="geral">
+		<ui:include src="/header.xhtml"></ui:include>
+		<p:growl id="growl" showDetail="false" life="6000" />
+		<p:layoutUnit position="center" id="conteudo">
+			<div class="container-fluid offset3 span10">
+				<div class="row-fluid">					
+					<p:message for="form"></p:message>
+					<h:form id="form">
+						<p:fieldset legend="Cadastro de Sala">
+							<div class="offset3">
+								<h:panelGrid columns="2">
+									<p:outputLabel for="dNome">Nome</p:outputLabel>
+									<p:inputText id="dNome" value="#{cadastraSalaBean.sala.nome}" size="60" locale="pt_BR" required="true"/>
+									<p:outputLabel for="dComputadores">Computadores</p:outputLabel>
+									<p:inputText id="dComputadores" value="#{cadastraSalaBean.sala.computadores}" size="60" locale="pt_BR" required="true"/>
+									<p:outputLabel for="dCapacidade">Capacidade</p:outputLabel>
+									<p:inputText id="dCapacidade" value="#{cadastraSalaBean.sala.capacidade}" size="60" locale="pt_BR" required="true"/>
+									<p:outputLabel for="iTipo">Tipo </p:outputLabel>  
+							       	<p:selectOneListbox id="iTipo" value="#{cadastraSalaBean.sala.tipo}" required="true">  
+							           <f:selectItem itemLabel="Reunião" itemValue="Reunião" />  
+							           <f:selectItem itemLabel="Laboratório" itemValue="Laboratório" />  
+							           <f:selectItem itemLabel="Auditório" itemValue="Auditório" />  
+							       	</p:selectOneListbox>  
+									<p:outputPanel id="customPanel">  
+										  <p:outputLabel for="dQuadro">Possui Quadro</p:outputLabel> 
+									      <p:selectOneRadio  id="dQuadro" value="#{cadastraSalaBean.sala.quadro}" layout="custom" required="true">  
+									          <f:selectItem  itemLabel="Sim" itemValue="true" />  
+									          <f:selectItem  itemLabel="Não" itemValue="false" />						           
+									    </p:selectOneRadio> 
+										<h:panelGrid columns="2">  
+											<p:radioButton id="opt1" for="dQuadro" itemIndex="0"/>  
+											<h:outputLabel for="opt1" value="SIM" />  								
+											<p:radioButton id="opt2" for="dQuadro" itemIndex="1"/>  
+											<h:outputLabel for="opt2" value="Não" />								  
+										</h:panelGrid>
+									</p:outputPanel>
+									<p:outputPanel id="customPanel1">  
+										  <p:outputLabel for="dRetropojetor">Possui Retropojetor</p:outputLabel> 
+									      <p:selectOneRadio  id="dRetropojetor" value="#{cadastraSalaBean.sala.retroprojetor}" layout="custom" required="true">  
+									          <f:selectItem  itemLabel="Sim" itemValue="true" />  
+									          <f:selectItem  itemLabel="Não" itemValue="false" />						           
+									    </p:selectOneRadio> 
+										<h:panelGrid columns="2">  
+											<p:radioButton id="opt3" for="dRetropojetor" itemIndex="0"/>  
+											<h:outputLabel for="opt3" value="SIM" />  								
+											<p:radioButton id="opt4" for="dRetropojetor" itemIndex="1"/>  
+											<h:outputLabel for="opt4" value="Não" />								  
+										</h:panelGrid>
+									</p:outputPanel>
+									<p:outputPanel id="customPanel2">  
+										  <p:outputLabel for="dMultimidia">Possui Multimidia</p:outputLabel> 
+									      <p:selectOneRadio  id="dMultimidia" value="#{cadastraSalaBean.sala.multimidia}" layout="custom" required="true">  
+									          <f:selectItem  itemLabel="Sim" itemValue="true" />  
+									          <f:selectItem  itemLabel="Não" itemValue="false" />						           
+									    </p:selectOneRadio> 
+										<h:panelGrid columns="2">  
+											<p:radioButton id="opt5" for="dMultimidia" itemIndex="0"/>  
+											<h:outputLabel for="opt5" value="SIM" />  								
+											<p:radioButton id="opt6" for="dMultimidia" itemIndex="1"/>  
+											<h:outputLabel for="opt6" value="Não" />								  
+										</h:panelGrid>
+									</p:outputPanel>
+									<p:outputPanel id="customPanel3">  
+										  <p:outputLabel for="dArCondiconado">Possui Arcondicionado</p:outputLabel> 
+									      <p:selectOneRadio  id="dArCondiconado" value="#{cadastraSalaBean.sala.arcondicionado}" layout="custom" required="true">  
+									          <f:selectItem  itemLabel="Sim" itemValue="true" />  
+									          <f:selectItem  itemLabel="Não" itemValue="false" />						           
+									    </p:selectOneRadio> 
+										<h:panelGrid columns="2">  
+											<p:radioButton id="opt7" for="dArCondiconado" itemIndex="0"/>  
+											<h:outputLabel for="opt7" value="SIM" />  								
+											<p:radioButton id="opt8" for="dArCondiconado" itemIndex="1"/>  
+											<h:outputLabel for="opt8" value="Não" />								  
+										</h:panelGrid>
+									</p:outputPanel>
+								</h:panelGrid> 
+							</div>
+				  	    </p:fieldset>
+						<div class="span12">
+							<div class="bt span">
+								<div class="span2">
+							  		<p:commandButton value="Enviar" actionListener="#{cadastraSalaBean.cadastra}"/>
+							  	</div>
+							  	<div class="span2">
+							  		<p:commandButton value="Resetar" type="reset"/>
+							  	</div>
+						  	</div>
+				  		</div>
+					</h:form>
+				</div>
+			</div>
+		</p:layoutUnit>
+		<ui:include src="/rodape.xhtml"></ui:include>
+	</section>
+</h:body>
+</html>
