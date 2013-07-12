@@ -29,18 +29,19 @@ public class SalaBean implements Serializable{
 	private static ArrayList<Sala> listaSalas = new ArrayList<Sala>();
 	private Sala sala = new Sala();
 	
-	public void cadastra(){
+	public String cadastra(){
 		
 		SalaDAO salaDAO = new SalaDAO();
 		
 		try {
 			salaDAO.salva(sala);
-			lista();
+			JOptionPane.showMessageDialog(null, "Sala cadastrada com sucesso.");
+			return "cadastra.do?faces-redirect=true";
 		} catch (SQLException e) {
 			System.out.println("#"+e.getMessage());
 			e.printStackTrace();
 		}
-		
+		return "cadastra.do?faces-redirect=true";
 	}
 	
 	public void lista(){
