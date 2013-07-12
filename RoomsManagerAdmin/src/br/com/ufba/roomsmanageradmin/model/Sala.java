@@ -118,6 +118,11 @@ public class Sala implements Serializable{
 	public void setCapacidade(int capacidade) {
 		this.capacidade = capacidade;
 	}
+
+	public String getModel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 

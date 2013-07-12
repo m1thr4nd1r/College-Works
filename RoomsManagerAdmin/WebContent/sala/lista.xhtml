@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:h="http://java.sun.com/jsf/html"
+ 	xmlns:p="http://primefaces.org/ui"
+    >
+<h:head>
+  	<title>RoomsManagerAdmin :: Lista de Salas</title>
+	<ui:include src="/js_comum.xhtml"></ui:include>
+	<ui:include src="/css_comum.xhtml"></ui:include>
+</h:head>
+<h:body>
+	<section id="geral">
+		<ui:include src="/header.xhtml"></ui:include>
+		<p:layoutUnit position="center" id="conteudo">
+			<h:form prependId="false">  	
+				<p:dataTable id="sala" var="salas" value="#{salaBean.listaSalas}"
+					paginator="true" rows="5" 
+		            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+					rowsPerPageTemplate="5,10,15" 
+					editable="true"
+		            >
+					<f:facet name="header">
+						<h:outputText value="Lista de salas"/>
+					</f:facet>
+					<p:ajax event="rowEdit" listener="#{tableBean.onEdit}" update=":form:messages" />  
+        			<p:ajax event="rowEditCancel" listener="#{tableBean.onCancel}" update=":form:messages" />  
+  
+					<p:column headerText="Model">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{salas.nome}"/>
+							</f:facet>							
+						    <f:facet name="input">  
+	                    		<p:inputText value="#{salas.nome}" style="width:100%"/>  
+                			</f:facet>
+                		</p:cellEditor>  
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Tipo"/>
+						</f:facet>
+						<h:outputText value="#{salas.tipo}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Computadores"/>
+						</f:facet>
+						<h:outputText value="#{salas.computadores}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Capacidade"/>
+						</f:facet>
+						<h:outputText value="#{salas.capacidade}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Quadro"/>
+						</f:facet>
+						<h:outputText value="#{salas.quadro}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Retroprojetor"/>
+						</f:facet>
+						<h:outputText value="#{salas.retroprojetor}"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Multimidia"/>
+						</f:facet>
+						<h:outputText value="#{salas.multimidia}"/>
+					</p:column>					
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Arcondicionado"/>
+						</f:facet>
+						<h:outputText value="#{salas.arcondicionado}"/>
+					</p:column>					
+					<p:column style="width:6%">  
+            			<p:rowEditor />  
+        			</p:column> 
+				</p:dataTable>
+			</h:form>
+		</p:layoutUnit>
+		<ui:include src="/rodape.xhtml"></ui:include>
+	</section>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			dlg.show();
+		});
+	</script>
+</h:body>	
+</html>

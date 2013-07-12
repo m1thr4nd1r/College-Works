@@ -3,12 +3,21 @@ package br.com.ufba.roomsmanageradmin.bean;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.UUID;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.swing.JOptionPane;
+import java.util.UUID;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.RowEditEvent;
 
 import org.eclipse.jdt.internal.compiler.ast.Literal;
+import org.primefaces.event.RowEditEvent;
 
 import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
 import br.com.ufba.roomsmanageradmin.model.Sala;
@@ -37,12 +46,27 @@ public class SalaBean implements Serializable{
 	public void lista(){
 		SalaDAO salaDAO = new SalaDAO();
 		try{
-			salaDAO.listaSala(listaSalas);
+			listaSalas = salaDAO.lista();
 		}catch(SQLException e){
 		
 		}
 		
 	}
+	 
+	 private String getRandomModel() {  
+	        return UUID.randomUUID().toString().substring(0, 8);  
+	    } 
+	 public void onEdit(RowEditEvent event) {  
+	        FacesMessage msg = new FacesMessage("Sala sala editada", ((Sala) event.getObject()).getModel());  
+	  
+	        FacesContext.getCurrentInstance().addMessage(null, msg);  
+	    }  
+	      
+	    public void onCancel(RowEditEvent event) {  
+	        FacesMessage msg = new FacesMessage("Edição Cancelada", ((Sala) event.getObject()).getModel());  
+	  
+	        FacesContext.getCurrentInstance().addMessage(null, msg);  
+	    }  
 	
 	
 	public Sala getSala(){
@@ -50,6 +74,7 @@ public class SalaBean implements Serializable{
 	}
 	
 	public ArrayList<Sala> getListaSalas(){
+		lista();
 		return listaSalas;
 	}
 }
