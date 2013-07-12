@@ -30,7 +30,8 @@ public class ReservaSala implements Serializable {
 	private String email;
 	private String telefone;
 	private String observacao;
-	
+	private boolean aceito = false;
+			
 	public ReservaSala() {
 		this.sala = new Sala();
 	}
@@ -38,7 +39,7 @@ public class ReservaSala implements Serializable {
 	public ReservaSala(int sala_id, Date dataInicio, Date dataFim,
 			Date horarioInicio, Date horarioTermino, String responsavel,
 			String reservadoPara, boolean eventoPrivado, String email,
-			String telefone, String observacao) {
+			String telefone, String observacao, boolean aceito) {
 		super();
 		
 		SalaDAO s = new SalaDAO();
@@ -58,6 +59,7 @@ public class ReservaSala implements Serializable {
 		this.email = email;
 		this.telefone = telefone;
 		this.observacao = observacao;
+		this.aceito = aceito;
 	}
 
 	public ReservaSala(int sala_id, String dataInicio, String dataFim,
@@ -182,6 +184,14 @@ public class ReservaSala implements Serializable {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+	
+	public boolean isAceito() {
+		return aceito;
+	}
+
+	public void setAceito(boolean aceito) {
+		this.aceito = aceito;
 	}
 
 	/**
