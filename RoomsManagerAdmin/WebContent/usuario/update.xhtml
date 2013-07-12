@@ -20,7 +20,7 @@
 						<h:form id="form">
 							
 							<p:fieldset legend="Editar Usuario" >
-							<h:panelGrid columns="2">
+							<h:panelGrid id="panelGrid" columns="2">
 							
 							<p:outputLabel for="e-mail">Email</p:outputLabel>
 							<p:inputText id="e-mail" value="#{usuarioBean.usuario.email}" required="true" title="Email" requiredMessage="O campo 'Email' é Obrigatório"  validatorMessage="Email inválido">
