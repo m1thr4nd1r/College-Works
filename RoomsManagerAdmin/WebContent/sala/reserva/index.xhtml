@@ -22,8 +22,8 @@
 					<h:form id="form">
 						<p:fieldset legend="Reserva de Sala">
 							<div class="offset3 span4">
-								<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaBean.reserva.sala.id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
-						            <f:selectItem itemLabel="Sala 1" itemValue="1" />  
+								<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaBean.sala_id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
+						            <f:selectItems value="#{reservaSalaBean.salas}" var="sala" itemLabel="#{sala.nome}" itemValue="#{sala.id}"/>
 						        </p:selectOneMenu>
 								<p:outputLabel for="dInicio">Data de Inicio</p:outputLabel>
 								<p:calendar id="dInicio" value="#{reservaSalaBean.reserva.dataInicio}" locale="pt_BR" pattern="dd/MM/yyyy" required="true"/>

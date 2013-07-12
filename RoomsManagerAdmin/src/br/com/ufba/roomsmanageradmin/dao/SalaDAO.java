@@ -1,9 +1,7 @@
 package br.com.ufba.roomsmanageradmin.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.*;
+import java.sql.*;
 
 import br.com.ufba.roomsmanageradmin.model.Sala;
 
@@ -29,7 +27,7 @@ public class SalaDAO {
 		ResultSet rs = st.executeQuery(consulta);
 		
 		while(rs.next()){
-			sala = new Sala(rs.getString("nome"), rs.getBoolean("quadro"), rs.getBoolean("retroprojetor"), rs.getBoolean("multimidia"), rs.getString("tipo"), rs.getBoolean("ar_condicionado"), rs.getInt("computadores"), rs.getInt("capacidade"), rs.getInt("setor_id"));
+			sala = new Sala(rs.getInt("id"),rs.getString("nome"), rs.getBoolean("quadro"), rs.getBoolean("retroprojetor"), rs.getBoolean("multimidia"), rs.getString("tipo"), rs.getBoolean("ar_condicionado"), rs.getInt("computadores"), rs.getInt("capacidade"), rs.getInt("setor_id"));
 		}
 		
 		return sala;
@@ -46,5 +44,20 @@ public class SalaDAO {
 			salas.add(new Sala(rs.getString("nome"), rs.getBoolean("quadro"), rs.getBoolean("retroprojetor"), rs.getBoolean("multimidia"), rs.getString("tipo"), rs.getBoolean("ar_condicionado"), rs.getInt("computadores"), rs.getInt("capacidade"), rs.getInt("setor_id")));
 		}
 		
+	}
+	
+	public List<Sala> getSalas() throws SQLException{
+		List<Sala> salas = new ArrayList<Sala>();
+		
+		String consulta = "SELECT * FROM sala ";
+		
+		Statement st = (Statement) Myconnection.getStatement();
+		ResultSet rs = st.executeQuery(consulta);
+		
+		while(rs.next()){
+			salas.add(new Sala(rs.getInt("id"),rs.getString("nome"), rs.getBoolean("quadro"), rs.getBoolean("retroprojetor"), rs.getBoolean("multimidia"), rs.getString("tipo"), rs.getBoolean("ar_condicionado"), rs.getInt("computadores"), rs.getInt("capacidade"), rs.getInt("setor_id")));
+		}
+		
+		return salas;
 	}
 }

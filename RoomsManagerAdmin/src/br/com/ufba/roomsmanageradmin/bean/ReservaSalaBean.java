@@ -10,7 +10,9 @@ import javax.faces.event.*;
 import javax.swing.JOptionPane;
 
 import br.com.ufba.roomsmanageradmin.dao.ReservaSalaDAO;
+import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
 import br.com.ufba.roomsmanageradmin.model.ReservaSala;
+import br.com.ufba.roomsmanageradmin.model.Sala;
 
 
 
@@ -24,14 +26,20 @@ public class ReservaSalaBean implements Serializable{
 	private ReservaSalaDAO rsDAO = new ReservaSalaDAO();
 	private ReservaSala reserva = new ReservaSala();
 	private List<ReservaSala> reservas;
-	private int sala_id = 1;
+	private List<Sala> salas;
+	private String sala_id;
 	
 	public String salva(ActionEvent ae) throws ParseException{
 		
 		try {
 			
 			String dataInicio = getData(reserva.getDataInicio().toString());
-			String dataFim = getData(reserva.getDataFim().toString());
+			
+			String dataFim = null;
+			
+			if(reserva.getDataFim() != null){
+				dataFim = getData(reserva.getDataFim().toString());
+			}
 			
 			if(dataFim == null || dataFim.isEmpty()){
 				dataFim = dataInicio;
@@ -39,11 +47,11 @@ public class ReservaSalaBean implements Serializable{
 			
 			String HorarioInicio = getHora(reserva.getHorarioInicio().toString());
 			String HorarioTermino = getHora(reserva.getHorarioTermino().toString());
-			
-			ReservaSala res = new ReservaSala(sala_id,dataInicio,dataFim,HorarioInicio,HorarioTermino,reserva.getResponsavel(),reserva.getReservadoPara(),reserva.isEventoPrivado(),reserva.getEmail(),reserva.getTelefone(),reserva.getObservacao());
+			System.out.println("$$"+sala_id);
+			ReservaSala res = new ReservaSala(Integer.parseInt(sala_id),dataInicio,dataFim,HorarioInicio,HorarioTermino,reserva.getResponsavel(),reserva.getReservadoPara(),reserva.isEventoPrivado(),reserva.getEmail(),reserva.getTelefone(),reserva.getObservacao());
 			rsDAO.salva(res);
 			
-			JOptionPane.showMessageDialog(null,"Cadastrado com Sucesso!");
+			JOptionPane.showMessageDialog(null,"Cadastrado efetuado com Sucesso!");
 			return "reservaSalaSucesso?faces-redirect=true";
 			
 		} catch (SQLException e) {
@@ -54,6 +62,14 @@ public class ReservaSalaBean implements Serializable{
 		return "reservaSalaFailed";
 	}
 	
+	public String getSala_id() {
+		return sala_id;
+	}
+	
+	public void setSala_id(String sala_id) {
+		this.sala_id = sala_id;
+	}
+
 	public List<ReservaSala> getReservas(){
 		
 		try {
@@ -66,10 +82,17 @@ public class ReservaSalaBean implements Serializable{
 		return this.reservas;
 	}
 	
-	public int getSala_id() {
-		return sala_id;
+	public List<Sala> getSalas(){
+		SalaDAO dao = new SalaDAO();
+		try {
+			salas = dao.getSalas();
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"GETRESERVAS GETSALAS ERRO: "+e.getMessage());
+			e.printStackTrace();
+		}
+		return salas;
 	}
-
+	
 	public ReservaSala getReserva(){
 		return reserva;
 	}

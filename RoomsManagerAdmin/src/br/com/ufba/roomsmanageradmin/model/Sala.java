@@ -40,6 +40,22 @@ public class Sala implements Serializable{
 		this.setor_id = 1;
 	}
 
+	public Sala(int id, String nome, boolean quadro, boolean retroprojetor,
+			boolean multimidia, String tipo, boolean arcondicionado,
+			int computadores, int capacidade, int setor_id) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.quadro = quadro;
+		this.retroprojetor = retroprojetor;
+		this.multimidia = multimidia;
+		this.tipo = tipo;
+		this.arcondicionado = arcondicionado;
+		this.computadores = computadores;
+		this.capacidade = capacidade;
+		this.setor_id = setor_id;
+	}
+
 	public int getId() {
 		return id;
 	}
