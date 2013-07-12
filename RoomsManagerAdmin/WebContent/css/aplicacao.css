@@ -109,11 +109,9 @@ body{
  
  .logo_index h1{
  	font-family: Admiration;
- 	font-size: 24pt;
+ 	font-size: 30pt;
  	color: #FF9900;
- 	-moz-text-shadow: 5px 3px #8D8D8D;
- 	-webkit-text-shadow: 5px 3px #8D8D8D;
- 	text-shadow: 5px 3px #8D8D8D;
+ 	
  }
  
  .nav{

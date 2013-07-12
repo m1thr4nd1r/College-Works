@@ -27,6 +27,7 @@ public class MapaSalaBean implements Serializable {
 	    
 	    new DefaultTreeNode("pagina",new Pagina("index.do"), sala);
 	    new DefaultTreeNode("pagina",new Pagina("cadastro.do"), sala);
+	    new DefaultTreeNode("pagina",new Pagina("lista.do"), sala);
 	    
 	    new DefaultTreeNode("pagina",new Pagina("index.do","reserva"), reserva);
 	    new DefaultTreeNode("pagina",new Pagina("lista.do","reserva"),reserva);
