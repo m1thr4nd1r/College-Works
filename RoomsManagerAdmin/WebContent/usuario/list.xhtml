@@ -7,7 +7,7 @@
  	xmlns:p="http://primefaces.org/ui"
     >
 <h:head>
-  <title>Usuario Cadastrado com Sucesso!</title>
+  <title>Lista de Usuarios Cadastrado com Sucesso!</title>
 	<ui:include src="/js_comum.xhtml"></ui:include>
 	<ui:include src="/css_comum.xhtml"></ui:include>
 </h:head>
@@ -26,23 +26,9 @@
 					</f:facet>
 					<p:column>
 						<f:facet name="header">
-							<h:outputText value="Usuario"/>
-						</f:facet>
-						<h:outputText value="#{usuario.nome}"/>
-					</p:column>
-					<p:column>
-						<f:facet name="header">
 							<h:outputText value="Email"/>
 						</f:facet>
 						<h:outputText value="#{usuario.email}">
-							<f:convertDateTime pattern="dd/MM/yyyy" />
-						</h:outputText>
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Senha"/>
-						</f:facet>
-						<h:outputText value="#{usuario.senha}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</p:column>
@@ -58,6 +44,21 @@
 						</f:facet>
 						<h:outputText value="#{usuario.tipo}"/>
 					</p:column>
+					<p:column style="width:4%">  
+						<p:commandButton id="viewButton" action="#{usuarioBean.viewLink}" icon="ui-icon-search" title="Visualizar">  
+		                	<f:setPropertyActionListener value="#{usuario.email}" target="#{usuarioBean.url}" />  
+		            	</p:commandButton>  
+        			</p:column>
+        			<p:column style="width:4%">  
+						<p:commandButton id="editButton" action="#{usuarioBean.updateLink}" icon="ui-icon-pencil" title="Editar">  
+		                	<f:setPropertyActionListener value="#{usuario.email}" target="#{usuarioBean.url}" />  
+		            	</p:commandButton>  
+        			</p:column>
+					<p:column style="width:4%">  
+						<p:commandButton id="deleteButton" action="#{usuarioBean.deletar}" icon="ui-icon-trash" title="Deletar">  
+		                	<f:setPropertyActionListener value="#{usuario.email}" target="#{usuarioBean.url}" />  
+		            	</p:commandButton>  
+        			</p:column>
 				</p:dataTable>
 			</h:form>
 		</p:layoutUnit>

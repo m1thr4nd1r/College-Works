@@ -62,4 +62,11 @@ public class Usuario {
 	public void setNum_cadastro(int num_cadastro) {
 		this.num_cadastro = num_cadastro;
 	}
+	
+	public String isAdmin()
+	{
+		if (this.tipo)
+			return "Administrador";
+		return	"Funcionario"; 
+	}
 }

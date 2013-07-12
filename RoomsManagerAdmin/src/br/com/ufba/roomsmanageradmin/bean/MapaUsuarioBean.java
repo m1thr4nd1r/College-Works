@@ -27,8 +27,6 @@ public class MapaUsuarioBean implements Serializable {
 	    new DefaultTreeNode("pagina",new Pagina("index.do"), user);
 	    new DefaultTreeNode("pagina",new Pagina("create.do"), user);
 	    new DefaultTreeNode("pagina",new Pagina("list.do"), user);
-	    new DefaultTreeNode("pagina",new Pagina("update.do"), user);
-	    new DefaultTreeNode("pagina",new Pagina("view.do"), user);
 	    
     }
     
