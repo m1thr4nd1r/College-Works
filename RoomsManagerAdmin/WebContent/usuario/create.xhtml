@@ -21,7 +21,7 @@
 						<h:form id="form">
 							
 							<p:fieldset legend="Cadastro de Usuario" >
-							<h:panelGrid columns="2">
+							<h:panelGrid id="panelGrid" columns="2">
 							
 							<p:outputLabel for="e-mail">Email</p:outputLabel>
 							<p:inputText id="e-mail" value="#{usuarioBean.usuario.email}" required="true" title="Email" requiredMessage="O campo 'Email' é Obrigatório"  validatorMessage="Email inválido">
@@ -60,7 +60,9 @@
 								  		<p:commandButton value="Enviar" id="enviar" ajax="false" actionListener="#{usuarioBean.salvar}"/>
 								  	</div>
 								  	<div class="span2">
-								  		<p:commandButton value="Resetar" type="reset"/>
+								  		<p:commandButton value="Resetar" update="panelGrid" process="@this">
+									        <p:resetInput target="panelGrid"/>
+									    </p:commandButton>
 								  	</div>
 							  	</div>
 					  		</div>

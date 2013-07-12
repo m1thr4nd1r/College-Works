@@ -14,35 +14,44 @@
 	<section id="geral">
 		<ui:include src="/header.xhtml"></ui:include>
 		<p:layoutUnit position="center" id="conteudo">
-			<h:form>
-				<p:fieldset widgetVar="regWidget" style="width: 600px;">
-				  
-					<h:panelGrid columns="2" width="550" border="0">
-				    
-				    	<h:outputText value="Nome de Usuario" />
-				    	<h:outputText id="user" value="#{usuarioBean.username}"/>
-				    
-				    	<h:outputText value="Senha" />
-				    	<h:outputText id="senha" value="#{usuarioBean.senha}"/>
-				    
-				    	<h:outputText value="Nome" />
-				    	<h:outputText id="nome" value="#{usuarioBean.nome}"/>
-				    
-				    	<h:outputText value="Email" />
-					    <h:outputText id="email" value="#{usuarioBean.email}"/>
-				    
-					    <h:outputText value="Numero de Cadastro" />
-					    <h:outputText id="num_cadastro" value="#{usuarioBean.num_cadastro}"/>
-				    
-				    	<h:outputText value="Tipo de Usuario" />
-					    <h:outputText id="tipo" value="#{usuarioBean.tipo}"/>
-				        
-				    	<p:commandButton value="Editar" action="update?faces-redirect=true"></p:commandButton>
-				    	<p:commandButton value="Voltar" action="list?faces-redirect=true"></p:commandButton>
-				   
-					</h:panelGrid>
-				</p:fieldset>
-			</h:form>
+			<div class="container-fluid offset4 span10">
+				<div class="row-fluid">
+					<p:message for="form"></p:message>
+						<h:form id="form">
+							
+							<p:fieldset legend="Editar Usuario" >
+							<h:panelGrid columns="2">
+							
+							<p:outputLabel for="e-mail">Email: </p:outputLabel>
+							<h:outputText id="e-mail" value="#{usuarioBean.usuario.email}" title="Email"/>
+															
+							<p:outputLabel for="senha">Senha: </p:outputLabel>
+							<h:outputText id="senha" style="width: 300px" value="#{usuarioBean.usuario.senha}" title="Senha"/>
+							
+							<p:outputLabel for="nome">Nome: </p:outputLabel>
+							<h:outputText id="nome" style="width: 300px" value="#{usuarioBean.usuario.nome}" title="Nome" />
+							
+							<p:outputLabel for="num_cadastro">Numero de Cadastro: </p:outputLabel>
+							<h:outputText id="num_cadastro" value="#{usuarioBean.usuario.num_cadastro}" title="Numero de Cadastro"/>
+							
+							<p:outputLabel for="tipo">Tipo de Funcionario: </p:outputLabel>
+							<h:outputText id="tipo" value="#{usuarioBean.usuario.tipo}" title="Tipo de Funcionario"/>
+							
+							</h:panelGrid>
+							</p:fieldset>
+							
+							<div class="span12">
+								<div class="bt span">
+									<div class="span2">
+								  		<p:commandButton value="Editar" id="enviar" ajax="false" action="#{usuarioBean.updateLink}">
+								  			<f:setPropertyActionListener value="#{usuario.email}" target="#{usuarioBean.url}" />
+								  		</p:commandButton>  
+								  	</div>
+							  	</div>
+					  		</div>
+						</h:form>
+					</div>
+				</div>
 		</p:layoutUnit>
 		<ui:include src="/rodape.xhtml"></ui:include>
 	</section>
