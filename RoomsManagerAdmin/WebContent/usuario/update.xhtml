@@ -59,7 +59,9 @@
 								  		<p:commandButton value="Enviar" id="enviar" ajax="false" actionListener="#{usuarioBean.salvar}"/>
 								  	</div>
 								  	<div class="span2">
-								  		<p:commandButton value="Resetar" type="reset"/>
+								  		<p:commandButton value="Resetar" update="panelGrid" process="@this">
+									        <p:resetInput target="panelGrid"/>
+									    </p:commandButton>
 								  	</div>
 							  	</div>
 					  		</div>
