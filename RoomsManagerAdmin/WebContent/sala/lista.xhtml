@@ -36,47 +36,87 @@
                 			</f:facet>
                 		</p:cellEditor>  
 					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Tipo"/>
-						</f:facet>
-						<h:outputText value="#{salas.tipo}"/>
+					<p:column headerText="Tipo">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{salas.tipo}"/>
+							</f:facet>
+							<f:facet name="input" style="width:100%">
+								<p:inputText value="#{salas.tipo}"/>	
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Computadores"/>
-						</f:facet>
-						<h:outputText value="#{salas.computadores}"/>
+					<p:column headerText="Computadores" >
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{salas.computadores}"/>
+							</f:facet>
+							<f:facet name="input" style="width:100%">
+								<p:inputText value="#{salas.computadores}"/>
+							</f:facet>
+						</p:cellEditor>	
 					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Capacidade"/>
-						</f:facet>
-						<h:outputText value="#{salas.capacidade}"/>
+					<p:column headerText="Capacidade">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{salas.capacidade}"/>
+							</f:facet>
+							<f:facet name="input" style="width:100%">
+								<p:inputText value="#{salas.capacidade}"/>
+							</f:facet>
+						</p:cellEditor>	
 					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Quadro"/>
-						</f:facet>
-						<h:outputText value="#{salas.quadro}"/>
+					<p:column headerText="Quadro">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{salas.quadro}"/>
+							</f:facet>
+							<f:facet name="input" >
+								<h:selectOneMenu value="#{salas.quadro}" style="width:100%">
+									<f:selectItem itemLabel="Sim" itemValue="true"	/>
+									<f:selectItem itemLabel="Não" itemValue="false"	/>									
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Retroprojetor"/>
-						</f:facet>
-						<h:outputText value="#{salas.retroprojetor}"/>
+					<p:column headerText="Retroprojetor">
+						<p:cellEditor>
+							<f:facet name="output">
+									<h:outputText value="#{salas.retroprojetor}" />
+							</f:facet>
+							<f:facet name="input" >
+								<h:selectOneMenu  value="#{salas.retroprojetor}" style="width:100%">
+									<f:selectItem itemLabel="Sim" itemValue="true"	/>
+									<f:selectItem itemLabel="Não" itemValue="false"	/>									
+								</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Multimidia"/>
-						</f:facet>
-						<h:outputText value="#{salas.multimidia}"/>
+					<p:column headerText="Multimidia">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{salas.multimidia}"/>
+							</f:facet>
+							<f:facet name="input" >
+									<h:selectOneMenu  value="#{salas.multimidia}" style="width:100%">
+										<f:selectItem itemLabel="Sim" itemValue="true"	/>
+										<f:selectItem itemLabel="Não" itemValue="false"	/>									
+									</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>
 					</p:column>					
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Arcondicionado"/>
-						</f:facet>
-						<h:outputText value="#{salas.arcondicionado}"/>
+					<p:column headerText="Arcondicionado">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{salas.arcondicionado}"/>
+							</f:facet>
+							<f:facet name="input" >
+									<h:selectOneMenu  value="#{salas.arcondicionado}" style="width:100%">
+										<f:selectItem itemLabel="Sim" itemValue="true"	/>
+										<f:selectItem itemLabel="Não" itemValue="false"	/>									
+									</h:selectOneMenu>
+							</f:facet>
+						</p:cellEditor>	
 					</p:column>					
 					<p:column style="width:6%">  
             			<p:rowEditor />  

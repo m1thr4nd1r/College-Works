@@ -21,7 +21,6 @@ public class Myconnection{
             {
             	Class.forName("com.mysql.jdbc.Driver");        
                 connection = DriverManager.getConnection(url, usuario, senha);
-                System.out.println("Conectado!");
             } 
             catch(Exception e){
             	JOptionPane.showMessageDialog(null,"FALHA NA CONEXÃO: "+e.toString()); 
