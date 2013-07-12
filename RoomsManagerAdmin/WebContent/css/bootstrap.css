@@ -6288,19 +6288,6 @@ a.badge:focus {
 	margin-bottom: 3px !important; /* Tamanho do box-shadow*/ 
 }
 
-@font-face {
-  font-family: Impregnable;
-  src: url('font/Impregnable_Personal_Use_Only.ttf');
-  /* IE9 */
-}
-
-
-@font-face {
-  font-family: Admiration;
-  src: url('font/Admiration Pains.ttf');
-  /* IE9 */
-}
-
 .icon-red {	
   background-image: url("img/glyphicons-halflings-red.png");
 }
@@ -6311,4 +6298,16 @@ a.badge:focus {
 
 [class*="span"] > [class*="span"]{
 	margin-left: 0;
+}
+
+@font-face {
+  font-family: Impregnable;
+  src: url('font/Impregnable_Personal_Use_Only.ttf');
+  /* IE9 */
+}
+
+@font-face {
+  font-family: Admiration;
+  src: url('font/Admiration Pains.ttf');
+  /* IE9 */
 }

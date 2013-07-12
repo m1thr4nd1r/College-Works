@@ -26,12 +26,28 @@ public class LoginController extends HttpServlet{
 		session = request.getSession(true);
 		
 		if(login.validate()){
-			session.setAttribute("nome", user);
-			out.println("<script>location.href='site';</script>");
-			return;
+			session.setAttribute("logado", user);
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
 		}
 		
-		JOptionPane.showMessageDialog(null, "Credenciais incorretas.");
-		out.println("<script>location.href='"+request.getRequestURL()+"/../index.do';</script>");
+		out.println("<script>location.href='"+request.getRequestURL()+"/../index.jsp';</script>");
 	}
+	
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		PrintWriter out = response.getWriter();
+		session = request.getSession();
+		int conf = JOptionPane.showConfirmDialog(null,"Deseja sair do sistema ?","RoomsManager",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+		
+		if(conf == 0){
+			session.invalidate();
+			out.println("<script>location.href='"+request.getRequestURL()+"/../index.jsp';</script>");
+		}
+		else{
+			out.println("<script>window.history.back()</script>");
+		}
+		
+	}
+	
 }

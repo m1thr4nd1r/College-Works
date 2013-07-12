@@ -2,7 +2,7 @@
 	<div class="navbar navbar-inverse affix">
 	  <div class="navbar-inner2">
 		<div class="container">
-		  <a class="brand" href="#{request.contextPath}/index.do">RoomsManager</a>
+		  <a class="brand" href="#{request.contextPath}/index.jsp">RoomsManager</a>
 		  <div class="nav-collapse collapse">
 			<ul class="nav">
 			  <li class="">
@@ -10,6 +10,11 @@
 			  </li>
 			  <li class="">
 				<a href="#{request.contextPath}/usuario/index.do">Usuário</a>
+			  </li>
+			  <li class="logout">
+			  	<a href="#{request.contextPath}/login?logout">
+			  		<img title="Sair do Sistema" src="#{request.contextPath}/images/logout.png" alt="Sair do Sistema" />
+		  		</a>
 			  </li>
 			</ul>
 		  </div>
