@@ -8,53 +8,31 @@
 	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>RoomsManagerAdmin</title>
-		<script type="text/javascript" src="../js/padrao.js"></script>
-		<link href="../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
-	</h:head>  
-	<h:body>
-		<header>
-		    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
-		    		<div class="navbar navbar-inverse">
-					  <div class="navbar-inner2">
-						<div class="container">
-						  <p:button styleClass="btn btn-navbar"></p:button>
-						  <a class="brand" href="./index.html">RoomsManager</a>
-						  <div class="nav-collapse collapse">
-							<ul class="nav">
-							  <li class="">
-								<a href="index.jsp">Página Inicial</a>
-							  </li>
-							</ul>
-						  </div>
-						</div>
-					  </div>
-					</div>
-		    </p:layoutUnit>
-		</header>
-	
- 		<p:layoutUnit position="center" id="conteudo">
+	<ui:include src="/js_comum.xhtml"></ui:include>
+	<ui:include src="/css_comum.xhtml"></ui:include>
+</h:head>
+<h:body>
+	<section id="geral">
+		<ui:include src="/header.xhtml"></ui:include>
+		<p:layoutUnit position="center" id="conteudo">
 			<div class="container-fluid offset4 span10">
 				<div class="row-fluid">
 					<p:message for="form"></p:message>
 						<h:form id="form">
 							
 							<p:fieldset legend="Cadastro de Usuario" >
-							<h:panelGrid columns="2">
+							<h:panelGrid id="panelGrid" columns="2">
 							
 							<p:outputLabel for="e-mail">Email</p:outputLabel>
-							<p:inputText id="e-mail" value="#{usuarioBean.usuario.email}" required="true" title="Email" requiredMessage="O campo 'Email' é Obrigatório"  validatorMessage="Email inválido">
+							<p:inputText id="e-mail" value="#{usuarioBean.usuario.email}" required="true" title="Email" requiredMessage="O campo 'Email' Ã© ObrigatÃ³rio"  validatorMessage="Email invÃ¡lido">
 								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 							</p:inputText>
 							
 							<p:outputLabel for="senha">Senha</p:outputLabel>
-							<p:inputText id="senha" style="width: 300px" value="#{usuarioBean.usuario.senha}" required="true" title="Senha" requiredMessage="O campo 'Senha' é Obrigatório"/>
+							<p:password id="senha" style="width: 300px" value="#{usuarioBean.usuario.senha}" required="true" title="Senha" requiredMessage="O campo 'Senha' Ã© ObrigatÃ³rio"/>
 							
 							<p:outputLabel for="nome">Nome</p:outputLabel>
-							<p:inputText id="nome" style="width: 300px" value="#{usuarioBean.usuario.nome}" required="true" title="Nome" requiredMessage="O campo 'Nome' é Obrigatório"/>
+							<p:inputText id="nome" style="width: 300px" value="#{usuarioBean.usuario.nome}" required="true" title="Nome" requiredMessage="O campo 'Nome' Ã© ObrigatÃ³rio"/>
 							
 							<p:outputLabel for="num_cadastro">Numero de Cadastro</p:outputLabel>
 							<p:inputMask id="num_cadastro" value="#{usuarioBean.usuario.num_cadastro}" title="Numero de Cadastro" mask="999999"/>
@@ -82,7 +60,9 @@
 								  		<p:commandButton value="Enviar" id="enviar" ajax="false" actionListener="#{usuarioBean.salvar}"/>
 								  	</div>
 								  	<div class="span2">
-								  		<p:commandButton value="Resetar" type="reset"/>
+								  		<p:commandButton value="Resetar" update="panelGrid" process="@this">
+									        <p:resetInput target="panelGrid"/>
+									    </p:commandButton>
 								  	</div>
 							  	</div>
 					  		</div>
@@ -90,6 +70,8 @@
 						</h:form>
 					</div>
 				</div>
-		</p:layoutUnit>  
-	</h:body>
+			</p:layoutUnit>
+		<ui:include src="/rodape.xhtml"></ui:include>  
+	</section>
+</h:body>
 </html>
