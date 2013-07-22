@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+<ui:composition template="/decorator.xhtml">
+	<ui:define name="title">hasCode.com - Java Server Faces Tutorial - Registration</ui:define>
+	<ui:define name="body">
+		<h:form>
+			<div id="registration"><p:accordionPanel autoHeight="false">
+				<p:tab title="Nickname">
+					<h:panelGrid columns="2" cellpadding="10">
+						<label>Nickname</label>
+						<h:inputText label="Nickname" id="nname"
+							value="#{userBean.nickname}" required="true" />
+						<h:message for="nname" />
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="E-Mail">
+					<h:panelGrid columns="2" cellpadding="10">
+						<label>E-Mail</label>
+						<h:inputText label="E-Mail" id="email" value="#{userBean.email}"
+							required="true" validator="#{userBean.validateEmail}" />
+						<h:message for="email" />
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Birthday">
+					<h:panelGrid columns="2" cellpadding="10">
+						<label>Birthday</label>
+						<h:inputText label="Birthday" id="birthday"
+							value="#{userBean.birthday}" required="true">
+							<f:convertDateTime pattern="yyy-MM-dd" />
+						</h:inputText> (yyyy-mm-dd)
+					<h:message for="birthday" />
+					</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel> <h:commandButton action="success" value="Register" /></div>
+			<h:messages />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
