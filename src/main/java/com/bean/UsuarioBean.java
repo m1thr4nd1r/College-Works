@@ -31,8 +31,8 @@ public class UsuarioBean implements Serializable{
 		return this.usuarios;
 	}
 	
-//	public String salvar(ActionEvent ae) throws ParseException
-	public String salvar()
+	public String salvar(ActionEvent ae) throws ParseException
+//	public String salvar()
 	{
 //		try	{
 //				userDAO.salva(usuario);
