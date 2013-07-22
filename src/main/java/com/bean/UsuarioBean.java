@@ -6,13 +6,13 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.faces.bean.ManagedBean;
-//import javax.faces.event.ActionEvent;
+import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import com.model.Usuario;
 
-//@ManagedBean
+@ManagedBean
 public class UsuarioBean implements Serializable{
 		
 	private Usuario usuario = new Usuario();
