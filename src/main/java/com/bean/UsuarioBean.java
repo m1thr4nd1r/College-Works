@@ -32,7 +32,6 @@ public class UsuarioBean implements Serializable{
 	}
 	
 	public String salvar(ActionEvent ae) throws ParseException
-//	public String salvar()
 	{
 //		try	{
 //				userDAO.salva(usuario);
@@ -44,6 +43,6 @@ public class UsuarioBean implements Serializable{
 //				e.printStackTrace();
 //			}
 //		
-		return "reserva";
+		return "create";
 	}
 }

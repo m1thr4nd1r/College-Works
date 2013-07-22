@@ -9,7 +9,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>RoomsManagerAdmin</title>
 	<ui:include src="/js_comum.xhtml"></ui:include>
-	<ui:include src="/css_comum.css"></ui:include>
+	<ui:include src="/css_comum.xhtml"></ui:include>
 </h:head>
 <h:body>
 	<section id="geral">
@@ -37,19 +37,19 @@
 							<p:outputLabel for="num_cadastro">Numero de Cadastro</p:outputLabel>
 							<p:inputMask id="num_cadastro" value="#{usuarioBean.usuario.num_cadastro}" title="Numero de Cadastro" mask="999999"/>
 							
-							<p:outputPanel id="selectTipo">  
-								  <p:outputLabel for="tipo">Tipo do Funcionario</p:outputLabel> 
-							      <p:selectOneRadio  id="tipo" value="#{usuarioBean.usuario.tipo}" layout="custom" required="true">  
-							          <f:selectItem  itemLabel="Administrador" itemValue="True" />  
-							          <f:selectItem  itemLabel="Funcionario" itemValue="False" />						           
-							    </p:selectOneRadio> 
-								<h:panelGrid columns="2">  
-									<p:radioButton id="opt1" for="tipo" itemIndex="1"/>  
-									<h:outputLabel for="opt1" value="Administrador" />  								
-									<p:radioButton id="opt0" for="tipo" itemIndex="0"/>  
-									<h:outputLabel for="opt0" value="Funcionario"/>								  
-								</h:panelGrid>
-							</p:outputPanel>
+<!-- 							<p:outputPanel id="selectTipo">   -->
+<!-- 								  <p:outputLabel for="tipo">Tipo do Funcionario</p:outputLabel>  -->
+<!-- 							      <p:selectOneRadio  id="tipo" value="#{usuarioBean.usuario.tipo}" layout="custom" required="true">   -->
+<!-- 							          <f:selectItem  itemLabel="Administrador" itemValue="True" />   -->
+<!-- 							          <f:selectItem  itemLabel="Funcionario" itemValue="False" />						            -->
+<!-- 							    </p:selectOneRadio>  -->
+<!-- 								<h:panelGrid columns="2">   -->
+<!-- 									<p:radioButton id="opt1" for="tipo" itemIndex="1"/>   -->
+<!-- 									<h:outputLabel for="opt1" value="Administrador" />  								 -->
+<!-- 									<p:radioButton id="opt0" for="tipo" itemIndex="0"/>   -->
+<!-- 									<h:outputLabel for="opt0" value="Funcionario"/>								   -->
+<!-- 								</h:panelGrid> -->
+<!-- 							</p:outputPanel> -->
 							
 							</h:panelGrid>
 							</p:fieldset>
