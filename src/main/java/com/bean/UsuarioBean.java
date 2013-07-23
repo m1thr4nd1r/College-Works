@@ -12,14 +12,25 @@ import javax.swing.JOptionPane;
 
 import com.model.Usuario;
 
-@ManagedBean
+@ManagedBean (name = "UsuarioBean")
 public class UsuarioBean implements Serializable{
 		
 	private Usuario usuario = new Usuario();
 	private List usuarios; 
+	private boolean tipo;
 		
 	public Usuario getUsuario() {
 		return usuario;
+	}
+	
+	public void setTipo(boolean tipo)
+	{
+		this.tipo = tipo;
+	}
+	
+	public boolean getTipo()
+	{
+		return tipo;
 	}
 
 	public void setUsuario(Usuario usuario) {
