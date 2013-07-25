@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.model.Usuario;
 
-@ManagedBean (name = "UsuarioBean")
+@ManagedBean
 public class UsuarioBean implements Serializable{
 		
 	private Usuario usuario = new Usuario();
