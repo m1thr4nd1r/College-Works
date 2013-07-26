@@ -18,17 +18,25 @@ Inicialmente rode :
 
 	$export PORT=X
 
-Onde X é o numero da porta que voce deseja utilizar. Entao rode :
+Onde X é o numero da porta que voce deseja utilizar.
+
+Entao rode :
 
 	$sh run_jetty.sh
 
-Parar rodar com o Jetty, ou :
+Parar rodar com o Jetty
+
+Ou :
 
 	$sh run_tomcat.sh
 
-Para rodar com o Tomcat. Sua aplicação estara rodando em 
+Para rodar com o Tomcat.
 
-	localhost:X (X = Porta escolhida no primeiro comando do tutorial)
+Sua aplicação estara rodando em 
+
+	localhost:X 
+
+(X = Porta escolhida no primeiro comando do tutorial)
 
 ## Dando commit
 
@@ -44,4 +52,6 @@ Adicione :
 
 	url = git@github.com:m1thr4nd1r/roomsmanager.git
 
-Dê commit normalmente. (Lembrando de adicionar a chave SSH a sua conta no GitHub)
+Dê commit normalmente. 
+
+(Lembrando de adicionar a chave SSH a sua conta no GitHub)
