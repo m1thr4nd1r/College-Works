@@ -1,0 +1,70 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+
+  	<ui:define name="title">
+        Lista de Usuarios Cadastrado com Sucesso!
+    </ui:define>
+
+    <ui:define name="content">
+		<section id="geral">
+			<p:layoutUnit position="center" id="conteudo">
+				<h:form prependId="false">  	
+					<p:dataTable id="usuarios" var="usuario" value="#{usuarioBean.usuarios}"
+						paginator="true" rows="5" 
+			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+						rowsPerPageTemplate="5,10,15"  
+			            >
+						<f:facet name="header">
+							<h:outputText value="Usuarios Cadastrados"/>
+						</f:facet>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Email"/>
+							</f:facet>
+							<h:outputText value="#{usuario.email}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Numero de Cadastro"/>
+							</f:facet>
+							<h:outputText value="#{usuario.num_cadastro}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="Tipo de Usuario"/>
+							</f:facet>
+							<h:outputText value="#{usuario.tipo}"/>
+						</p:column>
+						<p:column style="width:4%">  
+							<p:commandButton id="viewButton" action="#{usuarioBean.viewLink}" icon="ui-icon-search" title="Visualizar">  
+			                	<f:setPropertyActionListener value="#{usuario.email}" target="#{usuarioBean.url}" />  
+			            	</p:commandButton>  
+	        			</p:column>
+	        			<p:column style="width:4%">  
+							<p:commandButton id="editButton" action="#{usuarioBean.updateLink}" icon="ui-icon-pencil" title="Editar">  
+			                	<f:setPropertyActionListener value="#{usuario.email}" target="#{usuarioBean.url}" />  
+			            	</p:commandButton>  
+	        			</p:column>
+						<p:column style="width:4%">  
+							<p:commandButton id="deleteButton" action="#{usuarioBean.deletar}" icon="ui-icon-trash" title="Deletar">  
+			                	<f:setPropertyActionListener value="#{usuario.email}" target="#{usuarioBean.url}" />  
+			            	</p:commandButton>  
+	        			</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:layoutUnit>
+		</section>
+		
+		<script type="text/javascript">
+			$(document).ready(function(){
+				dlg.show();
+			});
+		</script>
+	</ui:define>
+</ui:composition>
