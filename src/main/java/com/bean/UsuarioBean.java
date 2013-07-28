@@ -19,7 +19,7 @@ public class UsuarioBean implements Serializable{
 	private Usuario usuario = new Usuario();
 	private UsuarioDAO userDAO = new UsuarioDAO();
 	private List usuarios; 
-	private boolean tipo;
+	private String url;
 		
 	public Usuario getUsuario() {
 		return usuario;
