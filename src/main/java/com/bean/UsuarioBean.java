@@ -11,11 +11,13 @@ import javax.faces.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import com.model.Usuario;
+import com.dao.UsuarioDao;
 
 @ManagedBean
 public class UsuarioBean implements Serializable{
 		
 	private Usuario usuario = new Usuario();
+	private UsuarioDAO userDAO = new UsuarioDAO();
 	private List usuarios; 
 	private boolean tipo;
 		
