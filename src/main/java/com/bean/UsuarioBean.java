@@ -37,23 +37,27 @@ public class UsuarioBean implements Serializable{
 		this.usuario = usuario;
 	}
 
-	public List getUsuarios(){
-		 
-		return this.usuarios;
+	public List getUsuarios()
+	{
+        try {
+            this.usuarios = userDAO.getUsuarios();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,"GETUSERS ERRO: "+e.getMessage());
+            e.printStackTrace();
+        }
+         
+        return this.usuarios;
 	}
-	
+
 	public String salvar(ActionEvent ae) throws ParseException
 	{
-//		try	{
-//				userDAO.salva(usuario);
-//				
-//				return "index";
-//			
-//			} catch (SQLException e) {
-//				System.out.println("ERRO: "+e.getMessage());
-//				e.printStackTrace();
-//			}
-//		
-		return "create";
+        try {
+            userDAO.salva(usuario);
+            return "index";
+        } catch (SQLException e) {
+    		System.out.println("ERRO: "+e.getMessage());
+            e.printStackTrace();
+        }
+	    return "reserva";
 	}
 }
