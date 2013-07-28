@@ -25,16 +25,6 @@ public class UsuarioBean implements Serializable{
 		return usuario;
 	}
 	
-	public void setTipo(boolean tipo)
-	{
-		this.tipo = tipo;
-	}
-	
-	public boolean getTipo()
-	{
-		return tipo;
-	}
-
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
