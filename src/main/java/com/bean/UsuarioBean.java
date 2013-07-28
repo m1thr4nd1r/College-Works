@@ -50,7 +50,7 @@ public class UsuarioBean implements Serializable{
     		System.out.println("ERRO: "+e.getMessage());
             e.printStackTrace();
         }
-	    return "list";
+	    return "list?faces-redirect=true";
 	}
 
 	public String viewLink()
