@@ -11,7 +11,7 @@ import javax.faces.event.ActionEvent;
 import javax.swing.JOptionPane;
 
 import com.model.Usuario;
-import com.dao.UsuarioDao;
+import com.dao.UsuarioDAO;
 
 @ManagedBean
 public class UsuarioBean implements Serializable{
