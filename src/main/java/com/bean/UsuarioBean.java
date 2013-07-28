@@ -45,12 +45,12 @@ public class UsuarioBean implements Serializable{
 	{
         try {
             userDAO.salva(usuario);
-            return "index";
+            return "list?faces-redirect=true";
         } catch (SQLException e) {
     		System.out.println("ERRO: "+e.getMessage());
             e.printStackTrace();
         }
-	    return "list?faces-redirect=true";
+	    return "create?faces-redirect=true";
 	}
 
 	public String viewLink()
