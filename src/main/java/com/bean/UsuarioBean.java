@@ -62,4 +62,23 @@ public class UsuarioBean implements Serializable{
         }
 	    return "reserva";
 	}
+
+	public String viewLink()
+    {
+        this.usuario = new Usuario();
+        this.usuario.setEmail(url);
+        return "view?" + this.url + "?faces-redirect=true";
+	}
+    
+    public String updateLink()
+    {
+        this.usuario = new Usuario();
+        this.usuario.setEmail(url);
+        return "update?" + this.url + "?faces-redirect=true";
+	}
+    
+    public void deletar()
+    {
+        System.out.println("Vai deletar no futuro");
+    }
 }
