@@ -16,43 +16,43 @@ for(String s : str){
 }
 
 %>
-
-<ui:composition template="template.xhtml"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:ui="http://java.sun.com/jsf/facelets"
-  xmlns:f="http://java.sun.com/jsf/core"
-  xmlns:h="http://java.sun.com/jsf/html"
-  xmlns:p="http://primefaces.org/ui" >
-
-    <ui:define name="content">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>  
+    <script type="text/javascript" src="js/padrao.js"></script>
+        <title>RoomsManagerAdmin</title>
+        <link href="css/comum.css" media="all" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
       <section id="geral">
         <header id="topo_pagina">
-          <div class="navbar navbar-inverse affix">
-            <div class="navbar-inner2">
-            <div class="container">
-              <a class="brand" href="index.jsp">RoomsManager</a>
-              <div class="nav-collapse collapse">
-              <ul class="nav">
-                <li class="">
-                <a href="sala/index.do">Sala</a>
+        <div class="navbar navbar-inverse affix">
+          <div class="navbar-inner2">
+          <div class="container">
+            <a class="brand" href="index.jsp">RoomsManager</a>
+            <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="">
+              <a href="sala/index.do">Sala</a>
+              </li>
+              <li class="">
+              <a href="usuario/index.do">Usuário</a>
+              </li>
+              <% if(logado != null){ %>
+                <li class="logout">
+                  <a href="login?logout">
+                    <img title="Sair do Sistema" src="<%= url %>images/logout.png" alt="Sair do Sistema" />
+                  </a>
                 </li>
-                <li class="">
-                <a href="usuario/index.do">Usuário</a>
-                </li>
-                <% if(logado != null){ %>
-                  <li class="logout">
-                    <a href="login?logout">
-                      <img title="Sair do Sistema" src="<%= url %>images/logout.png" alt="Sair do Sistema" />
-                    </a>
-                  </li>
-                <% } %>
-              </ul>
-              </div>
-            </div>
+              <% } %>
+            </ul>
             </div>
           </div>
-          <div class="vAux"></div>
-        </header>
+          </div>
+        </div>
+        <div class="vAux"></div>
+      </header>
         <div id="conteudo">
           <%
         if(logado==null){
@@ -80,6 +80,7 @@ for(String s : str){
           </div>
         <% } %>
           </div>
+          <jsp:include page="/footer.xhtml"/>
         </section>
-     </ui:define>
-</ui:composition>
+    </body>
+</html>
