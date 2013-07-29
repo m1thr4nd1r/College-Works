@@ -17,7 +17,7 @@ for(String s : str){
 
 %>
 
-<ui:composition template="../template.xhtml"
+<ui:composition template="template.xhtml"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:ui="http://java.sun.com/jsf/facelets"
   xmlns:f="http://java.sun.com/jsf/core"
