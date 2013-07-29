@@ -80,7 +80,6 @@ for(String s : str){
           </div>
         <% } %>
           </div>
-          <jsp:include page="/rodape.xhtml"/>
         </section>
      </ui:define>
 </ui:composition>
