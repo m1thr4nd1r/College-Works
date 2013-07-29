@@ -1,0 +1,35 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+	
+	<ui:define name="title">
+		RoomsManagerAdmin ::
+	</ui:define>
+
+	<ui:define name="content">
+		<section id="geral">
+			<p:layoutUnit position="center" id="conteudo">
+				<div class="container-fluid offset4 span8">
+					<div class="row-fluid">
+						<h1 class="titulo_mapa">Mapa Sala</h1>					
+						<h:form id="form">
+						    <p:tree id="mapa" styleClass="mapTree" value="#{mapaSalaBean.root}" var="page" animate="true">
+						        <p:treeNode expandedIcon="ui-icon-folder-open" collapsedIcon="ui-icon-folder-collapsed">  
+						            <h:outputText value="#{page.titulo}"/>  
+						        </p:treeNode>  
+						        <p:treeNode type="pagina" icon="ui-icon-document">  
+						            <a href="#{page.path}">
+						            	<h:outputText value="#{page.titulo}"/>
+					            	</a>  
+						        </p:treeNode>  
+						    </p:tree>
+						</h:form>
+					</div>
+				</div>
+			</p:layoutUnit>
+		</section>
+	</ui:define>
+</ui:composition>

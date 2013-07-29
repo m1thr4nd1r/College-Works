@@ -1,0 +1,131 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+
+  	<ui:define name="title">
+  		RoomsManagerAdmin :: Lista de Salas
+	</ui:define>
+	
+	<ui:define name="content">
+		<section id="geral">
+			<p:layoutUnit position="center" id="conteudo">
+				<h:form prependId="false">  	
+					<p:dataTable id="sala" var="salas" value="#{salaBean.listaSalas}"
+						paginator="true" rows="5" 
+			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+						rowsPerPageTemplate="5,10,15" 
+						editable="true"
+			            >
+						<f:facet name="header">
+							<h:outputText value="Lista de salas"/>
+						</f:facet>
+	  
+						<p:column headerText="Sala">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.nome}"/>
+								</f:facet>							
+							    <f:facet name="input">  
+		                    		<p:inputText value="#{salas.nome}" style="width:100%"/>  
+	                			</f:facet>
+	                		</p:cellEditor>  
+						</p:column>
+						<p:column headerText="Tipo">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.tipo}"/>
+								</f:facet>
+								<f:facet name="input" style="width:100%">
+									<p:inputText value="#{salas.tipo}"/>	
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Computadores" >
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.computadores}"/>
+								</f:facet>
+								<f:facet name="input" style="width:100%">
+									<p:inputText value="#{salas.computadores}"/>
+								</f:facet>
+							</p:cellEditor>	
+						</p:column>
+						<p:column headerText="Capacidade">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.capacidade}"/>
+								</f:facet>
+								<f:facet name="input" style="width:100%">
+									<p:inputText value="#{salas.capacidade}"/>
+								</f:facet>
+							</p:cellEditor>	
+						</p:column>
+						<p:column headerText="Quadro">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.quadro}"/>
+								</f:facet>
+								<f:facet name="input" >
+									<h:selectOneMenu value="#{salas.quadro}" style="width:100%">
+										<f:selectItem itemLabel="Sim" itemValue="true"	/>
+										<f:selectItem itemLabel="Não" itemValue="false"	/>									
+									</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Retroprojetor">
+							<p:cellEditor>
+								<f:facet name="output">
+										<h:outputText value="#{salas.retroprojetor}" />
+								</f:facet>
+								<f:facet name="input" >
+									<h:selectOneMenu  value="#{salas.retroprojetor}" style="width:100%">
+										<f:selectItem itemLabel="Sim" itemValue="true"	/>
+										<f:selectItem itemLabel="Não" itemValue="false"	/>									
+									</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Multimidia">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.multimidia}"/>
+								</f:facet>
+								<f:facet name="input" >
+										<h:selectOneMenu  value="#{salas.multimidia}" style="width:100%">
+											<f:selectItem itemLabel="Sim" itemValue="true"	/>
+											<f:selectItem itemLabel="Não" itemValue="false"	/>									
+										</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>					
+						<p:column headerText="Arcondicionado">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.arcondicionado}"/>
+								</f:facet>
+								<f:facet name="input" >
+										<h:selectOneMenu  value="#{salas.arcondicionado}" style="width:100%">
+											<f:selectItem itemLabel="Sim" itemValue="true"	/>
+											<f:selectItem itemLabel="Não" itemValue="false"	/>									
+										</h:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>	
+						</p:column>					
+						<p:column style="width:6%">  
+	            			<p:rowEditor />  
+	        			</p:column> 
+					</p:dataTable>
+				</h:form>
+			</p:layoutUnit>
+		</section>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				dlg.show();
+			});
+		</script>
+	</ui:define>
+</ui:composition>
