@@ -7,13 +7,14 @@ import javax.swing.JOptionPane;
 public class Myconnection{
 
     private static Connection connection = null;
-//    private static String usuario = "b32066c6f7a258";
-//    private static String senha = "5ab3d940";
-//    private static String url = "jdbc:mysql://us-cdbr-east-04.cleardb.com:3306/heroku_e567d7139983552";
+   private static String usuario = "b32066c6f7a258";
+   private static String senha = "5ab3d940";
+   private static String url = "jdbc:mysql://us-cdbr-east-04.cleardb.com:3306/heroku_e567d7139983552";
     
-    private static String usuario = "root";
-    private static String senha = "";
-    private static String url = "jdbc:mysql://localhost:3306/roomsManager_development";
+    // private static String usuario = "root";
+    // private static String senha = "123456";
+    // private static String senha = "";
+    // private static String url = "jdbc:mysql://localhost:3306/roomsManager_development";
 
     public static Statement getStatement() throws SQLException
     {
