@@ -1,22 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:ui="http://java.sun.com/jsf/facelets" 
-       xmlns:f="http://java.sun.com/jsf/core" 
-       xmlns:h="http://java.sun.com/jsf/html"
-           xmlns:p="http://primefaces.org/ui">
-        <h:head>  
-                <!-- // <script type="text/javascript" src="js/padrao.js"></script> -->
-        <title>RoomsManagerAdmin</title>
-        <!-- <ui:include src="/css_comum.xhtml"></ui:include> -->
-    </h:head>
-    <h:body>
+<ui:composition template="../template.xhtml"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.org/ui" >
+  
+  <ui:define name="content">
         <section id="geral">
-                <!-- <ui:include src="/header.xhtml"></ui:include> -->
-                        <p:layoutUnit position="center" id="conteudo">
-                                
-                        </p:layoutUnit>
-                <!-- <ui:include src="/rodape.xhtml"></ui:include> -->
+          <p:layoutUnit position="center" id="conteudo">
+          </p:layoutUnit>
         </section>
-    </h:body>
-</html>
+  </ui:define>
+</ui:composition>
