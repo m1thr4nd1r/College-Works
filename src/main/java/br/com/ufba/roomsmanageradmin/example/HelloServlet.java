@@ -1,4 +1,4 @@
-package com.example;
+package br.com.ufba.roomsmanageradmin.example;
 
 import java.io.IOException;
 import java.util.logging.Logger;

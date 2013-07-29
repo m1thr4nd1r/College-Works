@@ -1,4 +1,4 @@
-package com.dao;
+package br.com.ufba.roomsmanageradmin.dao;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.model.Usuario;
+import br.com.ufba.roomsmanageradmin.model.Usuario;
 
 public class UsuarioDAO implements Serializable {
 

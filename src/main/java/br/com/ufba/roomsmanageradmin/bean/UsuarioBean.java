@@ -1,4 +1,4 @@
-package com.bean;
+package br.com.ufba.roomsmanageradmin.bean;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -10,8 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import javax.swing.JOptionPane;
 
-import com.model.Usuario;
-import com.dao.UsuarioDAO;
+import br.com.ufba.roomsmanageradmin.model.Usuario;
+import br.com.ufba.roomsmanageradmin.dao.UsuarioDAO;
 
 @ManagedBean
 public class UsuarioBean implements Serializable{

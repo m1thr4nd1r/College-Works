@@ -41,7 +41,7 @@
   
   <servlet>
     <servlet-name>hello</servlet-name>
-    <servlet-class>com.example.HelloServlet</servlet-class>
+    <servlet-class>br.com.ufba.roomsmanageradmin.example.HelloServlet</servlet-class>
   </servlet>  
 
 </web-app>

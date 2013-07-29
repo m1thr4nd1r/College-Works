@@ -1,4 +1,4 @@
-package com.model;
+package br.com.ufba.roomsmanageradmin.model;
 
 public class Usuario {
 	

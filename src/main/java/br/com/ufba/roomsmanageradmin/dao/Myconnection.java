@@ -1,4 +1,4 @@
-package com.dao;
+package br.com.ufba.roomsmanageradmin.dao;
 
 import java.sql.*;
 
