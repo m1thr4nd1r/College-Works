@@ -37,7 +37,7 @@ for(String s : str){
               <a href="sala/index.do">Sala</a>
               </li>
               <li class="">
-              <a href="usuario/index.do">Usuário</a>
+              <a href="usuario/index.do">Usuario</a>
               </li>
               <% if(logado != null){ %>
                 <li class="logout">
