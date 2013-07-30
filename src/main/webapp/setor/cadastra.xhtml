@@ -23,25 +23,6 @@
 	</ui:define>	
 
 	<ui:define name="content">
-		<header>
-		    <p:layoutUnit position="north" id="topo" style="overflow: hidden;">
-		    		<div class="navbar navbar-inverse">
-					  <div class="navbar-inner2">
-						<div class="container">
-						  <p:button styleClass="btn btn-navbar"></p:button>
-						  <a class="brand" href="./index.html">RoomsManager</a>
-						  <div class="nav-collapse collapse">
-							<ul class="nav">
-							  <li class="">
-								<a href="localhost:3000">Página Inicial</a>
-							  </li>
-							</ul>
-						  </div>
-						</div>
-					  </div>
-					</div>
-		    </p:layoutUnit>
-		</header>
 		<p:growl id="growl" showDetail="false" life="6000" />
 		<p:layoutUnit position="center" id="conteudo">
 			<div class="container-fluid offset4 span10">
@@ -65,7 +46,7 @@
 							<div class="span12">
 								<div class="bt span">
 									<div class="span2">
-								  		<p:commandButton value="Enviar" actionListener="#{SetorBean.cadastra}" ajax="false"/>
+								  		<p:commandButton value="Enviar" actionListener="#{setorBean.cadastra}" ajax="false"/>
 								  	</div>
 								  	<div class="span2">
 								  		<p:commandButton value="Resetar" type="reset"/>
