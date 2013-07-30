@@ -10,7 +10,7 @@ public class SetorDAO {
 	public void salvar(Setor setor) throws SQLException{
 			
 			String sql = "INSERT INTO setor (nome,email)"+
-						 "VALUES("+setor.getNome()+",'"+setor.getEmail()+"')";
+						 "VALUES('"+setor.getNome()+"','"+setor.getEmail()+"')";
 			Statement st = (Statement) Myconnection.getStatement();
 			st.executeUpdate(sql);
 			st.close();
