@@ -22,7 +22,7 @@ for(String s : str){
   <head>  
     <script type="text/javascript" src="js/padrao.js"></script>
         <title>RoomsManagerAdmin</title>
-        <link href="css/comum.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
     </head>
     <body>
       <section id="geral">
