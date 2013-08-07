@@ -46,7 +46,7 @@ Abra a configuração do git :
 
 Na sessao :
 	
-	[remote "heroku"]
+	[remote *]
 
 Adicione :
 
