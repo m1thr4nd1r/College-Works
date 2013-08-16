@@ -23,6 +23,7 @@ for(String s : str){
     <script type="text/javascript" src="js/padrao.js"></script>
         <title>RoomsManagerAdmin</title>
         <link href="css/comum.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="css/login.css" media="all" rel="stylesheet" type="text/css" />
     </head>
     <body>
       <section id="geral">
@@ -57,25 +58,27 @@ for(String s : str){
           <%
         if(logado==null){
         %>
-            <form id="form_login" action="login" method="post">
-            <div class="container-fluid offset5">
-              <div class="span10">
+        <div class="login">
+          <h1>Login</h1>
+          <form action="login" method="post">          	
+            <!--<div class="container-fluid offset5">
+               <div class="span10">
                 <div class="span10">
                   <label>Nome do Usu&aacute;rio</label>
-                  <label>Usu&aacute;rio</label>
-                  <label>Usu&aacute;rio</label>
-                  <input name="username" type="text" id="usuario" value="" placeholder="Usu&aacute;rio"/>
-                </div>
+                  <label>Usu&aacute;rio</label>- -->                  
+                  <input name="username" id="user" type="text" value="" placeholder="Usu&aacute;rio"/>
+              <!--  </div>
                 <div class="span10">
-                  <label>Senha</label>
-                  <input name="senha" type="password" id="senha" value="" placeholder="Senha"/>
-                </div>
+                  <label>Senha</label>-->
+                  <input name="senha" id="pass" type="password" value="" placeholder="Senha"/>
+               <!--  </div>
               </div>
-              <div class="span10">
-                <input type="submit" value="Logar"/>
-              </div>
-                </div>
+              <div class="span10"> -->
+                <input class="btn btn-primary btn-block btn-larg" type="submit" value="Logar"/>
+              <!--</div>
+                </div>-->
           </form>
+        </div>
         <% }else{%>
           <div class="logo_index">
             <h1>RoomsManagerAdmin</h1>
