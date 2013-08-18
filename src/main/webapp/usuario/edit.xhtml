@@ -1,0 +1,69 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+	
+    <ui:define name="content">
+    	<section id="geral">
+			<p:layoutUnit position="center" id="conteudo">
+				<div class="container-fluid offset4 span10">
+					<div class="row-fluid">
+						<p:message for="form"></p:message>
+							<h:form id="form">
+								
+								<p:fieldset legend="Atualização de Usuario" >
+								<h:panelGrid id="panelGrid" columns="2">
+								
+								<p:outputLabel for="e-mail">Email</p:outputLabel>
+								<p:inputText id="e-mail" value="#{usuarioBean.usuario.email}" required="true" title="Email" requiredMessage="O campo 'Email' Ã© ObrigatÃ³rio"  validatorMessage="Email invÃ¡lido">
+									<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+								
+								<p:outputLabel for="senha">Senha</p:outputLabel>
+								<p:password id="senha" style="width: 300px" value="#{usuarioBean.usuario.senha}" required="true" title="Senha" requiredMessage="O campo 'Senha' Ã© ObrigatÃ³rio"/>
+								
+								<p:outputLabel for="nome">Nome</p:outputLabel>
+								<p:inputText id="nome" style="width: 300px" value="#{usuarioBean.usuario.nome}" required="true" title="Nome" requiredMessage="O campo 'Nome' Ã© ObrigatÃ³rio"/>
+								
+								<p:outputLabel for="num_cadastro">Numero de Cadastro</p:outputLabel>
+								<p:inputMask id="num_cadastro" value="#{usuarioBean.usuario.num_cadastro}" title="Numero de Cadastro" mask="999999"/>
+								
+								<p:outputPanel id="selectTipo">  
+							  		<p:outputLabel for="tipo">Tipo do Funcionario</p:outputLabel> 
+							      	<p:selectOneRadio  id="tipo" value="#{usuarioBean.usuario.tipo}" layout="custom" required="true">  
+						          		<f:selectItem  itemLabel="Administrador" itemValue="True" />  
+							          	<f:selectItem  itemLabel="Funcionario" itemValue="False" />						           
+								    </p:selectOneRadio> 
+									<h:panelGrid columns="2">  
+										<p:radioButton id="opt1" for="tipo" itemIndex="1"/>  
+										<h:outputLabel for="opt1" value="Administrador" />  								
+										<p:radioButton id="opt0" for="tipo" itemIndex="0"/>  
+										<h:outputLabel for="opt0" value="Funcionario"/>	
+									</h:panelGrid>
+								</p:outputPanel>
+								
+								</h:panelGrid>
+								</p:fieldset>
+								
+								<div class="span12">
+									<div class="bt span">
+										<div class="span2">
+									  		<p:commandButton value="Atualizar" id="enviar" ajax="false" actionListener="#{usuarioBean.update}"/>
+									  	</div>
+									  	<div class="span2">
+									  		<p:commandButton value="Resetar" update="panelGrid" process="@this">
+										        <p:resetInput target="panelGrid"/>
+										    </p:commandButton>
+									  	</div>
+								  	</div>
+						  		</div>
+								
+							</h:form>
+					</div>
+				</div>
+			</p:layoutUnit>
+		</section>
+	</ui:define>
+</ui:composition>
