@@ -9,9 +9,12 @@
         <!-- Database connection settings -->
         <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost/roomsManager_development</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
+        <property name="hibernate.connection.url">jdbc:mysql://us-cdbr-east-04.cleardb.com:3306/heroku_e567d7139983552</property>
+        <property name="hibernate.connection.username">b32066c6f7a258</property>
+        <property name="hibernate.connection.password">5ab3d940</property>
+<!--         <property name="hibernate.connection.url">jdbc:mysql://localhost/roomsManager_development</property> -->
+<!--         <property name="hibernate.connection.username">root</property> -->
+<!--         <property name="hibernate.connection.password"></property> -->
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="hibernate.connection.pool_size">1</property>
