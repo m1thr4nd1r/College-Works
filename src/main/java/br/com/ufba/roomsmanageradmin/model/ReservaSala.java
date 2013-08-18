@@ -19,6 +19,7 @@ public class ReservaSala implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private Sala sala;
 	private Date dataInicio;
 	private Date dataFim;
@@ -31,7 +32,17 @@ public class ReservaSala implements Serializable {
 	private String telefone;
 	private String observacao;
 	private boolean aceito = false;
-			
+	
+	
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public ReservaSala() {
 		this.sala = new Sala();
 	}
