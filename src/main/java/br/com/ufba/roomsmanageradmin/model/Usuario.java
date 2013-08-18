@@ -2,7 +2,7 @@ package br.com.ufba.roomsmanageradmin.model;
 
 public class Usuario {
 	
-	private int num_cadastro;
+	private int num_cadastro, id;
 	private String nome, senha, email;
 	private boolean tipo;
 	
@@ -11,6 +11,8 @@ public class Usuario {
 		this.nome = "";
 		this.senha = "";
 		this.email = "";
+		this.num_cadastro = 0;
+		this.id = 0;
 		this.tipo = false;
 	}
 
@@ -21,7 +23,17 @@ public class Usuario {
 		this.nome = nome;
 		this.num_cadastro = num_cadastro;
 		this.tipo = tipo;
+		this.id = 0;
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	
 	public boolean getTipo() {
 		return tipo;
@@ -62,4 +74,5 @@ public class Usuario {
 	public void setNum_cadastro(int num_cadastro) {
 		this.num_cadastro = num_cadastro;
 	}
+	
 }
