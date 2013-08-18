@@ -42,7 +42,7 @@ public class SalaDAO {
 		ResultSet rs = st.executeQuery(consulta);
 		
 		while(rs.next()){
-			salas.add(new Sala(rs.getString("nome"), rs.getBoolean("quadro"), rs.getBoolean("retroprojetor"), rs.getBoolean("multimidia"), rs.getString("tipo"), rs.getBoolean("ar_condicionado"), rs.getInt("computadores"), rs.getInt("capacidade"), rs.getInt("setor_id")));
+			salas.add(new Sala(rs.getInt("id"),rs.getString("nome"), rs.getBoolean("quadro"), rs.getBoolean("retroprojetor"), rs.getBoolean("multimidia"), rs.getString("tipo"), rs.getBoolean("ar_condicionado"), rs.getInt("computadores"), rs.getInt("capacidade"), rs.getInt("setor_id")));
 		}
 		
 		return salas;

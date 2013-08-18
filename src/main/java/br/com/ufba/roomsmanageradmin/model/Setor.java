@@ -19,6 +19,13 @@ public class Setor implements Serializable{
 		this.email = email;
 		
 	}
+	
+	public Setor(int id, String nome, String email){
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		
+	}
 
 	public String getNome() {
 		return nome;

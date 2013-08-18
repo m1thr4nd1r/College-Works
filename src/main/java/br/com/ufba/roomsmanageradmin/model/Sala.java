@@ -16,6 +16,7 @@ public class Sala implements Serializable{
 	private int 	computadores;
 	private int 	capacidade;
 	private int 	setor_id;
+	private String 	setorNome;
 	
 	public Sala(){
 		this.quadro = true;
@@ -38,6 +39,7 @@ public class Sala implements Serializable{
 		this.computadores = computadores;
 		this.capacidade = capacidade;
 		this.setor_id = 1;
+		this.setorNome = "";
 	}
 
 	public Sala(int id, String nome, boolean quadro, boolean retroprojetor,
@@ -54,6 +56,7 @@ public class Sala implements Serializable{
 		this.computadores = computadores;
 		this.capacidade = capacidade;
 		this.setor_id = setor_id;
+		this.setorNome = "";
 	}
 
 	public int getId() {
@@ -123,6 +126,15 @@ public class Sala implements Serializable{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public String getSetorNome() {
+		return setorNome;
+	}
+
+	public void setSetorNome(String setorNome) {
+		this.setorNome = setorNome;
+	}
+	
 	
 	
 

@@ -65,7 +65,7 @@ for(String s : str){
                <div class="span10">
                 <div class="span10">
                   <label>Nome do Usu&aacute;rio</label>
-                  <label>Usu&aacute;rio</label>- -->                  
+                  <label>Usu&aacute;rio</label>    - -->              
                   <input name="username" id="user" type="text" value="" placeholder="Usu&aacute;rio"/>
               <!--  </div>
                 <div class="span10">

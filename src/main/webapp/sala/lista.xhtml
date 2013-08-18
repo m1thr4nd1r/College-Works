@@ -14,15 +14,15 @@
 			<p:layoutUnit position="center" id="conteudo">
 				<h:form prependId="false">  	
 					<p:dataTable id="sala" var="salas" value="#{salaBean.listaSalas}"
-						paginator="true" rows="5" 
+						paginator="true" rows="15" 
 			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-						rowsPerPageTemplate="5,10,15" 
+						rowsPerPageTemplate="15" 
 						editable="true"
+						
 			            >
 						<f:facet name="header">
 							<h:outputText value="Lista de salas"/>
-						</f:facet>
-	  
+						</f:facet>	  
 						<p:column headerText="Sala">
 							<p:cellEditor>
 								<f:facet name="output">
@@ -30,6 +30,16 @@
 								</f:facet>							
 							    <f:facet name="input">  
 		                    		<p:inputText value="#{salas.nome}" style="width:100%"/>  
+	                			</f:facet>
+	                		</p:cellEditor>  
+						</p:column>						
+						<p:column headerText="Setor" >
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{salas.setorNome}"/>
+								</f:facet>							
+							    <f:facet name="input">  
+		                    		<p:inputText value="#{salas.setorNome}" style="width:100%"/>  
 	                			</f:facet>
 	                		</p:cellEditor>  
 						</p:column>
@@ -66,7 +76,8 @@
 						<p:column headerText="Quadro">
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{salas.quadro}"/>
+									<h:outputText rendered="#{salas.quadro == true}" value="Sim"/>
+									<h:outputText rendered="#{salas.quadro == false}" value="Não"/>
 								</f:facet>
 								<f:facet name="input" >
 									<h:selectOneMenu value="#{salas.quadro}" style="width:100%">
@@ -79,7 +90,8 @@
 						<p:column headerText="Retroprojetor">
 							<p:cellEditor>
 								<f:facet name="output">
-										<h:outputText value="#{salas.retroprojetor}" />
+										<h:outputText rendered="#{salas.retroprojetor == true}" value="Sim" />
+										<h:outputText rendered="#{salas.retroprojetor == false}" value="Não" />
 								</f:facet>
 								<f:facet name="input" >
 									<h:selectOneMenu  value="#{salas.retroprojetor}" style="width:100%">
@@ -92,7 +104,8 @@
 						<p:column headerText="Multimidia">
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{salas.multimidia}"/>
+									<h:outputText rendered="#{salas.multimidia == true}" value="Sim"/>
+									<h:outputText rendered="#{salas.multimidia == false}" value="Não"/>
 								</f:facet>
 								<f:facet name="input" >
 										<h:selectOneMenu  value="#{salas.multimidia}" style="width:100%">
@@ -105,7 +118,8 @@
 						<p:column headerText="Arcondicionado">
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{salas.arcondicionado}"/>
+									<h:outputText rendered="#{salas.arcondicionado == true}" value="Sim"/>
+									<h:outputText rendered="#{salas.arcondicionado == false}" value="Não"/>
 								</f:facet>
 								<f:facet name="input" >
 										<h:selectOneMenu  value="#{salas.arcondicionado}" style="width:100%">
