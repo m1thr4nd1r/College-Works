@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 
 import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
@@ -23,8 +25,8 @@ public class UsuarioBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private Usuario usuario = new Usuario();
-	private List<Usuario> usuarios = null; 
-	private String url;
+	private DataModel<Usuario> usuarios;
+	private int id;
 		
 	public Usuario getUsuario() {
 		return usuario;
@@ -34,19 +36,18 @@ public class UsuarioBean implements Serializable{
 		this.usuario = usuario;
 	}
 
-	public List<Usuario> getUsuarios()
+	public DataModel<Usuario> getUsuarios()
 	{
 		SessionFactory sf = Hibernate.getSessionFactory();
-	    
-    	Session session = sf.openSession();
-	    	
-	    usuarios = (List<Usuario>) session.createQuery("FROM Usuario").list();
+	    Session session = sf.openSession();
+	    List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
+	    usuarios = new ListDataModel(l);
 	    session.close();
 		    
 	    return usuarios;
 	}
 	
-	public String salvar(ActionEvent ae) throws ParseException
+	public String create(ActionEvent ae) throws ParseException
 	{
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
@@ -64,23 +65,52 @@ public class UsuarioBean implements Serializable{
 	    }
 	    return "list?faces-redirect=true";
     }
+    
+	public String update()
+	{
+		SessionFactory sf = Hibernate.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = null;
+		
+		try{
+			tx = session.beginTransaction();
+			session.update(usuario); 
+			tx.commit();
+			session.flush();
+		}catch (HibernateException e) {
+			if (tx!=null) tx.rollback();
+				e.printStackTrace(); 
+		}finally {
+		session.close(); 
+		}
+		
+		return "list?faces-redirect=true"; 
+	}
 
-	public String viewLink()
+	public String delete()
     {
-        this.usuario = new Usuario();
-        this.usuario.setEmail(url);
-        return "view?" + this.url + "?faces-redirect=true";
-	}
-    
-    public String updateLink()
-    {
-        this.usuario = new Usuario();
-        this.usuario.setEmail(url);
-        return "update?" + this.url + "?faces-redirect=true";
-	}
-    
-    public void deletar()
-    {
-        System.out.println("Vai deletar no futuro");
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    Transaction tx = null;
+	
+	    select();
+	    
+	    try{
+	    	tx = session.beginTransaction();
+	    	session.delete(usuario); 
+	    	tx.commit();
+    	}catch (HibernateException e) {
+    		if (tx!=null) tx.rollback();
+	    	e.printStackTrace(); 
+    	}finally {
+	    	session.close();
+	    }
+	    
+	    return "list?faces-redirect=true";
+    }
+	
+	public void select()
+	{
+        this.usuario = this.usuarios.getRowData();
     }
 }
