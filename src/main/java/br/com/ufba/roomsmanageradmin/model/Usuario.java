@@ -8,12 +8,12 @@ public class Usuario {
 	
 	public Usuario()
 	{
-		this.nome = "";
-		this.senha = "";
-		this.email = "";
-		this.num_cadastro = 0;
-		this.id = 0;
-		this.tipo = false;
+//		this.nome = "";
+//		this.senha = "";
+//		this.email = "";
+//		this.num_cadastro = 0;
+//		this.id = 0;
+//		this.tipo = false;
 	}
 
 	public Usuario(String email, String senha, String nome, int num_cadastro, boolean tipo)

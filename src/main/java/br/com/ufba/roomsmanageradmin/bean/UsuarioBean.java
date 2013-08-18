@@ -1,24 +1,29 @@
 package br.com.ufba.roomsmanageradmin.bean;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
-import javax.swing.JOptionPane;
 
+import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
 import br.com.ufba.roomsmanageradmin.dao.UsuarioDAO;
 
 @ManagedBean
 public class UsuarioBean implements Serializable{
 		
+	private static final long serialVersionUID = 1L;
+	
 	private Usuario usuario = new Usuario();
-	private UsuarioDAO userDAO = new UsuarioDAO();
-	private List usuarios; 
+	private List<Usuario> usuarios = null; 
 	private String url;
 		
 	public Usuario getUsuario() {
@@ -29,29 +34,36 @@ public class UsuarioBean implements Serializable{
 		this.usuario = usuario;
 	}
 
-	public List getUsuarios()
+	public List<Usuario> getUsuarios()
 	{
-        try {
-            this.usuarios = userDAO.getUsuarios();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"GETUSERS ERRO: "+e.getMessage());
-            e.printStackTrace();
-        }
-         
-        return this.usuarios;
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    
+    	Session session = sf.openSession();
+	    	
+	    usuarios = (List<Usuario>) session.createQuery("FROM Usuario").list();
+	    session.close();
+		    
+	    return usuarios;
 	}
-
+	
 	public String salvar(ActionEvent ae) throws ParseException
 	{
-        try {
-            userDAO.salva(usuario);
-            return "list?faces-redirect=true";
-        } catch (SQLException e) {
-    		System.out.println("ERRO: "+e.getMessage());
-            e.printStackTrace();
-        }
-	    return "create?faces-redirect=true";
-	}
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    Transaction tx = null;
+	
+	    try{
+	    	tx = session.beginTransaction();
+	    	session.save(usuario); 
+	    	tx.commit();
+    	}catch (HibernateException e) {
+    		if (tx!=null) tx.rollback();
+	    	e.printStackTrace(); 
+    	}finally {
+	    	session.close();
+	    }
+	    return "list?faces-redirect=true";
+    }
 
 	public String viewLink()
     {
