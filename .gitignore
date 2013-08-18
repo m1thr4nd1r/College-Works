@@ -5,5 +5,6 @@
 target
 .out
 log4j.properties
+hibernate.cfg.xml
 Myconnection.java
 logs/
