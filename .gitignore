@@ -4,5 +4,6 @@
 .springBeans
 target
 .out
+log4j.properties
 Myconnection.java
 logs/
