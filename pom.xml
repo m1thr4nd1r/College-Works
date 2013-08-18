@@ -26,30 +26,74 @@
     </properties>
 
     <dependencies>
+        
         <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
         </dependency>
-		
-        <dependency>
+		<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
 
+		<dependency>
+			<groupId>javax.faces</groupId>
+			<artifactId>javax.faces-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<!-- JSF -->
+		<dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+		<!-- Commons -->
+		<dependency>   
+    		<groupId>commons-fileupload</groupId>
+    		<artifactId>commons-fileupload</artifactId>     
+    		<version>1.3</version>
+ 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+        <!-- Primefaces -->
+        <dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>3.5</version>
+		</dependency>
+        
+       	<!-- MySQL -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.25</version>
+        </dependency>
+
+		<!-- Hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>3.6.4.Final</version>
+            <version>4.2.4.Final</version>
             <classifier/>
         </dependency>
-        
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.6.4.Final</version>
+            <version>4.2.4.Final</version>
             <classifier/>
             <exclusions>
                 <exclusion>
@@ -62,18 +106,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.0.Final</version>
+            <version>1.0.1.Final</version>
             <classifier/>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>4.1.0.Final</version>
+            <version>5.0.1.Final</version>
             <classifier/>
             <exclusions>
                 <exclusion>
@@ -86,71 +128,41 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
-		<dependency>   
-    		<groupId>commons-fileupload</groupId>
-    		<artifactId>commons-fileupload</artifactId>     
-    		<version>1.3</version>
- 		</dependency>
-	            
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
-                
+  		<!-- Hibernate uses slf4j for logging, for our purposes here use the simple backend -->
         <dependency>
-			<groupId>javax.faces</groupId>
-			<artifactId>javax.faces-api</artifactId>
-			<version>2.2</version>
-		</dependency>
-
-		<dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-impl</artifactId>
-            <version>2.2.1</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.5</version>
         </dependency>
-         
         <dependency>
-            <groupId>com.sun.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>2.2.1</version>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.12.1.GA</version>
         </dependency>
 
         <!-- Jetty -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-            <version>7.6.0.v20120127</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-webapp</artifactId>
-            <version>7.6.0.v20120127</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jsp-2.1-glassfish</artifactId>
-            <version>2.1.v20100127</version>
-        </dependency>
-        
-        <dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>3.5</version>
-		</dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.eclipse.jetty</groupId> -->
+<!--             <artifactId>jetty-servlet</artifactId> -->
+<!--             <version>7.6.0.v20120127</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.eclipse.jetty</groupId> -->
+<!--             <artifactId>jetty-webapp</artifactId> -->
+<!--             <version>7.6.0.v20120127</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.mortbay.jetty</groupId> -->
+<!--             <artifactId>jsp-2.1-glassfish</artifactId> -->
+<!--             <version>2.1.v20100127</version> -->
+<!--         </dependency> -->
 
-        <dependency>
-          <groupId>org.freemarker</groupId>
-          <artifactId>freemarker</artifactId>
-          <version>2.3.20</version>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.25</version>
-        </dependency>
+		<!-- Freemarker -->
+<!--         <dependency> -->
+<!--           <groupId>org.freemarker</groupId> -->
+<!--           <artifactId>freemarker</artifactId> -->
+<!--           <version>2.3.20</version> -->
+<!--         </dependency> -->
 		
     </dependencies>
 
