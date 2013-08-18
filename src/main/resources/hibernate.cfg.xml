@@ -35,6 +35,9 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping resource="br/com/ufba/roomsmanageradmin/Usuario.hbm.xml"/>
+        <mapping resource="br/com/ufba/roomsmanageradmin/Setor.hbm.xml"/>
+        <mapping resource="br/com/ufba/roomsmanageradmin/Sala.hbm.xml"/>
+        <mapping resource="br/com/ufba/roomsmanageradmin/ReservaSala.hbm.xml"/>
 
     </session-factory>
 
