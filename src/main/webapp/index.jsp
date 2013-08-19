@@ -34,13 +34,13 @@ for(String s : str){
             <a class="brand" href="index.jsp">RoomsManager</a>
             <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="">
-              <a href="sala/index.do">Sala</a>
-              </li>
-              <li class="">
-              <a href="usuario/index.do">Usuario</a>
-              </li>
               <% if(logado != null){ %>
+                <li class="">
+              		<a href="sala/index.do">Sala</a>
+              	</li>
+              	<li class="">
+              		<a href="usuario/index.do">Usuario</a>
+              	</li>
                 <li class="logout">
                   <a href="login?logout">
                     <img title="Sair do Sistema" src="<%= url %>images/logout.png" alt="Sair do Sistema" />
