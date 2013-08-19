@@ -75,4 +75,9 @@ public class Usuario {
 		this.num_cadastro = num_cadastro;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return this.num_cadastro+"";
+	}
 }

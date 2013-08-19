@@ -7,14 +7,19 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.primefaces.event.RowEditEvent;
 
 import java.util.List;
 
+import javax.faces.context.FacesContext;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.swing.JOptionPane;
 
 import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
@@ -68,18 +73,21 @@ public class UsuarioBean implements Serializable{
 	    return "list?faces-redirect=true";
     }
     
-	public String update(ActionEvent event) throws ParseException
+	public void update(RowEditEvent event)
 	{
 		SessionFactory sf = Hibernate.getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = null;
-		
-		System.out.println("Chego");
-		
+			
 		try{
 			tx = session.beginTransaction();
-			session.update(usuario);
-			session.flush();
+			
+			this.usuario = (Usuario) event.getObject();
+			FacesMessage msg = new FacesMessage("Usuário atualizado", ((Usuario) event.getObject()).toString());  
+			
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			session.update(this.usuario);
+//			session.flush();
 			tx.commit(); 
 		}catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
@@ -87,8 +95,6 @@ public class UsuarioBean implements Serializable{
 		}finally {
 		session.close(); 
 		}
-		
-		return "list"; 
 	}
 
 	public void delete()

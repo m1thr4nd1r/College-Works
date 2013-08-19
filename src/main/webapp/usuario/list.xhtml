@@ -6,53 +6,100 @@
   	xmlns:p="http://primefaces.org/ui" >
 
   	<ui:define name="title">
-        Lista de Usuarios Cadastrado com Sucesso!
+        RoomsManagerAdmin :: Lista de Pessoas
     </ui:define>
 
     <ui:define name="content">
 		<section id="geral">
 			<p:layoutUnit position="center" id="conteudo">
-				<h:form prependId="false">  	
+				<h:form id="form">  	
+					<p:growl id="messages" showDetail="true"/> 	
 					<p:dataTable id="usuarios" var="usuario" value="#{usuarioBean.usuarios}"
-						paginator="true" rows="5" 
-			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+						paginator="true" rows="15" 
+			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 						rowsPerPageTemplate="5,10,15"  
+			            editable="true"
+			            rowEditListener="#{usuarioBean.update}"
 			            >
+
+			            <p:ajax event="rowEdit" listener="#{usuarioBean.update}" update=":form:messages"/>
+
 						<f:facet name="header">
-							<h:outputText value="Usuarios Cadastrados"/>
+							<h:outputText value="Lista de Usuarios"/>
 						</f:facet>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="Email"/>
-							</f:facet>
-							<h:outputText value="#{usuario.email}">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</h:outputText>
+						
+						<p:column headerText="Nome">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{usuario.nome}"/>
+								</f:facet>							
+							    <f:facet name="input">  
+		                    		<p:inputText value="#{usuario.nome}" style="width:100%"/>  
+	                			</f:facet>
+	                		</p:cellEditor>
+						</p:column>		
+
+						<p:column headerText="Email">
+							<p:cellEditor>	
+								<f:facet name="output">
+									<h:outputText value="#{usuario.email}"/>
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText value="#{usuario.email}" style="width:100%"/>  
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="Numero de Cadastro"/>
-							</f:facet>
-							<h:outputText value="#{usuario.num_cadastro}"/>
+
+						<p:column headerText="Matricula">
+							<p:cellEditor>	
+								<f:facet name="output">
+									<h:outputText value="#{usuario.num_cadastro}"/>
+								</f:facet>
+
+								<f:facet name="input">
+								<p:inputText value="#{usuario.num_cadastro}" style="width:100%" update=":form:usuarios"
+			            />  
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
-						<p:column>
-							<f:facet name="header">
-								<h:outputText value="Tipo de Usuario"/>
-							</f:facet>
-							<h:outputText value="#{usuario.tipo}"/>
+
+						<p:column headerText="Senha">
+							<p:cellEditor>	
+								<f:facet name="output">
+									<h:outputText value="********"/>
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText value="#{usuario.senha}" style="width:100%"/>  
+								</f:facet>
+							</p:cellEditor>
 						</p:column>
+
+						<p:column headerText="Tipo">
+							<p:cellEditor>	
+								<f:facet name="output">
+									<h:outputText value="#{usuario.tipo}"/>
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText value="#{usuario.tipo}" style="width:100%"/>  
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
 						<p:column style="width:4%">  
 							<p:commandButton id="viewButton" action="view" actionListener="#{usuarioBean.select}" icon="ui-icon-search" title="Visualizar"/>  
 			            </p:column>
-	        			<p:column style="width:4%">  
-							<p:commandButton id="editButton" action="edit" actionListener="#{usuarioBean.select}" icon="ui-icon-pencil" title="Editar">
-<!-- 								<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuarioBean.usuario}"/> -->
-							</p:commandButton>
+			            <p:column style="width:4%">  
+	            			<p:commandLink id="rowEdit" actionListener="#{usuarioBean.update}" ajax="true" update=":form:usuarios">
+      							<p:rowEditor icon="ui-icon-edit"/>
+							</p:commandLink >
 	        			</p:column>
 						<p:column style="width:4%">  
 							<p:commandButton id="deleteButton" action="#{usuarioBean.delete}" update="usuarios" icon="ui-icon-trash" title="Deletar"/>  
 	        			</p:column>
-					</p:dataTable>
+	        		</p:dataTable>
 				</h:form>
 			</p:layoutUnit>
 		</section>
