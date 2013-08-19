@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
@@ -78,7 +79,6 @@ public class UsuarioBean implements Serializable{
 		try{
 			tx = session.beginTransaction();
 			session.update(usuario);
-//			session.saveorU(usuario);
 			session.flush();
 			tx.commit(); 
 		}catch (HibernateException e) {
@@ -88,10 +88,10 @@ public class UsuarioBean implements Serializable{
 		session.close(); 
 		}
 		
-		return "list?faces-redirect=true"; 
+		return "list"; 
 	}
 
-	public String delete()
+	public void delete()
     {
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
@@ -109,8 +109,6 @@ public class UsuarioBean implements Serializable{
     	}finally {
 	    	session.close();
 	    }
-	    
-	    return "list?faces-redirect=true";
     }
 	
 	public void select()

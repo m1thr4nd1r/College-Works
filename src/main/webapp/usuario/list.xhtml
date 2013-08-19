@@ -45,10 +45,12 @@
 							<p:commandButton id="viewButton" action="view" actionListener="#{usuarioBean.select}" icon="ui-icon-search" title="Visualizar"/>  
 			            </p:column>
 	        			<p:column style="width:4%">  
-							<p:commandButton id="editButton" action="edit" actionListener="#{usuarioBean.select}" icon="ui-icon-pencil" title="Editar"/>
+							<p:commandButton id="editButton" action="edit" actionListener="#{usuarioBean.select}" icon="ui-icon-pencil" title="Editar">
+<!-- 								<f:setPropertyActionListener target="#{usuarioBean.usuario}" value="#{usuarioBean.usuario}"/> -->
+							</p:commandButton>
 	        			</p:column>
 						<p:column style="width:4%">  
-							<p:commandButton id="deleteButton" actionListener="#{usuarioBean.delete}" update="usuarios" icon="ui-icon-trash" title="Deletar"/>  
+							<p:commandButton id="deleteButton" action="#{usuarioBean.delete}" update="usuarios" icon="ui-icon-trash" title="Deletar"/>  
 	        			</p:column>
 					</p:dataTable>
 				</h:form>
