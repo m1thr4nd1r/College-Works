@@ -17,7 +17,6 @@ import javax.faces.model.ListDataModel;
 
 import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
-import br.com.ufba.roomsmanageradmin.dao.UsuarioDAO;
 
 @ManagedBean
 public class UsuarioBean implements Serializable{
@@ -53,9 +52,11 @@ public class UsuarioBean implements Serializable{
 	    Session session = sf.openSession();
 	    Transaction tx = null;
 	
+	    System.out.println("Chego2");
+	    
 	    try{
 	    	tx = session.beginTransaction();
-	    	session.save(usuario); 
+	    	session.saveOrUpdate(usuario); 
 	    	tx.commit();
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
@@ -66,17 +67,20 @@ public class UsuarioBean implements Serializable{
 	    return "list?faces-redirect=true";
     }
     
-	public String update()
+	public String update(ActionEvent event) throws ParseException
 	{
 		SessionFactory sf = Hibernate.getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = null;
 		
+		System.out.println("Chego");
+		
 		try{
 			tx = session.beginTransaction();
-			session.update(usuario); 
-			tx.commit();
+			session.update(usuario);
+//			session.saveorU(usuario);
 			session.flush();
+			tx.commit(); 
 		}catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
 				e.printStackTrace(); 

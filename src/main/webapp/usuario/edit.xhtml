@@ -10,8 +10,8 @@
 			<p:layoutUnit position="center" id="conteudo">
 				<div class="container-fluid offset4 span10">
 					<div class="row-fluid">
-						<p:message for="form"></p:message>
-							<h:form id="form">
+						<p:message for="form_edit"></p:message>
+							<h:form id="form_edit">
 								
 								<p:fieldset legend="Atualização de Usuario" >
 								<h:panelGrid id="panelGrid" columns="2">
@@ -50,8 +50,8 @@
 								<div class="span12">
 									<div class="bt span">
 										<div class="span2">
-									  		<p:commandButton value="Atualizar" id="enviar" ajax="false" actionListener="#{usuarioBean.update}"/>
-									  	</div>
+									  		<p:commandButton value="Atualizar" id="upt" ajax="false" actionListener="#{usuarioBean.create}" process="@this"/>
+								  		</div>
 									  	<div class="span2">
 									  		<p:commandButton value="Resetar" update="panelGrid" process="@this">
 										        <p:resetInput target="panelGrid"/>
