@@ -42,7 +42,7 @@ for(String s : str){
               		<a href="usuario/index.do">Usuario</a>
               	</li>
                 <li class="">
-                <a href="#{request.contextPath}/setor/cadastra.do">Cadastra setor</a>
+                <a href="setor/cadastra.do">Cadastra setor</a>
                 </li>
                 <li class="logout">
                   <a href="login?logout">
