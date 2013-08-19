@@ -41,6 +41,9 @@ for(String s : str){
               	<li class="">
               		<a href="usuario/index.do">Usuario</a>
               	</li>
+                <li class="">
+                <a href="#{request.contextPath}/setor/cadastra.do">Cadastra setor</a>
+                </li>
                 <li class="logout">
                   <a href="login?logout">
                     <img title="Sair do Sistema" src="<%= url %>images/logout.png" alt="Sair do Sistema" />
