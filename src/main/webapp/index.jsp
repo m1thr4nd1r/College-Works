@@ -20,7 +20,9 @@ for(String s : str){
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
   <head>  
-    <script type="text/javascript" src="js/padrao.js"></script>
+  		<script type="text/javascript" src="js/jquery-2.0.2.js"></script>
+    	<script type="text/javascript" src="js/jquery.min.js"></script>
+    	<script type="text/javascript" src="js/padrao.js"></script>
         <title>RoomsManagerAdmin</title>
         <link href="css/comum.css" media="all" rel="stylesheet" type="text/css" />
         <link href="css/login.css" media="all" rel="stylesheet" type="text/css" />
@@ -83,6 +85,14 @@ for(String s : str){
           </form>
         </div>
         <% }else{%>
+          <script>
+          function redirect(){
+        	  	var l = window.location;
+  				var base_url = l.protocol + "//" + l.host + "/";
+  				$(location).attr("href",base_url+"index.do");
+          }
+          redirect();
+          </script>	
           <div class="logo_index">
             <h1>RoomsManagerAdmin</h1>
           </div>
