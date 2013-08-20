@@ -12,7 +12,8 @@
 	<ui:define name="content">
 		<section id="geral">
 			<p:layoutUnit position="center" id="conteudo">
-				<h:form prependId="false">  	
+				<h:form id="form"> 
+					<p:growl id="messages" showDetail="true" /> 	
 					<p:dataTable id="sala" var="salas" value="#{salaBean.listaSalas}"
 						paginator="true" rows="15" 
 			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
@@ -20,6 +21,8 @@
 						editable="true"
 						
 			            >
+			            <p:ajax event="rowEdit" listener="#{salaBean.onEdit}" update=":form:messages" />
+        				<p:ajax event="rowEditCancel" listener="#{salaBean.onCancel}" update=":form:messages" />
 						<f:facet name="header">
 							<h:outputText value="Lista de salas"/>
 						</f:facet>	  
@@ -38,9 +41,15 @@
 								<f:facet name="output">
 									<h:outputText value="#{salas.setorNome}"/>
 								</f:facet>							
-							    <f:facet name="input">  
-		                    		<p:inputText value="#{salas.setorNome}" style="width:100%"/>  
-	                			</f:facet>
+							    <f:facet name="input">
+<!-- 			                    	<h:selectOneMenu value="#{salas.setorNome}" > -->
+<!-- 			                        	<f:selectItems value="#{setorBean.setores}" -->
+<!-- 				                            var="man"  -->
+<!-- 				                            itemLabel="#{salas.setor_id}" -->
+<!-- 				                            itemValue="#{salas.setor_id}" /> -->
+<!-- 					               </h:selectOneMenu> -->
+										<h:outputText value="#{salas.setorNome}"/>
+					            </f:facet>
 	                		</p:cellEditor>  
 						</p:column>
 						<p:column headerText="Tipo">
@@ -49,7 +58,11 @@
 									<h:outputText value="#{salas.tipo}"/>
 								</f:facet>
 								<f:facet name="input" style="width:100%">
-									<p:inputText value="#{salas.tipo}"/>	
+									<h:selectOneMenu value="#{salas.setorNome}" >
+										<f:selectItem itemLabel="Reunião" itemValue="Reuniao" />  
+										<f:selectItem itemLabel="Laboratório" itemValue="Laboratorio" />  
+										<f:selectItem itemLabel="Auditório" itemValue="Auditorio" />  										
+									</h:selectOneMenu>	
 								</f:facet>
 							</p:cellEditor>
 						</p:column>

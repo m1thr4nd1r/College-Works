@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
@@ -35,15 +36,17 @@ public class UsuarioBean implements Serializable{
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	public DataModel<Usuario> getUsuarios()
-	{
+	@PostConstruct
+	void init(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
 	    usuarios = new ListDataModel(l);
 	    session.close();
-		    
+	}
+
+	public DataModel<Usuario> getUsuarios()
+	{		    
 	    return usuarios;
 	}
 	
