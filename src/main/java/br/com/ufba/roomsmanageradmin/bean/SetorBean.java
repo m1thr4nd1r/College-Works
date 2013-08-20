@@ -4,13 +4,23 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.ListDataModel;
 import javax.swing.JOptionPane;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 import br.com.ufba.roomsmanageradmin.dao.Myconnection;
 import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
 import br.com.ufba.roomsmanageradmin.dao.SetorDAO;
@@ -25,39 +35,39 @@ public class SetorBean implements Serializable {
 	private List<Setor> setores;
 	private String setor_id;
 	
+	public String create(ActionEvent ae) throws ParseException
+	{
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    Transaction tx = null;
 	
-	public void cadastra(){
-		SetorDAO SetorDAO = new SetorDAO();
-		
-		try {
-			SetorDAO.salvar(setor);
-		} catch (SQLException e) {
-			System.out.println("#"+e.getMessage());
-			e.printStackTrace();
-		}
-		
-	}
+	    
+	    try{
+	    	tx = session.beginTransaction();
+	    	session.saveOrUpdate(setor); 
+	    	tx.commit();
+    	}catch (HibernateException e) {
+    		if (tx!=null) tx.rollback();
+	    	e.printStackTrace(); 
+    	}finally {
+	    	session.close();
+	    }
+	    return "list?faces-redirect=true";
+    }
 	
-	public void lista(){
-		SetorDAO SetorDAO = new SetorDAO();
-		
-		try {
-			setores = SetorDAO.getSetor();
-		} catch (SQLException e) {
-			System.out.println("#"+e.getMessage());
-			e.printStackTrace();
-		}
-		
-	}
-
-	
+	@PostConstruct
+	void init(){
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    setores= (List<Setor>) session.createQuery("FROM Setor").list();
+	    session.close();
+	}	
 	
 	public Setor getSetor(){
 		return setor;
 	}
 	
 	public List<Setor> getSetores(){
-		lista();
 		return setores;
 	}
 
