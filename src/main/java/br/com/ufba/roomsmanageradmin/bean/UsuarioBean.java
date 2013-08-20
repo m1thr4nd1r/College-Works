@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.primefaces.event.RowEditEvent;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class UsuarioBean implements Serializable{
 		this.usuario = usuario;
 	}
 	@PostConstruct
-	public void init(){
+	public void UsuarioBean(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
@@ -73,11 +74,13 @@ public class UsuarioBean implements Serializable{
 	    return "list?faces-redirect=true";
     }
     
-	public String update(ActionEvent event) throws ParseException
+	public String update(RowEditEvent event) throws ParseException
 	{
 		SessionFactory sf = Hibernate.getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = null;
+		
+		select();
 		
 		System.out.println("Chego");
 		
