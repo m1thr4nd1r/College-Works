@@ -13,32 +13,32 @@
 	  
 					    <p:growl id="messages" showDetail="true" />  
 					  
-					    <p:schedule id="schedule" value="#{scheduleController.eventModel}" widgetVar="myschedule">  
-					        <p:ajax event="dateSelect" listener="#{scheduleController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
-					        <p:ajax event="eventSelect" listener="#{scheduleController.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
-					        <p:ajax event="eventMove" listener="#{scheduleController.onEventMove}" update="messages" />  
-					        <p:ajax event="eventResize" listener="#{scheduleController.onEventResize}" update="messages" />  
+					    <p:schedule id="schedule" value="#{reservaSalaController.eventModel}" widgetVar="myschedule">  
+					        <p:ajax event="dateSelect" listener="#{reservaSalaController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
+					        <p:ajax event="eventSelect" listener="#{reservaSalaController.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
+					        <p:ajax event="eventMove" listener="#{reservaSalaController.onEventMove}" update="messages" /> 
+					        <p:ajax event="eventResize" listener="#{reservaSalaController.onEventResize}" update="messages" />  
 					    </p:schedule>  
 					  
 					    <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">  
 					        <h:panelGrid id="eventDetails" columns="2">  
 					            <h:outputLabel for="title" value="Title:" />  
-					            <p:inputText id="title" value="#{scheduleController.event.title}" required="true"/>  
+					            <p:inputText id="title" value="#{reservaSalaController.event.title}" required="true"/>  
 					  
 					            <h:outputLabel for="from" value="From:" />  
-					            <p:inputMask id="from" value="#{scheduleController.event.startDate}" mask="99/99/9999">  
+					            <p:inputMask id="from" value="#{reservaSalaController.event.startDate}" mask="99/99/9999">  
 					                <f:convertDateTime pattern="dd/MM/yyyy" />  
 					            </p:inputMask>  
 					  
 					            <h:outputLabel for="to" value="To:" />  
-					            <p:inputMask id="to" value="#{scheduleController.event.endDate}" mask="99/99/9999">  
+					            <p:inputMask id="to" value="#{reservaSalaController.event.endDate}" mask="99/99/9999">  
 					                <f:convertDateTime pattern="dd/MM/yyyy" />  
 					            </p:inputMask>  
 					  
 					            <h:outputLabel for="allDay" value="All Day:" />  
-					            <h:selectBooleanCheckbox id="allDay" value="#{scheduleController.event.allDay}" />  
+					            <h:selectBooleanCheckbox id="allDay" value="#{reservaSalaController.event.allDay}" />  
 					  
-					            <p:commandButton id="addButton" value="Salvar" actionListener="#{scheduleController.addEvent}" oncomplete="myschedule.update();eventDialog.hide();"/>
+					            <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaSalaController.addEvent}" oncomplete="myschedule.update();eventDialog.hide();"/>
 					            <p:commandButton type="reset" value="Limpar" />  
 					        </h:panelGrid>  
 					    </p:dialog>  
