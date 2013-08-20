@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 18/08/2013 18:25:12 by Hibernate Tools 3.4.0.CR1 -->
+<!-- Generated 20/08/2013 18:15:47 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="br.com.ufba.roomsmanageradmin.model.Sala" table="sala">
         <id name="id" type="int">
@@ -34,6 +34,9 @@
         </property>
         <property name="setor_id" type="int">
             <column name="SETOR_ID" />
+        </property>
+        <property name="setorNome" type="java.lang.String">
+            <column name="SETORNOME" />
         </property>
     </class>
 </hibernate-mapping>

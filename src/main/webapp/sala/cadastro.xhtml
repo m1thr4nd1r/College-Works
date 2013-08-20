@@ -32,9 +32,9 @@
 										<p:inputText id="dCapacidade" value="#{salaBean.sala.capacidade}" size="60" locale="pt_BR" required="true"/>
 										<p:outputLabel for="iTipo">Tipo </p:outputLabel>  
 								       	<p:selectOneListbox id="iTipo" value="#{salaBean.sala.tipo}" required="true">  
-								           <f:selectItem itemLabel="Reunião" itemValue="Reunião" />  
-								           <f:selectItem itemLabel="Laboratório" itemValue="Laboratório" />  
-								           <f:selectItem itemLabel="Auditório" itemValue="Auditório" />  
+								           <f:selectItem itemLabel="Reunião" itemValue="Reuniao" />  
+								           <f:selectItem itemLabel="Laboratório" itemValue="Laboratorio" />  
+								           <f:selectItem itemLabel="Auditório" itemValue="Auditorio" />  
 								       	</p:selectOneListbox>  
 										<p:outputPanel id="customPanel">  
 											  <p:outputLabel for="dQuadro">Possui Quadro</p:outputLabel> 
@@ -94,7 +94,7 @@
 							<div class="span12">
 								<div class="bt span">
 									<div class="span2">
-								  		<p:commandButton value="Enviar" actionListener="#{salaBean.cadastra}"/>
+								  		<p:commandButton value="Enviar" ajax="false" actionListener="#{salaBean.create}"/>
 								  	</div>
 								  	<div class="span2">
 								  		<p:commandButton value="Resetar" type="reset"/>
