@@ -71,6 +71,7 @@ public class SalaBean implements Serializable{
 	    
 	    try{
 	    	tx = session.beginTransaction();
+	    	sala.setSetor_id(4);
 	    	session.saveOrUpdate(sala); 
 	    	tx.commit();
     	}catch (HibernateException e) {
