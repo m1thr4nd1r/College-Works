@@ -39,7 +39,7 @@ public class UsuarioBean implements Serializable{
 	private String num_cadastro = "";
 	
 	@PostConstruct
-	void init(){
+	void UsuarioBean(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
@@ -91,15 +91,17 @@ public class UsuarioBean implements Serializable{
 		SessionFactory sf = Hibernate.getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = null;
+		
+		select();
 			
 		try{
 			
 			tx = session.beginTransaction();
-			FacesMessage msg = new FacesMessage("Usuário atualizado",""+((Usuario)event.getObject()).getNome());  
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+//			FacesMessage msg = new FacesMessage("Usuário atualizado",""+((Usuario)event.getObject()).getNome());  
+//			FacesContext.getCurrentInstance().addMessage(null, msg);
 			
 			session.update(this.usuario);
-//			session.flush();
+			session.flush();
 			tx.commit(); 
 		}catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
