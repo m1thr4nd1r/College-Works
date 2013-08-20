@@ -23,7 +23,7 @@
         <property name="tipo" type="java.lang.String">
             <column name="TIPO" />
         </property>
-        <property name="ar_condicionado" type="boolean">
+        <property name="arcondicionado" type="boolean">
             <column name="AR_CONDICIONADO" />
         </property>
         <property name="computadores" type="int">

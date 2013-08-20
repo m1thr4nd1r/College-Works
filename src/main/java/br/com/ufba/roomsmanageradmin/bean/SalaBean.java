@@ -55,10 +55,10 @@ public class SalaBean implements Serializable{
 	
 	@PostConstruct
 	void init(){
-		//SessionFactory sf = Hibernate.getSessionFactory();
-	    //Session session = sf.openSession();
-	    //listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();	    
-	    //session.close();
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();	    
+	    session.close();
 	}
 	
 	public String create(ActionEvent ae) throws ParseException
