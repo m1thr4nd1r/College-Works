@@ -78,6 +78,9 @@ public class Usuario {
 	@Override
 	public String toString()
 	{
-		return this.num_cadastro+"";
+		return  "ID: "+this.id+"\n"+
+				"NUM. CADASTRO: "+this.num_cadastro+"\n"+
+				"EMAIL: "+this.email+"\n"+
+				"NOME: "+this.nome;
 	}
 }

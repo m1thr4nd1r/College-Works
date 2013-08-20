@@ -19,14 +19,17 @@
 			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 						rowsPerPageTemplate="5,10,15"  
 			            editable="true"
-			            rowEditListener="#{usuarioBean.update}"
 			            >
-
-			            <p:ajax event="rowEdit" listener="#{usuarioBean.update}" update=":form:messages"/>
-
+			            
+						<p:ajax event="rowEdit" update=":form:messages" listener="#{usuarioBean.update}"/>
+									
 						<f:facet name="header">
 							<h:outputText value="Lista de Usuarios"/>
 						</f:facet>
+						
+						<p:column headerText="ID">
+							<h:outputText value="#{usuario.id}"/>
+						</p:column>
 						
 						<p:column headerText="Nome">
 							<p:cellEditor>
@@ -44,7 +47,6 @@
 								<f:facet name="output">
 									<h:outputText value="#{usuario.email}"/>
 								</f:facet>
-
 								<f:facet name="input">
 									<p:inputText value="#{usuario.email}" style="width:100%"/>  
 								</f:facet>
@@ -52,14 +54,13 @@
 						</p:column>
 
 						<p:column headerText="Matricula">
-							<p:cellEditor>	
+							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{usuario.num_cadastro}"/>
+									<h:outputText value="#{usuario.num_cadastro}" id="matricula" />
 								</f:facet>
 
 								<f:facet name="input">
-								<p:inputText value="#{usuario.num_cadastro}" style="width:100%" update=":form:usuarios"
-			            />  
+								<p:inputText value="#{usuario.num_cadastro}" style="width:100%"/>  
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -92,9 +93,7 @@
 							<p:commandButton id="viewButton" action="view" actionListener="#{usuarioBean.select}" icon="ui-icon-search" title="Visualizar"/>  
 			            </p:column>
 			            <p:column style="width:4%">  
-	            			<p:commandLink id="rowEdit" actionListener="#{usuarioBean.update}" ajax="true" update=":form:usuarios">
-      							<p:rowEditor icon="ui-icon-edit"/>
-							</p:commandLink >
+	            			<p:rowEditor icon="ui-icon-edit"/>
 	        			</p:column>
 						<p:column style="width:4%">  
 							<p:commandButton id="deleteButton" action="#{usuarioBean.delete}" update="usuarios" icon="ui-icon-trash" title="Deletar"/>  
