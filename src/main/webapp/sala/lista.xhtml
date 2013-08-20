@@ -39,16 +39,16 @@
 						<p:column headerText="Setor" >
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{salas.setor_id}"/>
+									<h:outputText value="#{salas.setorNome}"/>
 								</f:facet>							
 							    <f:facet name="input">
-<!-- 			                    	<h:selectOneMenu value="#{salas.setorNome}" > -->
-<!-- 			                        	<f:selectItems value="#{setorBean.setores}" -->
-<!-- 				                            var="man"  -->
-<!-- 				                            itemLabel="#{salas.setor_id}" -->
-<!-- 				                            itemValue="#{salas.setor_id}" /> -->
-<!-- 					               </h:selectOneMenu> -->
-										<h:outputText value="#{salas.setor_id}"/>
+			                    	<h:selectOneMenu value="#{salas.setorNome}" >
+			                        	<f:selectItems value="#{setorBean.setores}"
+				                            var="man" 
+				                            itemLabel="#{man.nome}"
+				                            itemValue="#{man.id}" />
+					               </h:selectOneMenu>
+										
 					            </f:facet>
 	                		</p:cellEditor>  
 						</p:column>
