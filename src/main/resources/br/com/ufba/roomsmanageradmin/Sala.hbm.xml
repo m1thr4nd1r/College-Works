@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<<<<<<< HEAD
 <!-- Generated 20/08/2013 18:15:47 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="br.com.ufba.roomsmanageradmin.model.Sala" table="SALA">
+=======
+<!-- Generated 18/08/2013 18:25:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="br.com.ufba.roomsmanageradmin.model.Sala" table="sala">
+>>>>>>> afdcfd0d1f7a8cdf23bb522b6acb75fdc79c305f
         <id name="id" type="int">
             <column name="ID" />
             <generator class="assigned" />
@@ -23,8 +29,13 @@
         <property name="tipo" type="java.lang.String">
             <column name="TIPO" />
         </property>
+<<<<<<< HEAD
         <property name="ar_condicionado" type="boolean">
             <column name="AR_CONDICIONADO" />
+=======
+        <property name="arcondicionado" type="boolean">
+            <column name="ARCONDICIONADO" />
+>>>>>>> afdcfd0d1f7a8cdf23bb522b6acb75fdc79c305f
         </property>
         <property name="computadores" type="int">
             <column name="COMPUTADORES" />
@@ -35,8 +46,11 @@
         <property name="setor_id" type="int">
             <column name="SETOR_ID" />
         </property>
+<<<<<<< HEAD
         <property name="setorNome" type="java.lang.String">
             <column name="SETORNOME" />
         </property>
+=======
+>>>>>>> afdcfd0d1f7a8cdf23bb522b6acb75fdc79c305f
     </class>
 </hibernate-mapping>
