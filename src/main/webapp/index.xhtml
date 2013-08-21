@@ -11,38 +11,74 @@
           		<div class="container-fluid offset1 span12">
 	          		<h:form id="form">  
 	  
-					    <p:growl id="messages" showDetail="true" />  
-					  
-					    <p:schedule id="schedule" value="#{reservaSalaController.eventModel}" widgetVar="myschedule">  
-					        <p:ajax event="dateSelect" listener="#{reservaSalaController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
-					        <p:ajax event="eventSelect" listener="#{reservaSalaController.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
-					        <p:ajax event="eventMove" listener="#{reservaSalaController.onEventMove}" update="messages" /> 
-					        <p:ajax event="eventResize" listener="#{reservaSalaController.onEventResize}" update="messages" />  
-					    </p:schedule>  
-					  
-					    <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">  
-					        <h:panelGrid id="eventDetails" columns="2">  
-					            <h:outputLabel for="title" value="Title:" />  
-					            <p:inputText id="title" value="#{reservaSalaController.event.title}" required="true"/>  
-					  
-					            <h:outputLabel for="from" value="From:" />  
-					            <p:inputMask id="from" value="#{reservaSalaController.event.startDate}" mask="99/99/9999">  
-					                <f:convertDateTime pattern="dd/MM/yyyy" />  
-					            </p:inputMask>  
-					  
-					            <h:outputLabel for="to" value="To:" />  
-					            <p:inputMask id="to" value="#{reservaSalaController.event.endDate}" mask="99/99/9999">  
-					                <f:convertDateTime pattern="dd/MM/yyyy" />  
-					            </p:inputMask>  
-					  
-					            <h:outputLabel for="allDay" value="All Day:" />  
-					            <h:selectBooleanCheckbox id="allDay" value="#{reservaSalaController.event.allDay}" />  
-					  
-					            <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaSalaController.addEvent}" oncomplete="myschedule.update();eventDialog.hide();"/>
-					            <p:commandButton type="reset" value="Limpar" />  
-					        </h:panelGrid>  
-					    </p:dialog>  
-					  
+					    <p:growl id="messages" showDetail="true" />
+					    
+					    <div class="container-fluid offset1 span12">
+						    <p:schedule id="schedule" value="#{reservaSalaController.eventModel}" widgetVar="myschedule">  
+						        <p:ajax event="dateSelect" listener="#{reservaSalaController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
+						        <p:ajax event="eventSelect" listener="#{reservaSalaController.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
+						        <p:ajax event="eventMove" listener="#{reservaSalaController.onEventMove}" update="messages" /> 
+						        <p:ajax event="eventResize" listener="#{reservaSalaController.onEventResize}" update="messages" />  
+						    </p:schedule>  
+					  	</div>
+					  	
+					  	<div class="container-fluid span8">
+						  	<p:dialog widgetVar="eventDialog" header="Fazer reserva de sala" showEffect="clip" hideEffect="clip">  
+						        <h:panelGrid id="eventDetails" columns="3">  
+						        
+									<p:outputLabel for="sala">Sala</p:outputLabel>
+									<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaController.sala_id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
+							            <f:selectItems value="#{reservaSalaController.salas}" var="sala" itemLabel="#{sala.nome}" itemValue="#{sala.id}"/>
+							        </p:selectOneMenu>
+							        <p:outputLabel></p:outputLabel>
+							        
+									<p:outputLabel for="dTermino">Data de Término</p:outputLabel>
+									<p:calendar id="dTermino" value="#{reservaSalaController.reserva.dataFim}"  locale="pt_BR" pattern="dd/MM/yyyy"/>
+									<p:outputLabel>Só preencher caso seja mais de dia.</p:outputLabel>
+									
+									<p:outputLabel for="hInicio">Horário Inicio</p:outputLabel>
+									<p:calendar id="hInicio" value="#{reservaSalaController.reserva.horarioInicio}" pattern="HH:mm" timeOnly="true" required="true"/>
+									<p:outputLabel></p:outputLabel>
+									
+									<p:outputLabel for="hTermino">Horário de Término</p:outputLabel>
+									<p:calendar id="hTermino" value="#{reservaSalaController.reserva.horarioTermino}" pattern="HH:mm" timeOnly="true" required="true"/>
+									<p:outputLabel></p:outputLabel>
+									
+									<p:outputLabel for="email">Email</p:outputLabel>
+									<p:inputText id="email" value="#{reservaSalaController.reserva.email}" required="true" title="Email" requiredMessage="O campo Email é Obrigatório"  validatorMessage="Email inválido">
+										<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+									</p:inputText>
+									<h:outputText styleClass="info" value="Preferencialmente, email da UFBA"/>
+									
+									<p:outputLabel for="telefone">Telefone</p:outputLabel>
+									<p:inputMask id="telefone" value="#{reservaSalaController.reserva.telefone}" title="Telefone" mask="(99)9999-9999."/>
+									<p:outputLabel></p:outputLabel>
+									
+									<p:outputLabel for="responsavel">Responsável</p:outputLabel>
+									<p:inputText id="responsavel" value="#{reservaSalaController.reserva.responsavel}" required="true" title="Responsavel" requiredMessage="O campo Responsável é Obrigatório"/>
+									<p:outputLabel></p:outputLabel>
+									
+									<p:outputLabel for="reservado_para">Reservado para</p:outputLabel>
+									<p:inputTextarea id="reservado_para" rows="3" cols="60" counter="counter" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaController.reserva.reservadoPara}" title="Reservado Para"/>
+									<h:outputText id="counter" styleClass="info" />  
+									
+									<p:outputLabel for="privado"  styleClass="span">Evento privado: </p:outputLabel>
+									<p:selectOneRadio id="privado" value="#{reservaSalaController.reserva.eventoPrivado}">  
+							            <f:selectItem itemLabel="Sim" itemValue="true"/>  
+							            <f:selectItem itemLabel="Não" itemValue="false" />    
+							        </p:selectOneRadio>
+									<p:outputLabel></p:outputLabel>
+									
+									<p:outputLabel for="obs">Observação</p:outputLabel>
+									<p:inputTextarea id="obs" rows="3" cols="60" counter="contObs" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaController.reserva.observacao}" title="Observação"/>
+									<h:outputText id="contObs" styleClass="info" />
+									<br/>
+						            <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaSalaController.addEvent()}" oncomplete="myschedule.update();eventDialog.hide();"/>
+						            <p:commandButton type="reset" value="Limpar" />  
+						        </h:panelGrid>  
+						    </p:dialog>  
+					  	</div>
+					  	
 					</h:form>  
        			</div>
        		</p:layoutUnit>

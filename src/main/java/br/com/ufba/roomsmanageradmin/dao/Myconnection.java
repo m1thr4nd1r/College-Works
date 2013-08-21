@@ -25,7 +25,7 @@ public class Myconnection{
             } 
             catch(Exception e)
             {
-            	JOptionPane.showMessageDialog(null,"FALHA NA CONEXÃƒO: "+e.toString()); 
+            	JOptionPane.showMessageDialog(null,"FALHA NA CONEXAO: "+e.toString()); 
             }
         }
         return connection.createStatement();
