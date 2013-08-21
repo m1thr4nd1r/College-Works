@@ -17,10 +17,10 @@ public class UsuarioDAO implements Serializable {
 	public void salva(Usuario usuario) throws SQLException, ParseException
 	{
 		String sql;
-		sql = "INSERT INTO usuario (nome,senha,email,num_cadastro,tipo)" + "VALUES('" +
-		usuario.getNome()+"','"+usuario.getSenha()+"','"+usuario.getEmail()+"','"+usuario.getNum_cadastro()+"','"+usuario.getTipo()+"')";
+//		sql = "INSERT INTO usuario (nome,senha,email,num_cadastro,tipo)" + "VALUES('" +
+//		usuario.getNome()+"','"+usuario.getSenha()+"','"+usuario.getEmail()+"','"+usuario.getNum_cadastro()+"','"+usuario.getTipo()+"')";
 		Statement st = (Statement) Myconnection.getStatement();
-		st.executeUpdate(sql);
+//		st.executeUpdate(sql);
 		st.close();
 	}
 	
@@ -34,8 +34,8 @@ public class UsuarioDAO implements Serializable {
 		
 		while(rs.next())
 		{
-			Usuario user = new Usuario(rs.getString("email"),rs.getString("senha"), rs.getString("nome"), rs.getInt("num_cadastro"), rs.getBoolean("tipo"));
-			lista.add(user);
+//			Usuario user = new Usuario(rs.getString("email"),rs.getString("senha"), rs.getString("nome"), rs.getInt("num_cadastro"), rs.getBoolean("tipo"));
+//			lista.add(user);
 		}
 		
 		st.close();
