@@ -130,7 +130,7 @@ public class ReservaSalaController implements Serializable{
 			reserva.setDataFim(event.getEndDate());
 		}
 		
-    	JOptionPane.showMessageDialog(null,reserva.toString());
+    	//JOptionPane.showMessageDialog(null,reserva.toString());
     	
     	SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();

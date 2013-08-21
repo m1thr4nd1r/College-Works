@@ -43,7 +43,7 @@ public class ReservaSala implements Serializable {
 		this.id = id;
 	}
 
-	public ReservaSala() {
+	public ReservaSala(){
 		this.sala = new Sala();
 	}
 
@@ -278,4 +278,22 @@ public class ReservaSala implements Serializable {
 		
 		return data;
     }
+	
+	@Override
+	public String toString(){
+		return  "ID: "+id+"\n"+
+				"ID SALA: " +sala.getId()+"\n"+
+				"DATA INICIO: "+dataInicio+"\n"+
+				"DATA FIM: "+dataFim+"\n"+
+				"HORARIO INICIO: "+horarioInicio+"\n"+
+				"HORARIO TERMINO: "+horarioTermino+"\n"+
+				"RESPONSAVEL: "+responsavel+"\n"+
+				"RESERVA PARA: "+reservadoPara+"\n"+
+				"EVENTO PRIVADO: "+eventoPrivado+"\n"+
+				"EMAIL: "+email+"\n"+
+				"TELEFONE: "+telefone+"\n"+
+				"OBSERVACAO: "+observacao+"\n"+
+				"ACEITO: "+aceito;
+	}
+	
 }
