@@ -21,7 +21,7 @@
 						editable="true"
 						
 			            >
-			            <p:ajax event="rowEdit" listener="#{salaBean.onEdit}" update=":form:messages" />
+			            <p:ajax event="rowEdit" listener="#{salaBean.update}" update=":form:messages" />
         				<p:ajax event="rowEditCancel" listener="#{salaBean.onCancel}" update=":form:messages" />
 						<f:facet name="header">
 							<h:outputText value="Lista de salas"/>
@@ -141,9 +141,15 @@
 										</h:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>	
-						</p:column>					
+						</p:column>	
+						<p:column style="width:4%">  
+							<p:commandButton id="viewButton" action="view" actionListener="#{salaBean.select}" icon="ui-icon-search" title="Visualizar"/>  
+			            </p:column>				
 						<p:column style="width:6%">  
 	            			<p:rowEditor />  
+	        			</p:column>
+	           			<p:column style="width:4%">  
+							<p:commandButton id="deleteButton" action="#{salaBean.delete}" update="sala" icon="ui-icon-trash" title="Deletar"/>  
 	        			</p:column> 
 					</p:dataTable>
 				</h:form>
