@@ -58,7 +58,6 @@ public class UsuarioBean implements Serializable{
 	    Transaction tx = null;
 	    
 	    usuario.setTipo_id(usuario.getTipo_id()+1);
-//	    usuario.setTipo_id(usuario.getTipo_id()*10);
 	    
 	    try{
 	    	tx = session.beginTransaction();
@@ -108,6 +107,8 @@ public class UsuarioBean implements Serializable{
 	    	tx = session.beginTransaction();
 	    	session.delete(usuario); 
 	    	tx.commit();
+	    	List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
+		    usuarios = new ListDataModel(l);
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 
