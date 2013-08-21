@@ -63,9 +63,20 @@ public class ReservaSalaController implements Serializable{
 //	    	JOptionPane.showMessageDialog(null,"#"+dataI+"\n#"+dataF);
 	    	
 	    	Sala sala = reservaSala.getSala();
+	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+	    	
+	    	try {
+				reservaSala.setDataInicio(mergeDateHour(sdf.parse(dataI.toString()),horaI));
+		    	reservaSala.setDataFim(mergeDateHour(sdf.parse(dataF.toString()), horaF));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	    	//JOptionPane.showMessageDialog(null,reservaSala.toString());
 	    	
 	    	if(!sala.getTipo().toLowerCase().equals("laboratorio") && reservaSala.isAceito()){
-	    		eventModel.addEvent(new DefaultScheduleEvent(sala.getNome()+" - "+reservaSala.getResponsavel()+": "+reservaSala.getReservadoPara(),dataI,dataF));
+	    		eventModel.addEvent(new DefaultScheduleEvent(sala.getNome()+" - "+reservaSala.getResponsavel()+": "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim()));
 	    	}
 	    	
 		}
@@ -142,7 +153,8 @@ public class ReservaSalaController implements Serializable{
 	    	tx.commit();
 	    	
 	    	List<Sala> l = (List<Sala>) session.createQuery("FROM Sala WHERE id = "+reserva.getSala().getId()).list();
-    		for (Sala s : l) {
+    		
+	    	for (Sala s : l) {
 				sala = s;
 			}
     		
@@ -153,6 +165,7 @@ public class ReservaSalaController implements Serializable{
 	    	}
 	    	
 	        this.event = new DefaultScheduleEvent();
+	        this.reserva = new ReservaSala();
 	        
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
@@ -165,7 +178,7 @@ public class ReservaSalaController implements Serializable{
     
     public void onEventSelect(SelectEvent selectEvent) {
     	this.event = (ScheduleEvent) selectEvent.getObject();
-    	JOptionPane.showMessageDialog(null,"SELECT EVENT "+event+"\n#"+event.getId());
+    	//JOptionPane.showMessageDialog(null,"SELECT EVENT "+event+"\n#"+event.getId());
 	}  
       
     public void onDateSelect(SelectEvent selectEvent) {  
@@ -252,6 +265,7 @@ public class ReservaSalaController implements Serializable{
     	cal.set(Calendar.HOUR_OF_DAY,hora.getHours());
     	cal.set(Calendar.MINUTE,hora.getMinutes());
     	cal.set(Calendar.SECOND,hora.getSeconds());
+    	JOptionPane.showMessageDialog(null,cal.getTime());
     	return cal.getTime();
     	
 	}
