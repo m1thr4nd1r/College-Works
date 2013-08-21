@@ -84,41 +84,7 @@ public class SalaBean implements Serializable{
 	    return "list?faces-redirect=true";
     }
 
-	/*public String cadastra(){
-		
-		SalaDAO salaDAO = new SalaDAO();
-		
-		try {
-			
-			sala.setSetor_id(Integer.parseInt(setor_id));
-			salaDAO.salva(sala);
-			JOptionPane.showMessageDialog(null, "Sala cadastrada com sucesso. ");
-			return "cadastra.do?faces-redirect=true";
-		} catch (SQLException e) {
-			System.out.println("#"+e.getMessage());
-			e.printStackTrace();
-		}
-		return "cadastra.do?faces-redirect=true";
-	}
-	*/
-//	public void lista(){
-//		SalaDAO salaDAO = new SalaDAO();
-//		SetorDAO setorDAO = new SetorDAO();
-//		try{
-//			listaSalas = salaDAO.lista();
-//			listaSetor = setorDAO.getSetor();
-//			for(Sala auxSala :listaSalas){
-//				for(Setor auxSetor :listaSetor){
-//					if(auxSala.getSetor_id() == auxSetor.getId()){
-//						auxSala.setSetorNome(auxSetor.getNome());
-//					}
-//				}
-//			}
-//		}catch(SQLException e){
-//		
-//		}
-//		
-//	}
+	
 	 
 	 private String getRandomModel() {  
 	        return UUID.randomUUID().toString().substring(0, 8);  
