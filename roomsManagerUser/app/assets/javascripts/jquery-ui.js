@@ -7645,9 +7645,9 @@ function Datepicker() {
 		nextText: "Next", // Display text for next month link
 		currentText: "Today", // Display text for current month link
 		monthNames: ["Janeiro","Fereiro","Mar&ccedilo","Abril","Maio","Junho",
-			"Julho","Agosto","Setembro","Octubro","Novembro","Dezembro"], // Names of months for drop-down and formatting
+			"Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"], // Names of months for drop-down and formatting
 		monthNamesShort: ["Janeiro","Fereiro","Mar&ccedilo","Abril","Maio","Junho",
-			"Julho","Agosto","Setembro","Octubro","Novembro","Dezembro"], // For formatting
+			"Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"], // For formatting
 		dayNames: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"], // For formatting
 		dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"], // For formatting
 		dayNamesMin: ["Dom","Seg","Ter","Qua","Qui","Sex","Sab"], // Column headings for days starting at Sunday

@@ -1,13 +1,10 @@
-class ReservasController < ApplicationController
+class ReservaController < ApplicationController
 	def index
-		@title = 'Página Inicial'
-		@reservas = Reserva.find(:all)
+		@data = params[:d]
 
 		respond_to do |format|
 			format.html
-			format.xml { render :xml => @reservas }
+			format.xml { render :xml => @data }
 		end
-
-		render :action => 'index'
 	end
 end
