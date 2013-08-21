@@ -27,22 +27,28 @@
 								<p:outputLabel for="nome">Nome</p:outputLabel>
 								<p:inputText id="nome" style="width: 300px" value="#{usuarioBean.usuario.nome}" required="true" title="Nome" requiredMessage="O campo 'Nome' Ã© ObrigatÃ³rio"/>
 								
-								<p:outputLabel for="num_cadastro">Numero de Cadastro</p:outputLabel>
-								<p:inputMask id="num_cadastro" value="#{usuarioBean.usuario.num_cadastro}" title="Numero de Cadastro" mask="999999"/>
+								<p:outputLabel for="num_matricula">Numero de Cadastro</p:outputLabel>
+								<p:inputMask id="num_matricula" value="#{usuarioBean.usuario.num_matricula}" title="Numero de Matricula" mask="999999"/>
 								
-								<p:outputPanel id="selectTipo">  
-							  		<p:outputLabel for="tipo">Tipo do Funcionario</p:outputLabel> 
-							      	<p:selectOneRadio  id="tipo" value="#{usuarioBean.usuario.tipo}" layout="custom" required="true">  
-						          		<f:selectItem  itemLabel="Administrador" itemValue="True" />  
-							          	<f:selectItem  itemLabel="Funcionario" itemValue="False" />						           
-								    </p:selectOneRadio> 
-									<h:panelGrid columns="2">  
-										<p:radioButton id="opt1" for="tipo" itemIndex="1"/>  
-										<h:outputLabel for="opt1" value="Administrador" />  								
-										<p:radioButton id="opt0" for="tipo" itemIndex="0"/>  
-										<h:outputLabel for="opt0" value="Funcionario"/>	
-									</h:panelGrid>
-								</p:outputPanel>
+								<h:outputText value="Tipo de Funcionario: " />  
+						        <p:selectOneRadio id="tipo" value="#{usuarioBean.usuario.tipo_id}">  
+						            <f:selectItem itemLabel="Professor" itemValue="1" />  
+						            <f:selectItem itemLabel="Funcionario" itemValue="2" />  
+						        </p:selectOneRadio>  
+								
+<!-- 								<p:outputPanel id="selectTipo">   -->
+<!-- 							  		<p:outputLabel for="tipo_id">Tipo do Funcionario</p:outputLabel>  -->
+<!-- 							      	<p:selectOneRadio  id="tipo_id" value="#{usuarioBean.usuario.tipo_id}" layout="custom" required="true">   -->
+<!-- 						          		<f:selectItem  itemLabel="Administrador" itemValue="True" />   -->
+<!-- 							          	<f:selectItem  itemLabel="Funcionario" itemValue="False" />						            -->
+<!-- 								    </p:selectOneRadio>  -->
+<!-- 									<h:panelGrid columns="2">   -->
+<!-- 										<p:radioButton id="opt1" for="tipo_id" itemIndex="0"/>   -->
+<!-- 										<h:outputLabel for="opt1" value="Administrador" />  								 -->
+<!-- 										<p:radioButton id="opt0" for="tipo_id" itemIndex="1"/>   -->
+<!-- 										<h:outputLabel for="opt0" value="Funcionario"/>	 -->
+<!-- 									</h:panelGrid> -->
+<!-- 								</p:outputPanel> -->
 								
 								</h:panelGrid>
 								</p:fieldset>

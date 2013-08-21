@@ -56,11 +56,11 @@
 						<p:column headerText="Matricula">
 							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText value="#{usuario.num_cadastro}" id="matricula" />
+									<h:outputText value="#{usuario.num_matricula}" id="matricula" />
 								</f:facet>
 
 								<f:facet name="input">
-								<p:inputText value="#{usuario.num_cadastro}" style="width:100%"/>  
+								<p:inputText value="#{usuario.num_matricula}" style="width:100%"/>  
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
@@ -80,18 +80,19 @@
 						<p:column headerText="Tipo">
 							<p:cellEditor>	
 								<f:facet name="output">
-									<h:outputText value="#{usuario.tipo}"/>
+									<h:outputText rendered="#{usuario.tipo_id == 1}" value="Professor"/>
+									<h:outputText rendered="#{usuario.tipo_id == 2}" value="Funcionario"/>
 								</f:facet>
 
 								<f:facet name="input">
-									<p:inputText value="#{usuario.tipo}" style="width:100%"/>  
+									<h:selectOneMenu value="#{usuario.tipo_id}" >
+			                        	<f:selectItem itemLabel="Professor" itemValue="1" />
+			                        	<f:selectItem itemLabel="Funcionario" itemValue="2" />
+					               </h:selectOneMenu>
 								</f:facet>
 							</p:cellEditor>
 						</p:column>
 
-						<p:column style="width:4%">  
-							<p:commandButton id="viewButton" action="view" actionListener="#{usuarioBean.select}" icon="ui-icon-search" title="Visualizar"/>  
-			            </p:column>
 			            <p:column style="width:4%">  
 	            			<p:rowEditor icon="ui-icon-edit"/>
 	        			</p:column>
