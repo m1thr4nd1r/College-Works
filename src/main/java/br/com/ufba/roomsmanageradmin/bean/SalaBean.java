@@ -56,7 +56,7 @@ public class SalaBean implements Serializable{
 	}
 	
 	@PostConstruct
-	void init(){
+	public void SalaBean(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();	
@@ -70,7 +70,6 @@ public class SalaBean implements Serializable{
 	    Session session = sf.openSession();
 	    Transaction tx = null;
 	
-	    System.out.println("Chego2");
 	    
 	    try{
 	    	tx = session.beginTransaction();
@@ -94,7 +93,7 @@ public class SalaBean implements Serializable{
 		
 		sala = (Sala) event.getObject();
 		
-		System.out.println("Chego");
+		sala.setSetor_id(Integer.valueOf(setor_id));
 		
 		try{
 			tx = session.beginTransaction();
@@ -122,8 +121,10 @@ public class SalaBean implements Serializable{
 	    
 	    try{
 	    	tx = session.beginTransaction();
-	    	session.delete(sala); 
+	    	session.delete(sala);
 	    	tx.commit();
+//	    	listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();
+//	    	 sal = new ListDataModel(listaSalas);	    	
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 
@@ -135,7 +136,7 @@ public class SalaBean implements Serializable{
 	public void select()
 	{
         this.sala = this.sal.getRowData();
-        JOptionPane.showMessageDialog(null, sala.getNome());
+//        JOptionPane.showMessageDialog(null, sala.getNome());
     }
 	 private String getRandomModel() {  
 	        return UUID.randomUUID().toString().substring(0, 8);  

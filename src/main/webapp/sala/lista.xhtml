@@ -17,7 +17,7 @@
 					<p:dataTable id="sala" var="salas" value="#{salaBean.listaSalas}"
 						paginator="true" rows="15" 
 			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-						rowsPerPageTemplate="15" 
+						rowsPerPageTemplate="5,10,15"
 						editable="true"
 						
 			            >
@@ -42,7 +42,7 @@
 									<h:outputText value="#{salas.setorNome}"/>
 								</f:facet>							
 							    <f:facet name="input">
-			                    	<h:selectOneMenu value="#{salas.setorNome}" >
+			                    	<h:selectOneMenu value="#{salaBean.setor_id}" >
 			                        	<f:selectItems value="#{setorBean.setores}"
 				                            var="man" 
 				                            itemLabel="#{man.nome}"
@@ -142,10 +142,8 @@
 								</f:facet>
 							</p:cellEditor>	
 						</p:column>	
+									
 						<p:column style="width:4%">  
-							<p:commandButton id="viewButton" action="view" actionListener="#{salaBean.select}" icon="ui-icon-search" title="Visualizar"/>  
-			            </p:column>				
-						<p:column style="width:6%">  
 	            			<p:rowEditor />  
 	        			</p:column>
 	           			<p:column style="width:4%">  

@@ -57,7 +57,7 @@ public class UsuarioBean implements Serializable{
 	    Session session = sf.openSession();
 	    Transaction tx = null;
 	    
-	    usuario.setTipo_id(usuario.getTipo_id()+1);
+	   
 	    
 	    try{
 	    	tx = session.beginTransaction();
