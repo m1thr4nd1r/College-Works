@@ -12,19 +12,19 @@
 			        <p:menuitem value="RoomsManager" url="index.do"/>
 			        
 			        <p:submenu label="Usuario">
-		                <p:menuitem value="Criar" url="usuario/create.do" />
-		                <p:menuitem value="Listar" url="usuario/list.do" />
+		                <p:menuitem value="Criar" url="#{request.contextPath}/usuario/create.do" />
+		                <p:menuitem value="Listar" url="#{request.contextPath}/usuario/list.do" />
 			        	<p:separator />
 			        </p:submenu>
 			        
 			        <p:submenu label="Sala">
-		                <p:menuitem value="Criar" url="sala/cadastro.do" />
-		                <p:menuitem value="Listar" url="sala/lista.do" />
+		                <p:menuitem value="Criar" url="#{request.contextPath}/sala/cadastro.do" />
+		                <p:menuitem value="Listar" url="#{request.contextPath}/sala/lista.do" />
 			        	<p:separator />
 			        </p:submenu>
 			        
 			        <p:submenu label="Setor">
-		                <p:menuitem value="Criar" url="cadastra.do" />
+		                <p:menuitem value="Criar" url="#{request.contextPath}/cadastra.do" />
 <!-- 		                <p:menuitem value="Listar" url="#" /> -->
 			        	<p:separator />
 			        </p:submenu>
