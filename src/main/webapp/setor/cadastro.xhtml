@@ -1,35 +1,39 @@
-<ui:composition template="../template.xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-  	xmlns:p="http://primefaces.org/ui" >
- 	
- 	
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+  	  xmlns:p="http://primefaces.org/ui" > 
 
-	<ui:define name="scripts">
+<h:head>
+
 		<link href="css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
 		<style>
 			span.ui-outputlabel-rfi{
 				color: #FF0000;
 			}
+			body{
+				background: #fff;
+			}
 		</style> 
-	</ui:define>	
+		</h:head> 
 
-	<ui:define name="content">
-		<p:growl id="growl" showDetail="false" life="6000" />
-		<p:layoutUnit position="center" id="conteudo">
-			<div class="container-fluid offset4 span10">
-				<div class="row-fluid">					
+<body>
+
+    	<p:growl id="growl" showDetail="false" life="6000" />
+		
+			<div >
+				<div >					
 						<p:message for="form"></p:message>
-						<h:form id="form">
-							<p:fieldset legend="Cadastro de Setor" >
-							<h:panelGrid columns="2"> 
-							
+						<h:form id="form" style="width:400px">
+							<p:panel header="F.C. Barcelona" > 
+							<h:panelGrid columns="2"> 						
 								
 							<p:outputLabel for="dNome">Nome</p:outputLabel>
 							<p:inputText id="dNome" value="#{setorBean.setor.nome}" size="60" locale="pt_BR" required="true"/>
@@ -40,7 +44,7 @@
 							</p:inputText>
 													
 							</h:panelGrid> 
-					  	    </p:fieldset>
+					  	   </p:panel>
 							<div class="span12">
 								<div class="bt span">
 									<div class="span2">
@@ -53,8 +57,9 @@
 					  		</div>
 					  		
 						</h:form>
+						
 				</div>
 			</div>
-		</p:layoutUnit>
-	</ui:define>
-</ui:composition>
+			
+</body> 
+</html>

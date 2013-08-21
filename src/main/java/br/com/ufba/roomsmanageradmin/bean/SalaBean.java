@@ -59,7 +59,8 @@ public class SalaBean implements Serializable{
 	public void SalaBean(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
-	    listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();	
+	    listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();
+	    sal= new ListDataModel(listaSalas);
 	    listaSetor = (ArrayList<Setor>) session.createQuery("FROM Setor").list();	
 	    session.close();
 	}
@@ -121,10 +122,10 @@ public class SalaBean implements Serializable{
 	    
 	    try{
 	    	tx = session.beginTransaction();
-	    	session.delete(sala);
+	    	session.delete(sala); 
 	    	tx.commit();
-//	    	listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();
-//	    	 sal = new ListDataModel(listaSalas);	    	
+	    	listaSalas = (ArrayList<Sala>) session.createQuery("FROM Sala").list();
+		    sal= new ListDataModel(listaSalas);
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 
