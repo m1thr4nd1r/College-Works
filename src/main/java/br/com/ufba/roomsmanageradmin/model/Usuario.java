@@ -2,27 +2,20 @@ package br.com.ufba.roomsmanageradmin.model;
 
 public class Usuario {
 	
-	private int num_cadastro, id;
+	private int num_matricula, id, tipo_id;
 	private String nome, senha, email;
-	private boolean tipo;
 	
 	public Usuario()
 	{
-//		this.nome = "";
-//		this.senha = "";
-//		this.email = "";
-//		this.num_cadastro = 0;
-//		this.id = 0;
-//		this.tipo = false;
 	}
 
-	public Usuario(String email, String senha, String nome, int num_cadastro, boolean tipo)
+	public Usuario(String email, String senha, String nome, int num_matricula, int tipo_id)
 	{
 		this.email = email;
 		this.senha = senha;
 		this.nome = nome;
-		this.num_cadastro = num_cadastro;
-		this.tipo = tipo;
+		this.num_matricula = num_matricula;
+		this.tipo_id = tipo_id;
 		this.id = 0;
 	}
 	
@@ -34,15 +27,6 @@ public class Usuario {
 		this.id = id;
 	}
 	
-	
-	public boolean getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(boolean tipo) {
-		this.tipo = tipo;
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -66,20 +50,28 @@ public class Usuario {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public int getNum_cadastro() {
-		return num_cadastro;
+		
+	public int getNum_matricula() {
+		return num_matricula;
 	}
 
-	public void setNum_cadastro(int num_cadastro) {
-		this.num_cadastro = num_cadastro;
+	public void setNum_matricula(int num_matricula) {
+		this.num_matricula = num_matricula;
 	}
-	
+
+	public int getTipo_id() {
+		return tipo_id;
+	}
+
+	public void setTipo_id(int tipo_id) {
+		this.tipo_id = tipo_id;
+	}
+
 	@Override
 	public String toString()
 	{
 		return  "ID: "+this.id+"\n"+
-				"NUM. CADASTRO: "+this.num_cadastro+"\n"+
+				"NUM. CADASTRO: "+this.num_matricula+"\n"+
 				"EMAIL: "+this.email+"\n"+
 				"NOME: "+this.nome;
 	}

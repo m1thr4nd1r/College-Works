@@ -5,31 +5,37 @@
 	xmlns:h="http://java.sun.com/jsf/html"
   	xmlns:p="http://primefaces.org/ui" >
 		<header id="topo_pagina">
-			<div class="navbar navbar-inverse affix">
-			  <div class="navbar-inner2">
-				<div class="container">
-			  		<a class="brand" href="#{request.contextPath}/index.jsp">RoomsManager</a>
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-						  	<li class="">
-								<a href="#{request.contextPath}/sala/index.do">Sala</a>
-					  		</li>
-							<li class="">
-								<a href="#{request.contextPath}/usuario/index.do">Usuario</a>
-					 	 	</li>
-					 	 	<li class="">
-								<a href="#{request.contextPath}/setor/cadastra.do">Cadastra setor</a>
-					 	 	</li>
-						  	<li class="logout">
-							  	<a href="#{request.contextPath}/login?logout">
-						  			<img title="Sair do Sistema" src="#{request.contextPath}/images/logout.png" alt="Sair do Sistema" />
-						  		</a>
-						  	</li>
-						</ul>
-				  	</div>
-				</div>
-			  </div>
-			</div>
+			<h:form>
+    			<p:growl id="messages"/>
+		    	<p:menubar>
+			        
+			        <p:menuitem value="RoomsManager" url="index.do"/>
+			        
+			        <p:submenu label="Usuario">
+		                <p:menuitem value="Criar" url="#{request.contextPath}/usuario/create.do" />
+		                <p:menuitem value="Listar" url="#{request.contextPath}/usuario/list.do" />
+			        	<p:separator />
+			        </p:submenu>
+			        
+			        <p:submenu label="Sala">
+		                <p:menuitem value="Criar" url="#{request.contextPath}/sala/cadastro.do" />
+		                <p:menuitem value="Listar" url="#{request.contextPath}/sala/lista.do" />
+			        	<p:separator />
+			        </p:submenu>
+			        
+			        <p:submenu label="Setor">
+		                <p:menuitem value="Criar" url="#{request.contextPath}/setor/cadastra.do" />
+<!-- 		                <p:menuitem value="Listar" url="#" /> -->
+			        	<p:separator />
+			        </p:submenu>
+		
+<!-- 		       		<p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" /> -->
+<!-- 		        		<f:facet name="options"> -->
+<!-- 		            		<p:inputText style="margin-right:10px"/> -->
+<!-- 		            		<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" /> -->
+<!-- 		        		</f:facet> -->
+		    		</p:menubar>
+	    		</h:form>
 			<div class="vAux"></div>
 		</header>
 </ui:composition>

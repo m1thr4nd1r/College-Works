@@ -70,4 +70,22 @@ public class ReservaSalaDAO implements Serializable{
 		return lista;
 	}
 	
+	public List<ReservaSala> getReservas(String data) throws SQLException{
+		List <ReservaSala> lista = new ArrayList<ReservaSala>();
+		
+		String consulta = "SELECT * FROM reserva_sala WHERE data_inicio = '"+data+"'";
+		
+		Statement st = (Statement) Myconnection.getStatement();
+		ResultSet rs = st.executeQuery(consulta);
+		
+		while(rs.next()){
+			ReservaSala reserva = new ReservaSala(rs.getInt("sala_id"),rs.getDate("data_inicio"),rs.getDate("data_fim"),rs.getTime("horario_inicio"),rs.getTime("horario_termino"), rs.getString("responsavel"), rs.getString("reserva_para"),rs.getBoolean("evento_privado"),rs.getString("email"), rs.getString("telefone"),rs.getString("obs"),rs.getBoolean("aceito"));
+			lista.add(reserva);
+		}
+		
+		st.close();
+		
+		return lista;
+	}
+	
 }

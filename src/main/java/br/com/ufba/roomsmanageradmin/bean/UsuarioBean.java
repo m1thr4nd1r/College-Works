@@ -28,7 +28,7 @@ public class UsuarioBean implements Serializable{
 	
 	private Usuario usuario = new Usuario();
 	private DataModel<Usuario> usuarios;
-	private int id;
+	private String tipo;
 		
 	public Usuario getUsuario() {
 		return usuario;
@@ -48,9 +48,7 @@ public class UsuarioBean implements Serializable{
 
 	public DataModel<Usuario> getUsuarios()
 	{
-		
-		    
-	    return usuarios;
+		return usuarios;
 	}
 	
 	public String create(ActionEvent ae) throws ParseException
@@ -58,8 +56,8 @@ public class UsuarioBean implements Serializable{
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    Transaction tx = null;
-	
-	    System.out.println("Chego2");
+	    
+	    usuario.setTipo_id(usuario.getTipo_id()+1);
 	    
 	    try{
 	    	tx = session.beginTransaction();
@@ -81,8 +79,6 @@ public class UsuarioBean implements Serializable{
 		Transaction tx = null;
 		
 		select();
-		
-		System.out.println("Chego");
 		
 		try{
 			tx = session.beginTransaction();
@@ -111,6 +107,8 @@ public class UsuarioBean implements Serializable{
 	    	tx = session.beginTransaction();
 	    	session.delete(usuario); 
 	    	tx.commit();
+	    	List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
+		    usuarios = new ListDataModel(l);
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 
