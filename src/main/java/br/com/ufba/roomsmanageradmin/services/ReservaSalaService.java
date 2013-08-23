@@ -15,7 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-// import br.com.ufba.roomsmanageradmin.dao.ReservaSalaDAO;
+import br.com.ufba.roomsmanageradmin.dao.ReservaSalaDAO;
 import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 import br.com.ufba.roomsmanageradmin.model.Sala;
 import br.com.ufba.roomsmanageradmin.model.ReservaSala;
@@ -26,21 +26,21 @@ public class ReservaSalaService {
 
 	@GET
 	public ReservaSala [] get(@PathParam("data") String data){
-		// ReservaSalaDAO dao = new ReservaSalaDAO();
+		ReservaSalaDAO dao = new ReservaSalaDAO();
 		ReservaSala [] reservas = null;
 		try {
-			// List lista = dao.getReservas(data);
-			SessionFactory sf = Hibernate.getSessionFactory();
-	    	Session session = sf.openSession();
+			List lista = dao.getReservas(data);
+			// SessionFactory sf = Hibernate.getSessionFactory();
+	  //   	Session session = sf.openSession();
 
-	    	List<ReservaSala> lista = (List<ReservaSala>) session.createQuery("FROM ReservaSala").list();
+	    	// List<ReservaSala> lista = (List<ReservaSala>) session.createQuery("FROM ReservaSala").list();
 			reservas = new ReservaSala[lista.size()];
 			int i = 0;
-			for (ReservaSala reserva : (List<ReservaSala>) session.createQuery("FROM ReservaSala").list()) {
+			for (ReservaSala reserva : dao.getReservas(data)) {
 				reservas[i] = reserva;
 				i++;
 			}
-		} catch (HibernateException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -14,7 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-// import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
+import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
 import br.com.ufba.roomsmanageradmin.model.Sala;
 import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 
@@ -24,14 +24,15 @@ public class SalaService {
 	
 	@GET
 	public String [][] get(){
-		// SalaDAO dao = new SalaDAO();
+		SalaDAO dao = new SalaDAO();
 		String [][] salas = null;
 		List<Sala> lista;
 		
 		try {
-			SessionFactory sf = Hibernate.getSessionFactory();
-	    	Session session = sf.openSession();
-	    	lista = (List<Sala>) session.createQuery("FROM Sala").list();
+			// SessionFactory sf = Hibernate.getSessionFactory();
+	  //   	Session session = sf.openSession();
+	  //   	lista = (List<Sala>) session.createQuery("FROM Sala").list();
+			lista = dao.getSalas();
 			salas = new String[lista.size()][2];			
 			int i = 0;
 			for (Sala sala : lista){
@@ -40,7 +41,7 @@ public class SalaService {
 				i++;
 			}
 
-		} catch (HibernateException e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

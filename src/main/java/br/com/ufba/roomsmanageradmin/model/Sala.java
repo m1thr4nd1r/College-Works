@@ -3,9 +3,10 @@ package br.com.ufba.roomsmanageradmin.model;
 import java.io.Serializable;
 
 
-@SuppressWarnings("serial")
+// @SuppressWarnings("serial")
 public class Sala implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String  nome;
 	private boolean quadro;
@@ -122,10 +123,10 @@ public class Sala implements Serializable{
 		this.capacidade = capacidade;
 	}
 
-	public String getModel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	// public String getModel() {
+	// 	// TODO Auto-generated method stub
+	// 	return null;
+	// }
 
 	public String getSetorNome() {
 		return setorNome;
