@@ -58,7 +58,132 @@
   display: inherit !important;
 }
 
+/*******/
+.area1{
+     margin-top: 5%;
+     margin-left: 1%;
+}
+
+#reservas{
+     width: 100%;
+}
+
+nav .container{
+     padding-left: 10px;
+}
+
+.visible-mobile{
+     display: none !important;
+}
+
+.hidden-mobile {
+    display: inherit !important;
+}
+
+@media(max-width: 700px){
+
+     .visible-mobile{
+          display: inherit !important;
+          & ul{
+
+               -webkit-column-count: 3;
+               -moz-column-count: 3;
+               -ms-column-count: 3;
+               -o-column-count: 3;
+               column-count: 3;
+              
+               -webkit-column-gap: 20px;
+               -moz-column-gap: 20px;
+               -o-column-gap: 20px;
+               column-gap: 20px;
+
+               & li{
+                    list-style: none;
+                    background: #ccc;
+                    margin-bottom: 10px;
+                    
+                    -webkit-border-radius: 10px;
+                    -moz-border-radius: 10px;
+                    -o-border-radius: 10px;
+                    border-radius: 10px;
+                    
+                    padding: 5px;
+
+                    & i{
+                         &.livre{
+                              color: green;
+                         }
+                         &.reservado{
+                              color: red;
+                         }
+                    }
+               }
+
+          }
+     }
+
+     .hidden-mobile {
+         display: none !important;
+     }
+
+}
+
+@media(min-width: 360px) and (max-width: 767px){
+  
+  .visible-mobile{
+    & ul{
+      & li{
+        font-size: 80%;
+      }
+    }
+  }
+
+}
+
+@media(max-width: 359px){
+  
+  .calendario_reservas{
+    display: none;
+  }
+
+   .visible-mobile{
+          display: inherit !important;
+          & ul{
+
+               -webkit-column-count: 1;
+               -moz-column-count: 1;
+               -ms-column-count: 1;
+               -o-column-count: 1;
+               column-count: 1;
+
+          }
+     }
+
+}
+
+@media(min-width: 980px){
+
+     .laboratorios{
+          width: 23.4043%;
+          float:right;
+          margin-left: 1em;
+     }
+
+}
+
+.calendario_reservas{
+     width: 74.4681%;
+     float: left;
+}
+
+.reservados h1{
+     font-size: 2em;
+}
+/*******/
+
+
 @media (min-width: 768px) and (max-width: 979px) {
+  
   .hidden-desktop {
     display: inherit !important;
   }
@@ -71,6 +196,7 @@
   .hidden-tablet {
     display: none !important;
   }
+
 }
 
 @media (max-width: 767px) {
@@ -86,6 +212,7 @@
   .hidden-phone {
     display: none !important;
   }
+
 }
 
 .visible-print {
@@ -889,9 +1016,40 @@
 }
 
 @media (max-width: 979px) {
-  body {
-    padding-top: 0;
+
+  /***/
+  .laboratorios li{
+    height: 45px;
   }
+
+  .container{
+     width: 98%;
+  }
+
+  .reservados{
+
+  }
+  
+  #reservas.table tr td{
+     font-size: 70.99%;
+  }
+
+  .laboratorios, 
+  .calendario_reservas{ 
+     width: 100%;
+     float: none;
+     margin-left: 0;
+  }  
+
+  .area1{
+     margin-left: 0; 
+  }  
+  
+  body {
+    padding: 0;
+  }
+  /****/
+
   .navbar-fixed-top, .navbar-fixed-bottom {
     position: static;
   }

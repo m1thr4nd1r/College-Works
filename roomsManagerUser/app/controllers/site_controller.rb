@@ -21,7 +21,9 @@ class SiteController < ApplicationController
 		#puts YAML::dump(@reservas)
 		@data = dataPtBR(@data)
 		@salas = salas()
-	
+		
+		#Notifier.signup_email("euler.santana@yahoo.com").deliver
+		
 		respond_to do |format|
 			format.html
 			format.xml { render :xml => @reservas }
@@ -42,7 +44,7 @@ class SiteController < ApplicationController
 	   	dados = resp.body
 		
 	   	result = JSON.parse(dados)
-		puts YAML::dump(result)
+		#puts YAML::dump(result)
 	   	return result
 
 	end
@@ -85,4 +87,5 @@ class SiteController < ApplicationController
 	def dataEn(data)
 		return data[6..10]+"-"+data[3..4]+"-"+data[0..1]
 	end
+
 end
