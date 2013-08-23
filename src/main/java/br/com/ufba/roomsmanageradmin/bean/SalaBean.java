@@ -129,6 +129,7 @@ public class SalaBean implements Serializable{
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 
+	    	JOptionPane.showMessageDialog(null, "Não foi possivel deletar "+sala.getNome()+".\nExiste alguma dependência.");
     	}finally {
 	    	session.close();
 	    }

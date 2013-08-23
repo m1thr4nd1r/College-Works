@@ -40,11 +40,10 @@ public class Filtro implements Filter {
 		String logado = (String)session.getAttribute("logado");
 		
 		if(logado==null){
-			res.sendRedirect(((HttpServletRequest)(request)).getContextPath() + "/index.do"); 
+			res.sendRedirect(((HttpServletRequest)(request)).getContextPath() + "/index.jsp"); 
 		}else{
 			chain.doFilter(request, response);
 		}
-		
 		
 	}
 
