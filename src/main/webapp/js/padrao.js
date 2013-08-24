@@ -25,3 +25,8 @@
     day: 'Dia',  
     allDayText : 'Todo Dia'  
  };  
+
+function hide(modal){
+	modal.hide();
+	alert("1");
+}

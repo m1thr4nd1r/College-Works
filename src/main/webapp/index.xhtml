@@ -15,8 +15,8 @@
 					    
 					    <div class="container-fluid offset1 span12">
 						    <p:schedule id="schedule" value="#{reservaSalaController.eventModel}" widgetVar="myschedule">  
-						        <p:ajax event="dateSelect" listener="#{reservaSalaController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show();eventoDialog.hide();" />  
-						        <p:ajax event="eventSelect" listener="#{reservaSalaController.onEventSelect}" update="eventoDetails" oncomplete="eventoDialog.show();eventDialog.hide();" />  
+						        <p:ajax event="dateSelect" listener="#{reservaSalaController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show();hide(eventDialog);" />  
+						        <p:ajax event="eventSelect" listener="#{reservaSalaController.onEventSelect}" update="eventoDetails" oncomplete="eventoDialog.show();hide(eventDialog);" />  
 						        <p:ajax event="eventMove" listener="#{reservaSalaController.onEventMove}" update="messages" /> 
 						        <p:ajax event="eventResize" listener="#{reservaSalaController.onEventResize}" update="messages" />  
 						    </p:schedule>  
@@ -32,6 +32,10 @@
 							        </p:selectOneMenu>
 							        <p:outputLabel></p:outputLabel>
 							        
+									<p:outputLabel for="dInicio_"><strong>Data de Inicio: </strong></p:outputLabel>
+									<h:outputText id="dInicio_" value="#{reservaSalaController.selecionado.dataInicio}" locale="pt_Br" />
+									<p:outputLabel></p:outputLabel>
+									
 									<p:outputLabel for="dTermino">Data de Término</p:outputLabel>
 									<p:calendar id="dTermino" value="#{reservaSalaController.reserva.dataFim}"  locale="pt_BR" pattern="dd/MM/yyyy"/>
 									<p:outputLabel>Só preencher caso seja mais de dia.</p:outputLabel>
@@ -62,7 +66,7 @@
 									<p:inputTextarea id="reservado_para" rows="3" cols="60" counter="counter" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaController.reserva.reservadoPara}" title="Reservado Para"/>
 									<h:outputText id="counter" styleClass="info" />  
 									
-									<p:outputLabel for="privado"  styleClass="span">Evento privado: </p:outputLabel>
+									<p:outputLabel for="privado">Evento privado: </p:outputLabel>
 									<p:selectOneRadio id="privado" value="#{reservaSalaController.reserva.eventoPrivado}">  
 							            <f:selectItem itemLabel="Sim" itemValue="true"/>  
 							            <f:selectItem itemLabel="Não" itemValue="false" />    
@@ -86,6 +90,9 @@
 									<p:outputLabel for="sala_id"><strong>Sala: </strong></p:outputLabel>
 									<h:outputText id="sala_id" value="#{reservaSalaController.selecionado.sala.id}" />
 							        
+									<p:outputLabel for="dInicio_"><strong>Data de Inicio: </strong></p:outputLabel>
+									<h:outputText id="dInicio_" value="#{reservaSalaController.selecionado.dataInicio}" locale="pt_Br" />
+									
 									<p:outputLabel for="dTermino_"><strong>Data de Término: </strong></p:outputLabel>
 									<h:outputText id="dTermino_" value="#{reservaSalaController.selecionado.dataFim}" />
 									
