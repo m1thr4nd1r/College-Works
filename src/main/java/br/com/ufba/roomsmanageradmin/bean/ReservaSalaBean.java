@@ -9,12 +9,9 @@ import javax.faces.bean.*;
 import javax.faces.event.*;
 import javax.swing.JOptionPane;
 
-import br.com.ufba.roomsmanageradmin.dao.ReservaSalaDAO;
-import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
-import br.com.ufba.roomsmanageradmin.model.ReservaSala;
-import br.com.ufba.roomsmanageradmin.model.Sala;
 
-
+import br.com.ufba.roomsmanageradmin.dao.*;
+import br.com.ufba.roomsmanageradmin.model.*;
 
 @ManagedBean
 public class ReservaSalaBean implements Serializable{

@@ -11,7 +11,8 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
-import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
+import br.com.ufba.roomsmanageradmin.dao.*;
+import br.com.ufba.roomsmanageradmin.model.*;
 
 public class ReservaSala implements Serializable {
 	

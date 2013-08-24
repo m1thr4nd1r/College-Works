@@ -30,13 +30,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.primefaces.event.RowEditEvent;
 
-
-import br.com.ufba.roomsmanageradmin.dao.Hibernate;
-import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
-import br.com.ufba.roomsmanageradmin.dao.SetorDAO;
-import br.com.ufba.roomsmanageradmin.model.Sala;
-import br.com.ufba.roomsmanageradmin.model.Setor;
-import br.com.ufba.roomsmanageradmin.model.Usuario;
+import br.com.ufba.roomsmanageradmin.dao.*;
+import br.com.ufba.roomsmanageradmin.model.*;
 
 @ManagedBean
 public class SalaBean implements Serializable{

@@ -2,7 +2,6 @@ package br.com.ufba.roomsmanageradmin.model;
 
 import java.io.Serializable;
 
-
 // @SuppressWarnings("serial")
 public class Sala implements Serializable{
 	
@@ -123,11 +122,6 @@ public class Sala implements Serializable{
 		this.capacidade = capacidade;
 	}
 
-	// public String getModel() {
-	// 	// TODO Auto-generated method stub
-	// 	return null;
-	// }
-
 	public String getSetorNome() {
 		return setorNome;
 	}
@@ -135,8 +129,5 @@ public class Sala implements Serializable{
 	public void setSetorNome(String setorNome) {
 		this.setorNome = setorNome;
 	}
-	
-	
-	
 
 }

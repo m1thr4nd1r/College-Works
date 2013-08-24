@@ -15,10 +15,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-import br.com.ufba.roomsmanageradmin.dao.ReservaSalaDAO;
-import br.com.ufba.roomsmanageradmin.dao.Hibernate;
-import br.com.ufba.roomsmanageradmin.model.Sala;
-import br.com.ufba.roomsmanageradmin.model.ReservaSala;
+import br.com.ufba.roomsmanageradmin.dao.*;
+import br.com.ufba.roomsmanageradmin.model.*;
 
 @Path("/reservas/{data}")
 @Produces(MediaType.APPLICATION_JSON)
