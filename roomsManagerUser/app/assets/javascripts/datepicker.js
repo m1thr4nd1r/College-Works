@@ -1,14 +1,40 @@
 $(document).ready(function(){
+
 	$("#calendario_reservas").datepicker({
 		changeMonth: true,
 		onSelect: function(dateText, inst){ 
-	       	var data = dateConverterToPtBR(dateText);
-	       	var l = window.location;
-			var base_url = l.protocol + "//" + l.host + "/";
-			$(location).attr("href",base_url+"index/"+Base64.encode(data));
-	   }
+            redirectDateSelected(dateText);
+	    }
 	});
+
+    $("#calendario").submit(function(){
+        
+        var dateText = $("#data");
+        if(dateText.val() != ""){
+            redirectDateSelected(dateText.val(),1);
+        }
+        else{
+            dateText.css("border","solid 1px red");
+        }
+
+        return false;
+
+    });
+
 });
+
+function redirectDateSelected(dateText,flag = 0){
+
+    var data  = dateText
+    if(flag == 0){
+        var data = dateConverterToPtBR(dateText);
+    }
+    var l = window.location;
+    var base_url = l.protocol + "//" + l.host + "/";
+    $(location).attr("href",base_url+"index/"+Base64.encode(data));
+
+
+}
 
 /*
 * @param var data, data no formato mes/dia/ano

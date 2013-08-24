@@ -59,6 +59,41 @@
 }
 
 /*******/
+
+@media(max-width: 358px){
+
+  #calendario{
+    & button#go{
+      width: 30%;
+      & span{
+        display: none !important;
+      }
+    }
+  }
+
+}
+
+#calendario{
+  & input#go,
+  & button#go{
+    height: 2.1em;
+    width: 30%;
+    float: right;
+    & span{
+      display: inherit;
+    }
+  }
+  
+  & input#data{
+    width: 63%;
+    float: left;
+  }
+
+  & .data{
+    width: 100%;
+  }
+}
+
 .area1{
      margin-top: 5%;
      margin-left: 1%;
@@ -80,6 +115,11 @@ nav .container{
     display: inherit !important;
 }
 
+
+#calendario{
+  display: none;
+}
+
 @media(max-width: 700px){
 
      .visible-mobile{
@@ -98,25 +138,35 @@ nav .container{
                column-gap: 20px;
 
                & li{
-                    list-style: none;
-                    background: #ccc;
-                    margin-bottom: 10px;
-                    
-                    -webkit-border-radius: 10px;
-                    -moz-border-radius: 10px;
-                    -o-border-radius: 10px;
-                    border-radius: 10px;
-                    
-                    padding: 5px;
 
-                    & i{
-                         &.livre{
-                              color: green;
-                         }
-                         &.reservado{
-                              color: red;
-                         }
-                    }
+                  &:nth-child(odd){
+                    background: #ccc;                  
+                  }
+
+                  &:nth-child(even){
+                    background: rgba(0,0,0,0.1);  
+                  }
+
+                  list-style: none;
+                  margin-bottom: 10px;
+                  text-align: center;
+
+                  -webkit-border-radius: 10px;
+                  -moz-border-radius: 10px;
+                  -o-border-radius: 10px;
+                  border-radius: 10px;
+                  
+                  padding: 5px;
+
+                  & i{
+                       &.livre{
+                            color: green;
+                       }
+                       &.reservado{
+                            color: red;
+                       }
+                  }
+
                }
 
           }
@@ -129,7 +179,7 @@ nav .container{
 }
 
 @media(min-width: 360px) and (max-width: 767px){
-  
+
   .visible-mobile{
     & ul{
       & li{
@@ -146,18 +196,24 @@ nav .container{
     display: none;
   }
 
-   .visible-mobile{
-          display: inherit !important;
-          & ul{
+  #calendario{
+    display: inherit !important; 
+  }
 
-               -webkit-column-count: 1;
-               -moz-column-count: 1;
-               -ms-column-count: 1;
-               -o-column-count: 1;
-               column-count: 1;
+ .visible-mobile{
 
-          }
-     }
+      display: inherit !important;
+      & ul{
+
+           -webkit-column-count: 1;
+           -moz-column-count: 1;
+           -ms-column-count: 1;
+           -o-column-count: 1;
+           column-count: 1;
+
+      }
+
+  }
 
 }
 
