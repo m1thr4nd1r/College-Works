@@ -29,17 +29,21 @@ public class ReservaSalaService {
 		ReservaSalaDAO dao = new ReservaSalaDAO();
 		ReservaSala [] reservas = null;
 		try {
-			List lista = dao.getReservas(data);
+
+			List <ReservaSala>lista = (List<ReservaSala>) dao.getReservas(data);
 			// SessionFactory sf = Hibernate.getSessionFactory();
 	  //   	Session session = sf.openSession();
 
 	    	// List<ReservaSala> lista = (List<ReservaSala>) session.createQuery("FROM ReservaSala").list();
+			// List lista = dao.getReservas(data);
+
 			reservas = new ReservaSala[lista.size()];
 			int i = 0;
-			for (ReservaSala reserva : dao.getReservas(data)) {
+			for (ReservaSala reserva : lista){
 				reservas[i] = reserva;
 				i++;
 			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

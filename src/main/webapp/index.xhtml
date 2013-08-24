@@ -15,14 +15,14 @@
 					    
 					    <div class="container-fluid offset1 span12">
 						    <p:schedule id="schedule" value="#{reservaSalaController.eventModel}" widgetVar="myschedule">  
-						        <p:ajax event="dateSelect" listener="#{reservaSalaController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
-						        <p:ajax event="eventSelect" listener="#{reservaSalaController.onEventSelect}" update="eventDetails" oncomplete="eventDialog.show()" />  
+						        <p:ajax event="dateSelect" listener="#{reservaSalaController.onDateSelect}" update="eventDetails" oncomplete="eventDialog.show();eventoDialog.hide();" />  
+						        <p:ajax event="eventSelect" listener="#{reservaSalaController.onEventSelect}" update="eventoDetails" oncomplete="eventoDialog.show();eventDialog.hide();" />  
 						        <p:ajax event="eventMove" listener="#{reservaSalaController.onEventMove}" update="messages" /> 
 						        <p:ajax event="eventResize" listener="#{reservaSalaController.onEventResize}" update="messages" />  
 						    </p:schedule>  
 					  	</div>
 					  	
-					  	<div class="container-fluid span8">
+					  	<div class="container-fluid span8 reservaDialogo">
 						  	<p:dialog widgetVar="eventDialog" header="Fazer reserva de sala" showEffect="clip" hideEffect="clip">  
 						        <h:panelGrid id="eventDetails" columns="3">  
 						        
@@ -79,7 +79,53 @@
 						    </p:dialog>  
 					  	</div>
 					  	
-					</h:form>  
+					  	<div class="container-fluid span8 reservaDialogo">
+						  	<p:dialog widgetVar="eventoDialog" header="Reserva de Sala" showEffect="clip" hideEffect="clip">  
+						        <h:panelGrid id="eventoDetails" columns="2" class="eventoDetails">  
+						        
+									<p:outputLabel for="sala_id"><strong>Sala: </strong></p:outputLabel>
+									<h:outputText id="sala_id" value="#{reservaSalaController.selecionado.sala.id}" />
+							        
+									<p:outputLabel for="dTermino_"><strong>Data de Término: </strong></p:outputLabel>
+									<h:outputText id="dTermino_" value="#{reservaSalaController.selecionado.dataFim}" />
+									
+									<p:outputLabel for="hInicio_"><strong>Horário Inicio: </strong></p:outputLabel>
+									<h:outputText id="hInicio_" value="#{reservaSalaController.selecionado.horarioInicio}"/>
+									
+									<p:outputLabel for="hTermino_"><strong>Horário de Término: </strong></p:outputLabel>
+									<h:outputText id="hTermino_" value="#{reservaSalaController.selecionado.horarioTermino}"/>
+									
+									<p:outputLabel for="email_"><strong>Email: </strong></p:outputLabel>
+									<h:outputText id="email_" value="#{reservaSalaController.selecionado.email}"/>
+									
+									<p:outputLabel for="telefone_"><strong>Telefone: </strong></p:outputLabel>
+									<h:outputText id="telefone_" value="#{reservaSalaController.selecionado.telefone}"/>
+									
+									<p:outputLabel for="responsavel_"><strong>Responsável: </strong></p:outputLabel>
+									<h:outputText id="responsavel_" value="#{reservaSalaController.selecionado.responsavel}" title="Responsavel"/>
+									
+									<p:outputLabel for="reservado_para_"><strong>Reservado para: </strong></p:outputLabel>
+									<h:outputText id="reservado_para_" value="#{reservaSalaController.selecionado.reservadoPara}"/>
+									
+									<p:outputLabel for="privado_"  styleClass="span"><strong>Evento privado: </strong></p:outputLabel>
+									<h:outputText id="privado_" value="#{(reservaSalaController.selecionado.eventoPrivado) ? 'Sim' : 'Não'}"/>
+									
+									<p:outputLabel for="obs_"><strong>Observação: </strong></p:outputLabel>
+									<h:outputText id="obs_" value="#{reservaSalaController.selecionado.observacao}"/>
+									  
+						        </h:panelGrid>
+						        
+								<p:separator style="width:100%;height:1px" />
+							    
+							    <div style="text-align:center;">
+						    		<p:commandButton id="status_true"  styleClass="btn btn-primary" value="Aceitar"  actionListener="#{reservaSalaController.aceitaReserva()}" oncomplete="myschedule.update();eventoDialog.hide();"/>
+						            <p:commandButton id="status_false" styleClass="btn btn-primary" value="Rejeitar" actionListener="#{reservaSalaController.recusaReserva()}" oncomplete="myschedule.update();eventoDialog.hide();"/>
+				            	</div>
+								
+						    </p:dialog>  
+					  	</div>
+					  	
+					</h:form>
        			</div>
        		</p:layoutUnit>
         </section>

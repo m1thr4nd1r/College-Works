@@ -2,6 +2,7 @@ package br.com.ufba.roomsmanageradmin.controller;
 
 import java.awt.event.ActionEvent;
 import java.io.Serializable;
+import java.nio.channels.SeekableByteChannel;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,21 +23,19 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.primefaces.event.*;
 import org.primefaces.model.*;
 
-import br.com.ufba.roomsmanageradmin.dao.Hibernate;
-import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
-import br.com.ufba.roomsmanageradmin.model.ReservaSala;
-import br.com.ufba.roomsmanageradmin.model.Sala;
-import br.com.ufba.roomsmanageradmin.model.Usuario;
+import br.com.ufba.roomsmanageradmin.model.*;
+import br.com.ufba.roomsmanageradmin.dao.*;
 
 @ManagedBean
 @SessionScoped
 public class ReservaSalaController implements Serializable{
 	
 	private ScheduleModel eventModel;  
-    private ReservaSala reserva;
+    private ReservaSala reserva,selecionado;
     private ScheduleEvent event = new DefaultScheduleEvent();  
 	private List<Sala> salas;
 	private String sala_id;
@@ -46,6 +45,7 @@ public class ReservaSalaController implements Serializable{
 		
 		eventModel = new DefaultScheduleModel();	
 		reserva = new ReservaSala();
+		selecionado = new ReservaSala();
 		
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
@@ -74,11 +74,21 @@ public class ReservaSalaController implements Serializable{
 			}
 	    	
 	    	//JOptionPane.showMessageDialog(null,reservaSala.toString());
+	    	DefaultScheduleEvent evento = new DefaultScheduleEvent(reservaSala.getId()+". "+sala.getNome()+" - "+reservaSala.getResponsavel()+" "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim());
+	    	evento.setId(reservaSala.getId()+"");
+	    	evento.setData(reservaSala.getId());
 	    	
-	    	if(!sala.getTipo().toLowerCase().equals("laboratorio") && reservaSala.isAceito()){
-	    		eventModel.addEvent(new DefaultScheduleEvent(sala.getNome()+" - "+reservaSala.getResponsavel()+": "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim()));
+    		if(!sala.getTipo().toLowerCase().equals("laboratorio") && reservaSala.isAceito())
+    		{
+	    		evento.setStyleClass("style1");
 	    	}
-	    	
+	    	else
+	    	{
+	    		evento.setStyleClass("style2");
+	    	}
+
+    		eventModel.addEvent(evento);
+    		
 		}
 	    session.close();
 	    
@@ -120,7 +130,23 @@ public class ReservaSalaController implements Serializable{
 		this.reserva = reserva;
 	}
 
+	public ReservaSala getSelecionado() {
+		return selecionado;
+	}
+
+	public void setSelecionado(ReservaSala selecionado) {
+		this.selecionado = selecionado;
+	}
+
 	/********************************************************/
+    
+	public void aceitaReserva(){
+		JOptionPane.showMessageDialog(null,selecionado.getId());
+    }
+    
+	public void recusaReserva(){
+		JOptionPane.showMessageDialog(null,selecionado.getId());
+    }
     
     public void addEvent(){
 		
@@ -178,7 +204,27 @@ public class ReservaSalaController implements Serializable{
     
     public void onEventSelect(SelectEvent selectEvent) {
     	this.event = (ScheduleEvent) selectEvent.getObject();
-    	//JOptionPane.showMessageDialog(null,"SELECT EVENT "+event+"\n#"+event.getId());
+    	
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    ReservaSala res = new ReservaSala();
+	    
+	    try
+	    {
+	    	for (ReservaSala rs : (List<ReservaSala>) session.createQuery("FROM ReservaSala WHERE id = "+this.event.getData().toString()).list()){
+				res = rs;
+			};
+	    }
+	    catch (HibernateException e)
+	    {
+			// TODO: handle exception
+	    	e.printStackTrace();
+	    	JOptionPane.showMessageDialog(null,e.getMessage());
+		}
+	    session.close();
+	    this.selecionado = res;
+    	//JOptionPane.showMessageDialog(null,"SELECT EVENT\n"+event+"\n#"+event.getId()+"\n"+res.toString());
+    	
 	}  
       
     public void onDateSelect(SelectEvent selectEvent) {  

@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import br.com.ufba.roomsmanageradmin.dao.SalaDAO;
 
+@JsonAutoDetect
 public class ReservaSala implements Serializable {
 	
 	/**
