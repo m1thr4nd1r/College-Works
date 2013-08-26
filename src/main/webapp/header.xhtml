@@ -7,35 +7,67 @@
 		<header id="topo_pagina">
 			<h:form>
     			<p:growl id="messages"/>
-		    	<p:menubar>
-			        
-			        <p:menuitem value="RoomsManager" url="#{request.contextPath}/index.do"/>
-			        
-			        <p:submenu label="Usuario">
-		                <p:menuitem value="Criar" url="#{request.contextPath}/usuario/create.do" />
-		                <p:menuitem value="Listar" url="#{request.contextPath}/usuario/list.do" />
-			        	<p:separator />
-			        </p:submenu>
-			        
-			        <p:submenu label="Sala">
-		                <p:menuitem value="Criar" url="#{request.contextPath}/sala/cadastro.do" />
-		                <p:menuitem value="Listar" url="#{request.contextPath}/sala/lista.do" />
-			        	<p:separator />
-			        </p:submenu>
-			        
-			        <p:submenu label="Setor">
-		                <p:menuitem value="Criar" url="#{request.contextPath}/setor/cadastra.do" />
-<!-- 		                <p:menuitem value="Listar" url="#" /> -->
-			        	<p:separator />
-			        </p:submenu>
-		
-<!-- 		       		<p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" /> -->
-<!-- 		        		<f:facet name="options"> -->
-<!-- 		            		<p:inputText style="margin-right:10px"/> -->
-<!-- 		            		<p:commandButton type="button" value="Logout" icon="ui-icon-extlink" /> -->
-<!-- 		        		</f:facet> -->
-		    		</p:menubar>
-	    		</h:form>
+					 <header id="topo_pagina">
+				        <div class="navbar navbar-inverse affix">
+				          <div class="navbar-inner2">
+				          <div class="container">
+				            <a class="brand" href="index.jsp">RoomsManager</a>
+				            <div class="nav-collapse collapse">
+				            <ul class="nav">
+				     
+				                <li class="">
+				                <div class="btn-group">  								
+								    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+								    	Sala
+								    	<span class="caret"></span>
+								    </a>
+				              		<ul class="dropdown-menu">
+									    <!-- dropdown menu links -->
+									    <li><a  href="/sala/cadastro.do">Cadastra</a></li>
+										<li><a  href="/sala/lista.do">Listar</a></li>
+								    </ul>
+				              	</div>
+				              	</li>
+				              	<li>
+				              		<div class="btn-group">
+  										<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+				              				Usuário
+				              			   <span class="caret"></span>
+					              		</a>
+					              		<ul class="dropdown-menu">
+										    <!-- dropdown menu links -->
+										    <li><a  href="/usuario/create.do">Cadastra</a></li>
+										    <li><a  href="/usuario/list.do">Listar</a></li>
+									    </ul>
+								    </div>
+				              	</li>
+				                <li class="">
+				                	<div class="btn-group">
+  										<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+				              				Setor
+				              			   <span class="caret"></span>
+					              		</a>
+					              		<ul class="dropdown-menu">
+										    <li><a href="/sala/cadastro.do">Cadastra</a></li>
+										    <li><a href="#">Listar</a></li>
+									    </ul>
+								    </div>
+				                </li>
+				                <li class="logout">
+				                  <a href="login?logout">
+				                    <img title="Sair do Sistema" src="images/logout.png" alt="Sair do Sistema" />
+				                  </a>
+				                </li>
+				              
+				            </ul>
+				            </div>
+				          </div>
+				          </div>
+				        </div>
+			        <div class="vAux"></div>
+			      </header>
+			    </h:form>
 			<div class="vAux"></div>
 		</header>
+		
 </ui:composition>

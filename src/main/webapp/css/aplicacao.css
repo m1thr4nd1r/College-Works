@@ -125,3 +125,9 @@ body{
  .logout img{
  	width: 21px;
  }
+
+#j_idt92:dialog{
+ 	position: relative;
+ 	left: 17px;
+    top: -512px;
+ }

@@ -9,11 +9,12 @@
 		RoomsManagerAdmin::Cadastra Sala
 	</ui:define>
 	<ui:define name="scripts">
-		<link href="css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="../css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="../css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
 		<link href="../css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-		<link href="css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="../css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="css/theme.css" media="all" rel="stylesheet" type="text/css" />
 		<style>
 			span.ui-outputlabel-rfi{
 				color: #FF0000;
@@ -29,9 +30,11 @@
 					<div class="row-fluid">					
 						<p:message for="form"></p:message>
 						<h:form id="form">
+						
 							<p:fieldset legend="Cadastro de Sala">
 								<div class="offset3">
 								 								   
+<<<<<<< Updated upstream
 							 	<h:panelGrid columns="3">
 								
 										<p:outputLabel for="dSetor">Setor</p:outputLabel>
@@ -40,7 +43,8 @@
 								        </p:selectOneMenu>							 
 								     	<p:lightBox iframe="true" width="425px" height="200px">  
 										    <h:outputLink value="../setor/cadastro.do" update="dSetor">  
-										        <span class="glyphicon glyphicon-plus">mais</span>  
+										        
+										        <button type="button" class="btn btn-default" title="Adicionar um novo setor"><span class="icon-red icon-plus-sign "></span></button> 
 										    </h:outputLink>  
 										</p:lightBox> 			
 														 
@@ -56,31 +60,51 @@
 										<p:inputText id="dCapacidade" value="#{salaBean.sala.capacidade}" size="60" locale="pt_BR" required="true"/>
 										<p:outputLabel></p:outputLabel>
 										
+=======
+							 <h:panelGrid columns="3">
+								
+									<p:outputLabel for="dSetor">Setor</p:outputLabel>
+									<p:selectOneMenu style="margin-bottom:2px;" id="dSetor" required="true" value="#{salaBean.setor_id}" title="setores" requiredMessage="O campo sala é Obrigatório">  
+							            <f:selectItems value="#{setorBean.setores}" var="setor" itemLabel="#{setor.nome}" itemValue="#{setor.id}"/>
+							        </p:selectOneMenu>							 
+							     		
+                     							 
+										<p:outputLabel for="dNome">Nome</p:outputLabel>
+										<p:inputText id="dNome" value="#{salaBean.sala.nome}" size="60" locale="pt_BR" required="true"/>
+										<p:outputLabel ></p:outputLabel>
+										<p:outputLabel for="dComputadores">Computadores</p:outputLabel>
+										<p:inputText id="dComputadores" value="#{salaBean.sala.computadores}" size="60" locale="pt_BR" required="true"/>
+										<p:outputLabel ></p:outputLabel>
+										<p:outputLabel for="dCapacidade">Capacidade</p:outputLabel>
+										<p:inputText id="dCapacidade" value="#{salaBean.sala.capacidade}" size="60" locale="pt_BR" required="true"/>
+										<p:outputLabel ></p:outputLabel>
+>>>>>>> Stashed changes
 										<p:outputLabel for="iTipo">Tipo </p:outputLabel>  
 								       	<p:selectOneListbox id="iTipo" value="#{salaBean.sala.tipo}" required="true">  
 								           <f:selectItem itemLabel="Reunião" itemValue="Reuniao" />  
 								           <f:selectItem itemLabel="Laboratório" itemValue="Laboratorio" />  
 								           <f:selectItem itemLabel="Auditório" itemValue="Auditorio" />  
+<<<<<<< Updated upstream
 								       	</p:selectOneListbox>
-								       	<p:outputLabel></p:outputLabel>
-								       	<p:outputLabel></p:outputLabel>
-								       	  
+								       	<p:outputLabel></p:outputLabel>  
+=======
+								       	</p:selectOneListbox>  
+								       	<p:outputLabel ></p:outputLabel>
+>>>>>>> Stashed changes
 										<p:outputPanel id="customPanel">  
 											  <p:outputLabel for="dQuadro">Possui Quadro</p:outputLabel> 
 										      <p:selectOneRadio  id="dQuadro" value="#{salaBean.sala.quadro}" layout="custom" required="true">  
 										          <f:selectItem  itemLabel="Sim" itemValue="true" />  
 										          <f:selectItem  itemLabel="Não" itemValue="false" />						           
-										    </p:selectOneRadio> 
+										    </p:selectOneRadio>
+										    		       	<p:outputLabel></p:outputLabel>  
 											<h:panelGrid columns="2">  
 												<p:radioButton id="opt1" for="dQuadro" itemIndex="0"/>  
 												<h:outputLabel for="opt1" value="SIM" />  								
 												<p:radioButton id="opt2" for="dQuadro" itemIndex="1"/>  
 												<h:outputLabel for="opt2" value="Não" />								  
 											</h:panelGrid>
-										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
-										
+										</p:outputPanel>									
 										<p:outputPanel id="customPanel1">  
 											  <p:outputLabel for="dRetropojetor">Possui Retropojetor</p:outputLabel> 
 										      <p:selectOneRadio  id="dRetropojetor" value="#{salaBean.sala.retroprojetor}" layout="custom" required="true">  
@@ -93,10 +117,13 @@
 												<p:radioButton id="opt4" for="dRetropojetor" itemIndex="1"/>  
 												<h:outputLabel for="opt4" value="Não" />								  
 											</h:panelGrid>
+<<<<<<< Updated upstream
+										</p:outputPanel>	
+										<p:outputLabel></p:outputLabel> 									
+=======
 										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
-										
+										<p:outputLabel ></p:outputLabel>
+>>>>>>> Stashed changes
 										<p:outputPanel id="customPanel2">  
 											  <p:outputLabel for="dMultimidia">Possui Multimidia</p:outputLabel> 
 										      <p:selectOneRadio  id="dMultimidia" value="#{salaBean.sala.multimidia}" layout="custom" required="true">  
@@ -110,9 +137,6 @@
 												<h:outputLabel for="opt6" value="Não" />								  
 											</h:panelGrid>
 										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
-										
 										<p:outputPanel id="customPanel3">  
 											  <p:outputLabel for="dArCondiconado">Possui Arcondicionado</p:outputLabel> 
 										      <p:selectOneRadio  id="dArCondiconado" value="#{salaBean.sala.arcondicionado}" layout="custom" required="true">  
@@ -126,8 +150,8 @@
 												<h:outputLabel for="opt8" value="Não" />								  
 											</h:panelGrid>
 										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
+										
+										
 									</h:panelGrid> 
 								</div>
 					  	    </p:fieldset>
@@ -141,7 +165,30 @@
 								  	</div>
 							  	</div>
 					  		</div>
+					  		  
+  							
+    
 						</h:form>
+		 				<h:form>
+  						
+  
+    <p:dialog id="dialog" header="Dynamic Focus" widgetVar="dlg" focus="surname">  
+  
+        <h:panelGrid columns="2" cellpadding="5">  
+  
+            <h:outputLabel for="name" value="Name:" />  
+            <p:inputText id="name" label="name" />  
+              
+            <h:outputLabel for="surname" value="Surname:" />  
+            <p:inputText id="surname" label="surname" />  
+                  
+            <h:outputLabel for="telephone" value="Telephone:" />  
+            <p:inputText id="telephone" label="telephone" />  
+      
+        </h:panelGrid>  
+          
+    </p:dialog>  
+  							</h:form>
 					</div>
 				</div>
 			</p:layoutUnit>
