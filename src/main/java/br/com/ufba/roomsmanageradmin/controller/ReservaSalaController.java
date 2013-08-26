@@ -1,3 +1,4 @@
+
 package br.com.ufba.roomsmanageradmin.controller;
 
 import java.awt.event.ActionEvent;
@@ -10,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -27,8 +29,8 @@ import org.hibernate.criterion.Restrictions;
 import org.primefaces.event.*;
 import org.primefaces.model.*;
 
-import br.com.ufba.roomsmanageradmin.model.*;
 import br.com.ufba.roomsmanageradmin.dao.*;
+import br.com.ufba.roomsmanageradmin.model.*;
 
 @ManagedBean
 @SessionScoped
@@ -53,27 +55,26 @@ public class ReservaSalaController implements Serializable{
 	    List<ReservaSala> l = (List<ReservaSala>) session.createQuery("FROM ReservaSala").list();
 	    for (ReservaSala reservaSala : l) {
 	    	
-	    	Date dataI = (Date)reservaSala.getDataInicio();
-	    	Date horaI = reservaSala.getHorarioInicio();
-	    	/*
-	    	 * BUG no Framework a data de fim não é incluída
-	    	 */
+	    	/** ADD 0 formula encontrado para solucionar o Problema com '.0' na data **/
+	    	Date dataI = addDay(0,(Date)reservaSala.getDataInicio());
+	    	Date horaI = addDay(0,(Date)reservaSala.getHorarioInicio());
+	    	
+	    	// BUG no Framework a data de fim não é incluída
 	    	Date dataF = addDay(1,(Date)reservaSala.getDataFim());
-	    	Date horaF = reservaSala.getHorarioTermino();
+	    	Date horaF = addDay(0,(Date)reservaSala.getHorarioTermino());
+	    	
 //	    	JOptionPane.showMessageDialog(null,"#"+dataI+"\n#"+dataF);
-	    	
 	    	Sala sala = reservaSala.getSala();
-	    	SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
 	    	
-	    	try {
-				reservaSala.setDataInicio(mergeDateHour(sdf.parse(dataI.toString()),horaI));
-		    	reservaSala.setDataFim(mergeDateHour(sdf.parse(dataF.toString()), horaF));
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//		    	JOptionPane.showMessageDialog(null, "M1 "+mergeDateHour(dataI,horaI)+"\n"+
+//		    										"M2 "+mergeDateHour(dataF,horaF)
+//		    										);
 	    	
-	    	//JOptionPane.showMessageDialog(null,reservaSala.toString());
+				reservaSala.setDataInicio(addYear(1900,mergeDateHour(dataI,horaI)));
+		    	reservaSala.setDataFim(addYear(1900,mergeDateHour(dataF, horaF)));
+	    	
+	    	//JOptionPane.showMessageDialog(null,"data "+d);
+	    	
 	    	DefaultScheduleEvent evento = new DefaultScheduleEvent(reservaSala.getId()+". "+sala.getNome()+" - "+reservaSala.getResponsavel()+" "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim());
 	    	evento.setId(reservaSala.getId()+"");
 	    	evento.setData(reservaSala.getId());
@@ -140,12 +141,8 @@ public class ReservaSalaController implements Serializable{
 
 	/********************************************************/
     
-	public void aceitaReserva(){
-		JOptionPane.showMessageDialog(null,selecionado.getId());
-    }
-    
-	public void recusaReserva(){
-		JOptionPane.showMessageDialog(null,selecionado.getId());
+	public void statusReserva(int a){
+		JOptionPane.showMessageDialog(null,a);
     }
     
     public void addEvent(){
@@ -186,6 +183,8 @@ public class ReservaSalaController implements Serializable{
     		
 	    	if(event.getId() == null){
 	    		eventModel.addEvent(new DefaultScheduleEvent(sala.getNome()+" - "+reserva.getResponsavel()+": "+reserva.getReservadoPara(),reserva.getDataInicio(),reserva.getDataFim()));
+	    		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva adicionada com sucesso!","Reserva adicionada com sucesso!");
+	    	    addMessage(message);  
 	    	}else{  
 	            eventModel.updateEvent(event);  
 	    	}
@@ -223,11 +222,13 @@ public class ReservaSalaController implements Serializable{
 		}
 	    session.close();
 	    this.selecionado = res;
-    	//JOptionPane.showMessageDialog(null,"SELECT EVENT\n"+event+"\n#"+event.getId()+"\n"+res.toString());
+	    this.selecionado.setDataInicio(dateToformat(this.selecionado.getDataInicio(),"dd/mm/yyyy"));
+	    this.selecionado.setDataFim(dateToformat(this.selecionado.getDataFim(),"dd/mm/yyyy"));
     	
 	}  
       
-    public void onDateSelect(SelectEvent selectEvent) {  
+    public void onDateSelect(SelectEvent selectEvent) {
+    	this.reserva.setDataInicio(dateToformat((Date) selectEvent.getObject(),"dd/mm/yyyy"));
 		this.event = new DefaultScheduleEvent("Novo Evento", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
     }  
       
@@ -261,48 +262,7 @@ public class ReservaSalaController implements Serializable{
 		return c.getTime();
     }
     
-	public String getData(String data){
-		
-		String dt = "";
-		
-		if(data != null && !data.isEmpty()){
-			String [] str = data.split(" ");
-			
-			int mes = mesToInt(str[1].toLowerCase());
-			
-			String m = (mes < 10) ? "0"+mes : mes+"";
-			dt += str[str.length-1]+"-"+m+"-"+str[2];
-		}
-		return dt;
-	}
-	
-	public String getHora(String data){
-		String h = "";
-		
-		if(data != null && !data.isEmpty()){
-			String [] str = data.split(" ");
-			
-			h = str[3];
-		}
-		
-		return h;
-	}
-	
-	public int mesToInt(String mes){
-		int m = -1;
-		
-		String [] meses = {"jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"};
-		
-		for(int i = 0; i < meses.length; i++) {
-			if(meses[i].equals(mes)){
-				return (i+1);
-			}
-		}
-		
-		return m;
-	}
-
-	private Date mergeDateHour(Date data, Date hora){
+    private Date mergeDateHour(Date data, Date hora){
 
     	GregorianCalendar cal = new GregorianCalendar();
     	cal.set(Calendar.YEAR, data.getYear());
@@ -311,9 +271,26 @@ public class ReservaSalaController implements Serializable{
     	cal.set(Calendar.HOUR_OF_DAY,hora.getHours());
     	cal.set(Calendar.MINUTE,hora.getMinutes());
     	cal.set(Calendar.SECOND,hora.getSeconds());
-    	JOptionPane.showMessageDialog(null,cal.getTime());
     	return cal.getTime();
     	
+	}
+	    
+	public Date dateToformat(Date data, String format){
+    	SimpleDateFormat sdf = new SimpleDateFormat(format);
+    	
+    	String d =  sdf.format(data);
+    	
+    	sdf = new SimpleDateFormat(format,Locale.US);
+    	
+    	try {
+			data = sdf.parse(d);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "ERROR: dateToFormat "+e.getMessage());
+		}
+    	
+    	return data;
 	}
 	
 }
