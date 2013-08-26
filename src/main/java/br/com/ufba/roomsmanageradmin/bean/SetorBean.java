@@ -32,7 +32,7 @@ import br.com.ufba.roomsmanageradmin.model.*;
 public class SetorBean implements Serializable {
 	
 	private Setor setor = new Setor();
-	private List<Setor> setores;
+	private List<Setor> setores = new ArrayList<Setor>();
 	private String setor_id;
 	
 	public String create(ActionEvent ae) throws ParseException
@@ -56,7 +56,7 @@ public class SetorBean implements Serializable {
     }
 	
 	@PostConstruct
-	void init(){
+	void iniciSetor(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    setores= (List<Setor>) session.createQuery("FROM Setor").list();

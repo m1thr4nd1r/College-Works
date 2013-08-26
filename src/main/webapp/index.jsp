@@ -36,22 +36,8 @@ for(String s : str){
             <a class="brand" href="index.jsp">RoomsManager</a>
             <div class="nav-collapse collapse">
             <ul class="nav">
-              <% if(logado != null){ %>
-                <li class="">
-              		<a href="sala/index.do">Sala</a>
-              	</li>
-              	<li class="">
-              		<a href="usuario/index.do">Usuario</a>
-              	</li>
-                <li class="">
-                <a href="setor/cadastra.do">Cadastra setor</a>
-                </li>
-                <li class="logout">
-                  <a href="login?logout">
-                    <img title="Sair do Sistema" src="<%= url %>images/logout.png" alt="Sair do Sistema" />
-                  </a>
-                </li>
-              <% } %>
+     
+             
             </ul>
             </div>
           </div>
@@ -70,7 +56,8 @@ for(String s : str){
                <div class="span10">
                 <div class="span10">
                   <label>Nome do Usu&aacute;rio</label>
-                  <label>Usu&aacute;rio</label>    - -->              
+                  <label>Usu&aacute;rio</label>    - -->     
+                           
                   <input name="username" id="user" type="text" value="" placeholder="Usu&aacute;rio"/>
               <!--  </div>
                 <div class="span10">
@@ -85,6 +72,7 @@ for(String s : str){
           </form>
         </div>
         <% }else{%>
+          <center><img src="<%=url %>/images/ajax-loader.gif" alt="Carregando pagina" style="z-index:2900; width : 230px; height : 219px;"/></center>
           <script>
           function redirect(){
         	  	var l = window.location;

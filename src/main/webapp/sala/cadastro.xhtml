@@ -40,7 +40,8 @@
 								        </p:selectOneMenu>							 
 								     	<p:lightBox iframe="true" width="425px" height="200px">  
 										    <h:outputLink value="../setor/cadastro.do" update="dSetor">  
-										        <span class="glyphicon glyphicon-plus">mais</span>  
+										        
+										        <button type="button" class="btn btn-default" title="Adicionar um novo setor"><span class="icon-red icon-plus-sign "></span></button> 
 										    </h:outputLink>  
 										</p:lightBox> 			
 														 
@@ -62,25 +63,21 @@
 								           <f:selectItem itemLabel="Laboratório" itemValue="Laboratorio" />  
 								           <f:selectItem itemLabel="Auditório" itemValue="Auditorio" />  
 								       	</p:selectOneListbox>
-								       	<p:outputLabel></p:outputLabel>
-								       	<p:outputLabel></p:outputLabel>
-								       	  
+								       	<p:outputLabel></p:outputLabel>  
 										<p:outputPanel id="customPanel">  
 											  <p:outputLabel for="dQuadro">Possui Quadro</p:outputLabel> 
 										      <p:selectOneRadio  id="dQuadro" value="#{salaBean.sala.quadro}" layout="custom" required="true">  
 										          <f:selectItem  itemLabel="Sim" itemValue="true" />  
 										          <f:selectItem  itemLabel="Não" itemValue="false" />						           
-										    </p:selectOneRadio> 
+										    </p:selectOneRadio>
+										    		       	<p:outputLabel></p:outputLabel>  
 											<h:panelGrid columns="2">  
 												<p:radioButton id="opt1" for="dQuadro" itemIndex="0"/>  
 												<h:outputLabel for="opt1" value="SIM" />  								
 												<p:radioButton id="opt2" for="dQuadro" itemIndex="1"/>  
 												<h:outputLabel for="opt2" value="Não" />								  
 											</h:panelGrid>
-										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
-										
+										</p:outputPanel>									
 										<p:outputPanel id="customPanel1">  
 											  <p:outputLabel for="dRetropojetor">Possui Retropojetor</p:outputLabel> 
 										      <p:selectOneRadio  id="dRetropojetor" value="#{salaBean.sala.retroprojetor}" layout="custom" required="true">  
@@ -93,10 +90,8 @@
 												<p:radioButton id="opt4" for="dRetropojetor" itemIndex="1"/>  
 												<h:outputLabel for="opt4" value="Não" />								  
 											</h:panelGrid>
-										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
-										
+										</p:outputPanel>	
+										<p:outputLabel></p:outputLabel> 									
 										<p:outputPanel id="customPanel2">  
 											  <p:outputLabel for="dMultimidia">Possui Multimidia</p:outputLabel> 
 										      <p:selectOneRadio  id="dMultimidia" value="#{salaBean.sala.multimidia}" layout="custom" required="true">  
@@ -110,9 +105,6 @@
 												<h:outputLabel for="opt6" value="Não" />								  
 											</h:panelGrid>
 										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
-										
 										<p:outputPanel id="customPanel3">  
 											  <p:outputLabel for="dArCondiconado">Possui Arcondicionado</p:outputLabel> 
 										      <p:selectOneRadio  id="dArCondiconado" value="#{salaBean.sala.arcondicionado}" layout="custom" required="true">  
@@ -126,8 +118,8 @@
 												<h:outputLabel for="opt8" value="Não" />								  
 											</h:panelGrid>
 										</p:outputPanel>
-										<p:outputLabel></p:outputLabel>
-										<p:outputLabel></p:outputLabel>
+										
+										
 									</h:panelGrid> 
 								</div>
 					  	    </p:fieldset>
