@@ -33,7 +33,7 @@ public class ReservaSala implements Serializable {
 	private String telefone;
 	private String observacao;
 	private boolean aceito = false;
-	
+	private int status;
 	
 	
 	public int getId() {
@@ -72,6 +72,26 @@ public class ReservaSala implements Serializable {
 		this.telefone = telefone;
 		this.observacao = observacao;
 		this.aceito = aceito;
+	}
+	
+	public ReservaSala(int id, Sala sala, Date dataInicio, Date dataFim,
+			Date horarioInicio, Date horarioTermino, String responsavel,
+			String reservadoPara, boolean eventoPrivado, String email,
+			String telefone, String observacao, int status) {
+		super();
+		this.id = id;
+		this.sala = sala;
+		this.dataInicio = dataInicio;
+		this.dataFim = dataFim;
+		this.horarioInicio = horarioInicio;
+		this.horarioTermino = horarioTermino;
+		this.responsavel = responsavel;
+		this.reservadoPara = reservadoPara;
+		this.eventoPrivado = eventoPrivado;
+		this.email = email;
+		this.telefone = telefone;
+		this.observacao = observacao;
+		this.status = status;
 	}
 
 	public ReservaSala(int sala_id, String dataInicio, String dataFim,
@@ -205,6 +225,14 @@ public class ReservaSala implements Serializable {
 	public void setAceito(boolean aceito) {
 		this.aceito = aceito;
 	}
+	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	/**
 	 * 
@@ -212,7 +240,7 @@ public class ReservaSala implements Serializable {
 	 * @return a data no formato dd/mm/yyyy
 	 * 
 	 */
-	public Date dataPtBR(String data){
+	private Date dataPtBR(String data){
 		String dt = "";
 		
 		if(data != null && !data.isEmpty()){
@@ -233,7 +261,7 @@ public class ReservaSala implements Serializable {
 	 * @return data no formato yyyy-mm-dd
 	 * 
 	 */
-	public Date dataEn(String data){
+	private Date dataEn(String data){
 		String dt = "";
 		
 		if(data != null && !data.isEmpty()){

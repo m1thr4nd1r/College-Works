@@ -44,5 +44,8 @@
         <property name="aceito" type="boolean">
             <column name="ACEITO" />
         </property>
+        <property name="status" type="int">
+            <column name="STATUS" />
+        </property>
     </class>
 </hibernate-mapping>
