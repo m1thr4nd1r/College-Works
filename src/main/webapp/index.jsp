@@ -72,18 +72,21 @@ for(String s : str){
           </form>
         </div>
         <% }else{%>
-          <center><img src="<%=url %>/images/ajax-loader.gif" alt="Carregando pagina" style="z-index:2900; width : 230px; height : 219px;"/></center>
+          <div id="loader" class="middle">
+          	<img src="<%=url %>/images/loader.gif" alt="Carregando pagina" style="z-index:999;"/>
+          </div>
           <script>
           function redirect(){
-        	  	var l = window.location;
-  				var base_url = l.protocol + "//" + l.host + "/";
-  				$(location).attr("href",base_url+"index.do");
+       	  		var l = window.location;
+				var base_url = l.protocol + "//" + l.host + "/";
+				$(this).delay(1200);
+ 				$(location).attr("href",base_url+"index.do");
           }
           redirect();
           </script>	
-          <div class="logo_index">
-            <h1>RoomsManagerAdmin</h1>
-          </div>
+<!--           <div class="logo_index"> -->
+<!--             <h1>RoomsManagerAdmin</h1> -->
+<!--           </div> -->
         <% } %>
           </div>
           <jsp:include page="/footer.xhtml"/>

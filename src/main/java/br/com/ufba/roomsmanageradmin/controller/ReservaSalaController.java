@@ -96,56 +96,16 @@ public class ReservaSalaController implements Serializable{
 	    
     }  
 	
-	public String getSala_id() {
-		return sala_id;
-	}
-	
-	public void setSala_id(String sala_id) {
-		this.sala_id = sala_id;
-	}
-	
-	public List<Sala> getSalas(){
-		SessionFactory sf = Hibernate.getSessionFactory();
-	    Session session = sf.openSession();
-	    this.salas = (List<Sala>) session.createQuery("FROM Sala").list();
-	    session.close();
-		return salas;
-	}
-
-    public ScheduleModel getEventModel() {  
-        return eventModel;  
-    }  
-        
-    public ScheduleEvent getEvent() {  
-        return event;  
-    }  
-  
-    public void setEvent(ScheduleEvent event) {  
-        this.event = event;  
-    } 
-
-    public ReservaSala getReserva() {
-		return reserva;
-	}
-
-	public void setReserva(ReservaSala reserva) {
-		this.reserva = reserva;
-	}
-
-	public ReservaSala getSelecionado() {
-		return selecionado;
-	}
-
-	public void setSelecionado(ReservaSala selecionado) {
-		this.selecionado = selecionado;
-	}
-
 	/********************************************************/
-    
-	public void statusReserva(int a){
-		JOptionPane.showMessageDialog(null,a);
+
+	public void aceitaReserva(){
+		JOptionPane.showMessageDialog(null,"ACEITA");
     }
-    
+
+	public void recusaReserva(){
+		JOptionPane.showMessageDialog(null,"RECUSA");
+    }
+
     public void addEvent(){
 		
     	Date date = addDay(1,event.getEndDate());
@@ -249,7 +209,7 @@ public class ReservaSalaController implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, message);  
     }
     
-    /********************************************************/
+    /********************** FUNÇÕES AUXILIARES ************************/
     
     private Date addDay(int dias,Date data){
     	GregorianCalendar c = new GregorianCalendar();    	
@@ -295,4 +255,50 @@ public class ReservaSalaController implements Serializable{
     	return data;
 	}
 	
+	/********************** GETS e SETS ************************/
+	
+	public String getSala_id() {
+		return sala_id;
+	}
+	
+	public void setSala_id(String sala_id) {
+		this.sala_id = sala_id;
+	}
+	
+	public List<Sala> getSalas(){
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    this.salas = (List<Sala>) session.createQuery("FROM Sala").list();
+	    session.close();
+		return salas;
+	}
+
+    public ScheduleModel getEventModel() {  
+        return eventModel;  
+    }  
+        
+    public ScheduleEvent getEvent() {  
+        return event;  
+    }  
+  
+    public void setEvent(ScheduleEvent event) {  
+        this.event = event;  
+    } 
+
+    public ReservaSala getReserva() {
+		return reserva;
+	}
+
+	public void setReserva(ReservaSala reserva) {
+		this.reserva = reserva;
+	}
+
+	public ReservaSala getSelecionado() {
+		return selecionado;
+	}
+
+	public void setSelecionado(ReservaSala selecionado) {
+		this.selecionado = selecionado;
+	}
+
 }

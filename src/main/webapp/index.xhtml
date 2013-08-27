@@ -130,8 +130,8 @@
 								<p:separator style="width:100%;height:1px" />
 							    
 							    <div style="text-align:center;">
-						    		<p:commandButton id="status_true"  styleClass="btn btn-primary" value="Aceitar"  actionListener="#{reservaSalaController.statusReserva(1)}" oncomplete="myschedule.update();eventoDialog.hide();"/>
-						            <p:commandButton id="status_false" styleClass="btn btn-primary" value="Rejeitar" actionListener="#{reservaSalaController.statusReserva(2)}" oncomplete="myschedule.update();eventoDialog.hide();"/>
+						    		<p:commandButton id="statusTrue"  value="Aceitar"  actionListener="#{reservaSalaController.aceitaReserva}" oncomplete="myschedule.update();eventoDialog.hide();"/>
+						    		<p:commandButton id="statusFalse" value="Rejeitar" actionListener="#{reservaSalaController.recusaReserva}" oncomplete="myschedule.update();eventoDialog.hide();"/>
 				            	</div>
 								
 						    </p:dialog>  
