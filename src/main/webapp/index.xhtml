@@ -33,7 +33,7 @@
 							        <p:outputLabel></p:outputLabel>
 							        
 									<p:outputLabel for="dInicio">Data de Inicio: </p:outputLabel>
-									<h:outputText id="dInicio" value="#{reservaSalaController.selecionado.dataInicio}" locale="pt_Br" />
+									<h:outputText id="dInicio" value="#{reservaSalaController.reserva.dataInicio}" locale="pt_Br" />
 									<p:outputLabel></p:outputLabel>
 									
 									<p:outputLabel for="dTermino">Data de Término</p:outputLabel>
@@ -76,10 +76,15 @@
 									<p:outputLabel for="obs">Observação</p:outputLabel>
 									<p:inputTextarea id="obs" rows="3" cols="60" counter="contObs" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaController.reserva.observacao}" title="Observação"/>
 									<h:outputText id="contObs" styleClass="info" />
-									<br/>
-						            <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaSalaController.addEvent()}" oncomplete="myschedule.update();eventDialog.hide();"/>
-						            <p:commandButton type="reset" value="Limpar" />  
-						        </h:panelGrid>  
+								</h:panelGrid>
+						        
+								<p:separator style="width:100%;height:1px" />
+								
+								<div style="text-align:center;">
+							        <p:commandButton id="addButton" value="Salvar" actionListener="#{reservaSalaController.addEvent()}" oncomplete="myschedule.update();eventDialog.hide();"/>
+						            <p:commandButton type="reset" value="Limpar" />
+				            	</div>  
+						          
 						    </p:dialog>  
 					  	</div>
 					  	

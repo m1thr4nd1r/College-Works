@@ -42,7 +42,7 @@ public class ReservaSalaController implements Serializable{
     private ScheduleEvent event = new DefaultScheduleEvent();  
 	private List<Sala> salas;
 	private String sala_id;
-	private String ptBrFormat = "dd/mm/yyyy";
+	private String ptBrFormat = "dd/MM/yyyy";
 	
 	@PostConstruct
 	void init(){  
