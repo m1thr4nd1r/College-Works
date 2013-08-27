@@ -30,8 +30,9 @@ import org.hibernate.criterion.Restrictions;
 import org.primefaces.event.*;
 import org.primefaces.model.*;
 
-import br.com.ufba.roomsmanageradmin.dao.*;
-import br.com.ufba.roomsmanageradmin.model.*;
+import br.com.ufba.roomsmanageradmin.dao.Hibernate;
+import br.com.ufba.roomsmanageradmin.model.ReservaSala;
+import br.com.ufba.roomsmanageradmin.model.Sala;
 
 @ManagedBean
 @SessionScoped
@@ -136,13 +137,13 @@ public class ReservaSalaController implements Serializable{
 			
 	    	tx = session.beginTransaction();
 	    	session.saveOrUpdate(reserva); 
-	    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva adicionada com sucesso!","Reserva adicionada com sucesso!");
-    	    addMessage(message);
 	    	tx.commit();
 	    	
+	    	FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva de sala","Reserva adicionada com sucesso!");
+    	    addMessage(msg);
+	    	
 	    	List<Sala> l = (List<Sala>) session.createQuery("FROM Sala WHERE id = "+reserva.getSala().getId()).list();
-    		
-	    	for (Sala s : l) {
+    		for (Sala s : l) {
 				sala = s;
 			}
     		

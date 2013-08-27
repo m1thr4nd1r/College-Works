@@ -16,9 +16,6 @@ import br.com.ufba.roomsmanageradmin.model.*;
 
 public class ReservaSala implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private Sala sala;

@@ -50,7 +50,5 @@ public class Setor implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	
 
 }

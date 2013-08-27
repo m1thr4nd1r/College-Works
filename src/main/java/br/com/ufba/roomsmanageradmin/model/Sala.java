@@ -2,7 +2,6 @@ package br.com.ufba.roomsmanageradmin.model;
 
 import java.io.Serializable;
 
-// @SuppressWarnings("serial")
 public class Sala implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

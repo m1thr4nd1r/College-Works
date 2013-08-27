@@ -8,8 +8,7 @@ public class Tipo implements Serializable{
 	private String descricao;
 	private int id;
 	
-	public Tipo(){
-		
+	public Tipo(){		
 	}
 	
 	public Tipo(String descricao){

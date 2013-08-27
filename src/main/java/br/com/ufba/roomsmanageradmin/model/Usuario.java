@@ -75,4 +75,5 @@ public class Usuario {
 				"EMAIL: "+this.email+"\n"+
 				"NOME: "+this.nome;
 	}
+	
 }
