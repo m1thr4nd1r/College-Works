@@ -42,7 +42,7 @@ public class ReservaSalaController implements Serializable{
     private ScheduleEvent event = new DefaultScheduleEvent();  
 	private List<Sala> salas;
 	private String sala_id;
-	private String ptBrFormat = "dd/MM/yyyy";
+	private String ptBrFormat = "dd/MM/yyyy", enFormat = "yyyy-MM-dd", horaFormat = "HH:mm";
 	
 	@PostConstruct
 	void init(){  
@@ -71,8 +71,8 @@ public class ReservaSalaController implements Serializable{
 //		    										"M2 "+mergeDateHour(dataF,horaF)
 //		    										);
 	    	
-				reservaSala.setDataInicio(pularData(0,0,1900,0,0,mergeDateHour(dataI,horaI)));
-		    	reservaSala.setDataFim(pularData(0,0,1900,0,0,mergeDateHour(dataF, horaF)));
+			reservaSala.setDataInicio(pularData(0,0,1900,0,0,mergeDateHour(dataI,horaI)));
+	    	reservaSala.setDataFim(pularData(0,0,1900,0,0,mergeDateHour(dataF, horaF)));
 	    	
 	    	//JOptionPane.showMessageDialog(null,"data "+d);
 	    	
@@ -168,32 +168,42 @@ public class ReservaSalaController implements Serializable{
     public void onEventSelect(SelectEvent selectEvent) {
     	this.event = (ScheduleEvent) selectEvent.getObject();
     	this.selecionado = getReserva(this.event);
-	    this.selecionado.setDataInicio(dateToformat(this.selecionado.getDataInicio(),ptBrFormat));
-	    this.selecionado.setDataFim(dateToformat(this.selecionado.getDataFim(),ptBrFormat));
+	    this.selecionado.setDataInicio(dateToFormat(this.selecionado.getDataInicio(),ptBrFormat));
+	    this.selecionado.setDataFim(dateToFormat(this.selecionado.getDataFim(),ptBrFormat));
 	}  
       
     public void onDateSelect(SelectEvent selectEvent) {
     	Date d = (Date) selectEvent.getObject();
-    	this.reserva.setDataInicio(dateToformat(d,ptBrFormat));
+    	this.reserva.setDataInicio(dateToFormat(d,ptBrFormat));
 		this.event = new DefaultScheduleEvent("Novo Evento", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
     }  
       
     public void onEventMove(ScheduleEntryMoveEvent event) {
     	this.event = event.getScheduleEvent();
     	this.selecionado = getReserva(this.event);
-    	
-    	JOptionPane.showMessageDialog(null,this.selecionado.getDataInicio());
-    	
-    	//Acrescimo ou Substração de dias 
-    	Date d = pularData(event.getDayDelta(),0,0,0,0,this.selecionado.getDataInicio());
-    	JOptionPane.showMessageDialog(null,d);
-	    this.selecionado.setDataInicio(dateToformat(d,ptBrFormat));
-	    
-	    //Acrescimo ou Substração de dias
-    	d = pularData(event.getDayDelta(),0,0,0,0,this.selecionado.getDataFim());
-    	JOptionPane.showMessageDialog(null,d);
-    	this.selecionado.setDataFim(dateToformat(d,ptBrFormat));
-    	
+    	this.selecionado.setDataInicio(dateToFormat(this.event.getStartDate(),enFormat));
+    	this.selecionado.setDataFim(dateToFormat(this.event.getEndDate(),enFormat));
+    	updateReserva("Reserva movida com Sucesso!");
+    }  
+      
+    public void onEventResize(ScheduleEntryResizeEvent event) {  
+    	this.event = event.getScheduleEvent();
+    	this.selecionado = getReserva(this.event);
+    	this.selecionado.setDataInicio(dateToFormat(this.event.getStartDate(),enFormat));
+    	this.selecionado.setDataFim(dateToFormat(this.event.getEndDate(),enFormat));
+    	this.selecionado.setHorarioInicio(dateToFormat(this.event.getStartDate(),horaFormat));
+    	this.selecionado.setHorarioTermino(dateToFormat(this.event.getEndDate(),horaFormat));
+    	updateReserva("Período da reserva modificado com Sucesso!");
+    }  
+      
+    private void addMessage(FacesMessage message) {  
+        FacesContext.getCurrentInstance().addMessage(null, message);  
+    }
+    
+    /********************** FUNÇÕES AUXILIARES ************************/
+    
+    private void updateReserva(String messagem){
+
     	SessionFactory sf = Hibernate.getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = null;
@@ -204,7 +214,7 @@ public class ReservaSalaController implements Serializable{
 			session.flush();
 			tx.commit();
 
-	    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva de Sala", "Reserva movida com Sucesso!");          
+	    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva de Sala",messagem);          
 	        addMessage(message);  
 		}catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
@@ -214,19 +224,7 @@ public class ReservaSalaController implements Serializable{
 			session.close(); 
 		}
 		
-    }  
-      
-    public void onEventResize(ScheduleEntryResizeEvent event) {  
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());  
-        addMessage(message);  
-    }  
-      
-    private void addMessage(FacesMessage message) {  
-        FacesContext.getCurrentInstance().addMessage(null, message);  
     }
-    
-    /********************** FUNÇÕES AUXILIARES ************************/
-    
     /**
      * 
      * @param event 
@@ -289,7 +287,7 @@ public class ReservaSalaController implements Serializable{
     	return cal.getTime();
 	}
 	    
-	public Date dateToformat(Date data, String format){
+	public Date dateToFormat(Date data, String format){
     	SimpleDateFormat sdf = new SimpleDateFormat(format);
 
     	String d =  sdf.format(data);
