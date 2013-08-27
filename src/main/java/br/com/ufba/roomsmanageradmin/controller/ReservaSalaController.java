@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.nio.channels.*;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,6 +42,7 @@ public class ReservaSalaController implements Serializable{
     private ScheduleEvent event = new DefaultScheduleEvent();  
 	private List<Sala> salas;
 	private String sala_id;
+	private String ptBrFormat = "dd/mm/yyyy";
 	
 	@PostConstruct
 	void init(){  
@@ -54,7 +56,7 @@ public class ReservaSalaController implements Serializable{
 
 	    List<ReservaSala> l = (List<ReservaSala>) session.createQuery("FROM ReservaSala").list();
 	    for (ReservaSala reservaSala : l) {
-	    	
+	    		
 	    	/** ADD 0 formula encontrado para solucionar o Problema com '.0' na data **/
 	    	Date dataI = addDay(0,(Date)reservaSala.getDataInicio());
 	    	Date horaI = addDay(0,(Date)reservaSala.getHorarioInicio());
@@ -221,13 +223,15 @@ public class ReservaSalaController implements Serializable{
 		}
 	    session.close();
 	    this.selecionado = res;
-	    this.selecionado.setDataInicio(dateToformat(this.selecionado.getDataInicio(),"dd/mm/yyyy"));
-	    this.selecionado.setDataFim(dateToformat(this.selecionado.getDataFim(),"dd/mm/yyyy"));
+	    this.selecionado.setDataInicio(dateToformat(this.selecionado.getDataInicio(),ptBrFormat));
+	    this.selecionado.setDataFim(dateToformat(this.selecionado.getDataFim(),ptBrFormat));
     	
 	}  
       
     public void onDateSelect(SelectEvent selectEvent) {
-    	this.reserva.setDataInicio(dateToformat((Date) selectEvent.getObject(),"dd/mm/yyyy"));
+    	Date d = (Date) selectEvent.getObject();
+    	//JOptionPane.showMessageDialog(null,"#3 "+dateToformat(d,ptBrFormat));
+    	this.reserva.setDataInicio(dateToformat(d,ptBrFormat));
 		this.event = new DefaultScheduleEvent("Novo Evento", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
     }  
       
@@ -276,9 +280,8 @@ public class ReservaSalaController implements Serializable{
 	    
 	public Date dateToformat(Date data, String format){
     	SimpleDateFormat sdf = new SimpleDateFormat(format);
-    	
+
     	String d =  sdf.format(data);
-    	
     	sdf = new SimpleDateFormat(format,Locale.US);
     	
     	try {
