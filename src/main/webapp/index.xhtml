@@ -30,11 +30,13 @@
 									<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{reservaSalaController.sala_id}" required="true" title="Sala" requiredMessage="O campo sala é Obrigatório">  
 							            <f:selectItems value="#{reservaSalaController.salas}" var="sala" itemLabel="#{sala.nome}" itemValue="#{sala.id}"/>
 							        </p:selectOneMenu>
-							        <p:outputLabel></p:outputLabel>
+							        <h:outputText></h:outputText>
 							        
 									<p:outputLabel for="dInicio">Data de Inicio: </p:outputLabel>
-									<h:outputText id="dInicio" value="#{reservaSalaController.reserva.dataInicio}" locale="pt_Br" />
-									<p:outputLabel></p:outputLabel>
+									<h:outputText id="dInicio" value="#{reservaSalaController.reserva.dataInicio}">
+										<f:convertDateTime type="date" pattern="dd-MM-yyyy" locale="pt_BR"/>
+									</h:outputText>
+									<h:outputText></h:outputText>
 									
 									<p:outputLabel for="dTermino">Data de Término</p:outputLabel>
 									<p:calendar id="dTermino" value="#{reservaSalaController.reserva.dataFim}"  locale="pt_BR" pattern="dd/MM/yyyy"/>
@@ -42,11 +44,11 @@
 									
 									<p:outputLabel for="hInicio">Horário Inicio</p:outputLabel>
 									<p:calendar id="hInicio" value="#{reservaSalaController.reserva.horarioInicio}" pattern="HH:mm" timeOnly="true" required="true"/>
-									<p:outputLabel></p:outputLabel>
+									<h:outputText></h:outputText>
 									
 									<p:outputLabel for="hTermino">Horário de Término</p:outputLabel>
 									<p:calendar id="hTermino" value="#{reservaSalaController.reserva.horarioTermino}" pattern="HH:mm" timeOnly="true" required="true"/>
-									<p:outputLabel></p:outputLabel>
+									<h:outputText></h:outputText>
 									
 									<p:outputLabel for="email">Email</p:outputLabel>
 									<p:inputText id="email" value="#{reservaSalaController.reserva.email}" required="true" title="Email" requiredMessage="O campo Email é Obrigatório"  validatorMessage="Email inválido">
@@ -56,11 +58,11 @@
 									
 									<p:outputLabel for="telefone">Telefone</p:outputLabel>
 									<p:inputMask id="telefone" value="#{reservaSalaController.reserva.telefone}" title="Telefone" mask="(99)9999-9999."/>
-									<p:outputLabel></p:outputLabel>
+									<h:outputText></h:outputText>
 									
 									<p:outputLabel for="responsavel">Responsável</p:outputLabel>
 									<p:inputText id="responsavel" value="#{reservaSalaController.reserva.responsavel}" required="true" title="Responsavel" requiredMessage="O campo Responsável é Obrigatório"/>
-									<p:outputLabel></p:outputLabel>
+									<h:outputText></h:outputText>
 									
 									<p:outputLabel for="reservado_para">Reservado para</p:outputLabel>
 									<p:inputTextarea id="reservado_para" rows="3" cols="60" counter="counter" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaController.reserva.reservadoPara}" title="Reservado Para"/>
@@ -71,7 +73,7 @@
 							            <f:selectItem itemLabel="Sim" itemValue="true"/>  
 							            <f:selectItem itemLabel="Não" itemValue="false" />    
 							        </p:selectOneRadio>
-									<p:outputLabel></p:outputLabel>
+									<h:outputText></h:outputText>
 									
 									<p:outputLabel for="obs">Observação</p:outputLabel>
 									<p:inputTextarea id="obs" rows="3" cols="60" counter="contObs" maxlength="256" counterTemplate="{0} faltam caracteres." autoResize="true" value="#{reservaSalaController.reserva.observacao}" title="Observação"/>
@@ -96,16 +98,24 @@
 									<h:outputText id="sala_id" value="#{reservaSalaController.selecionado.sala.id}" />
 							        
 									<p:outputLabel for="dInicio_"><strong>Data de Inicio: </strong></p:outputLabel>
-									<h:outputText id="dInicio_" value="#{reservaSalaController.selecionado.dataInicio}" locale="pt_Br" />
+									<h:outputText id="dInicio_" value="#{reservaSalaController.selecionado.dataInicio}">
+										<f:convertDateTime type="date" pattern="dd-MM-yyyy" locale="pt_BR"/>
+									</h:outputText>
 									
 									<p:outputLabel for="dTermino_"><strong>Data de Término: </strong></p:outputLabel>
-									<h:outputText id="dTermino_" value="#{reservaSalaController.selecionado.dataFim}" />
+									<h:outputText id="dTermino_" value="#{reservaSalaController.selecionado.dataFim}">
+										<f:convertDateTime type="date" pattern="dd-MM-yyyy" locale="pt_BR"/>
+									</h:outputText>
 									
 									<p:outputLabel for="hInicio_"><strong>Horário Inicio: </strong></p:outputLabel>
-									<h:outputText id="hInicio_" value="#{reservaSalaController.selecionado.horarioInicio}"/>
+									<h:outputText id="hInicio_" value="#{reservaSalaController.selecionado.horarioInicio}">
+										<f:convertDateTime type="date" pattern="HH:mm" locale="pt_BR"/>
+									</h:outputText>
 									
 									<p:outputLabel for="hTermino_"><strong>Horário de Término: </strong></p:outputLabel>
-									<h:outputText id="hTermino_" value="#{reservaSalaController.selecionado.horarioTermino}"/>
+									<h:outputText id="hTermino_" value="#{reservaSalaController.selecionado.horarioTermino}">
+										<f:convertDateTime type="date" pattern="HH:mm" locale="pt_BR"/>
+									</h:outputText>
 									
 									<p:outputLabel for="email_"><strong>Email: </strong></p:outputLabel>
 									<h:outputText id="email_" value="#{reservaSalaController.selecionado.email}"/>
