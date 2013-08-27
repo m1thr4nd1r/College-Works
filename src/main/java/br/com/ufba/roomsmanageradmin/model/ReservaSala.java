@@ -33,7 +33,7 @@ public class ReservaSala implements Serializable {
 	private String telefone;
 	private String observacao;
 	private boolean aceito = false;
-	private int status;
+	private int status = 0;
 	
 	
 	public int getId() {
@@ -322,7 +322,8 @@ public class ReservaSala implements Serializable {
 				"EMAIL: "+email+"\n"+
 				"TELEFONE: "+telefone+"\n"+
 				"OBSERVACAO: "+observacao+"\n"+
-				"ACEITO: "+aceito;
+				"ACEITO: "+aceito+"\n"+
+				"STATUS: "+status;
 	}
 	
 }
