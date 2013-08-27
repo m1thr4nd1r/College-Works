@@ -59,8 +59,7 @@ public class ReservaSalaController implements Serializable{
 	    	Date dataI = addDay(0,(Date)reservaSala.getDataInicio());
 	    	Date horaI = addDay(0,(Date)reservaSala.getHorarioInicio());
 	    	
-	    	// BUG no Framework a data de fim não é incluída
-	    	Date dataF = addDay(1,(Date)reservaSala.getDataFim());
+	    	Date dataF = addDay(0,(Date)reservaSala.getDataFim());
 	    	Date horaF = addDay(0,(Date)reservaSala.getHorarioTermino());
 	    	
 //	    	JOptionPane.showMessageDialog(null,"#"+dataI+"\n#"+dataF);
@@ -75,7 +74,7 @@ public class ReservaSalaController implements Serializable{
 	    	
 	    	//JOptionPane.showMessageDialog(null,"data "+d);
 	    	
-	    	DefaultScheduleEvent evento = new DefaultScheduleEvent(reservaSala.getId()+". "+sala.getNome()+" - "+reservaSala.getResponsavel()+" "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim());
+	    	DefaultScheduleEvent evento = new DefaultScheduleEvent(sala.getNome()+" - "+reservaSala.getResponsavel()+" "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim());
 	    	evento.setId(reservaSala.getId()+"");
 	    	evento.setData(reservaSala.getId());
 	    	

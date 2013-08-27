@@ -26,7 +26,36 @@
     allDayText : 'Todo Dia'  
  };  
 
-function hide(modal){
-	modal.hide();
-	alert("1");
-}
+ function verifica(){
+
+	 var rDialogo = $("#status_reserva");
+	 if(rDialogo.is(":visible")){
+		 rDialogo.css("max-height","800px");
+	 }
+	 else
+	 {
+		 rDialogo.css("max-height","50px");
+	 }
+	 
+	 rDialogo = $("#add_reserva");
+	 if(rDialogo.is(":visible")){
+		 rDialogo.css("max-height","800px");
+	 }
+	 else
+	 {
+		 rDialogo.css("max-height","50px");
+	 }
+	 
+ }
+ 
+ $(document).ready(function(){
+	 var close = $(".ui-dialog-titlebar-close");
+	 
+	 close.click(function(){
+		 var dialogo = $(this).parent().parent().parent();
+		 dialogo.css("max-height","50px");
+	 });
+	 
+ });
+ 
+ verifica();
