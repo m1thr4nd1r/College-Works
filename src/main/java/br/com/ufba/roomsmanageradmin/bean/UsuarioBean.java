@@ -37,6 +37,12 @@ public class UsuarioBean implements Serializable{
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
+
+	public DataModel<Usuario> getUsuarios()
+	{
+		return usuarios;
+	}
+
 	@PostConstruct
 	public void UsuarioBean(){
 		SessionFactory sf = Hibernate.getSessionFactory();
@@ -46,18 +52,11 @@ public class UsuarioBean implements Serializable{
 	    session.close();
 	}
 
-	public DataModel<Usuario> getUsuarios()
-	{
-		return usuarios;
-	}
-	
 	public String create(ActionEvent ae) throws ParseException
 	{
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
-	    Transaction tx = null;
-	    
-	   
+	    Transaction tx = null;   
 	    
 	    try{
 	    	tx = session.beginTransaction();
