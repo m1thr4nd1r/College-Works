@@ -11,7 +11,7 @@
 				        <div class="navbar navbar-inverse affix">
 				          <div class="navbar-inner2">
 				          <div class="container">
-				            <a class="brand" href="index.jsp">RoomsManager</a>
+				            <a class="brand" href="#{request.contextPath}/index.jsp">RoomsManager</a>
 				            <div class="nav-collapse collapse">
 				            <ul class="nav">
 				     
@@ -23,8 +23,8 @@
 			              			</button>
 				              		<ul class="dropdown-menu">
 									    <!-- dropdown menu links -->
-									    <li><a  href="/sala/cadastro.do">Cadastrar</a></li>
-										<li><a  href="/sala/lista.do">Listar</a></li>
+									    <li><a  href="#{request.contextPath}/sala/cadastro.do">Cadastrar</a></li>
+										<li><a  href="#{request.contextPath}/sala/lista.do">Listar</a></li>
 								    </ul>
 				              	</div>
 				              	</li>
@@ -36,8 +36,8 @@
 				              			</button>					              		
 					              		<ul class="dropdown-menu">
 										    <!-- dropdown menu links -->
-										    <li><a  href="/usuario/create.do">Cadastrar</a></li>
-										    <li><a  href="/usuario/list.do">Listar</a></li>
+										    <li><a  href="#{request.contextPath}/usuario/create.do">Cadastrar</a></li>
+										    <li><a  href="#{request.contextPath}/usuario/list.do">Listar</a></li>
 									    </ul>
 								    </div>
 				              	</li>
@@ -48,7 +48,19 @@
 			              			   		<span class="caret"></span>
 				              			</button>
 					              		<ul class="dropdown-menu">
-										    <li><a href="/setor/cadastro.do">Cadastrar</a></li>
+										    <li><a href="#{request.contextPath}/setor/cadastra.do">Cadastrar</a></li>
+										    <li><a href="#">Listar</a></li>
+									    </ul>
+								    </div>
+				                </li>
+				                 <li class="">
+				                	<div class="btn-group">
+  										<button class="btn rm">Tipo</button>
+				              			<button class="btn dropdown-toggle" data-toggle="dropdown">
+			              			   		<span class="caret"></span>
+				              			</button>
+					              		<ul class="dropdown-menu">
+										    <li><a href="#{request.contextPath}/tipo/cadastra.do">Cadastrar</a></li>
 										    <li><a href="#">Listar</a></li>
 									    </ul>
 								    </div>
