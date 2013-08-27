@@ -132,14 +132,26 @@ body{
     top: -512px;
  }
 
- #topo_pagina .btn-group{
+#topo_pagina .btn-group{
+	padding-top: 3px;
+}
+
+#topo_pagina .dropdown-menu{
+	top: 60% !important;
+	left: 22px !important;
+}
+
+#topo_pagina .btn{
+ 	border: 0;
+ 	box-shadow: none;
+	height: 26px;
 	box-shadow: 0px;
-	background: #eae7e5;
-	background: -moz-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eae7e5), color-stop(78%, #cccccc), color-stop(100%, #cccccc));
-	background: -webkit-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%);
-	background: -o-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%);
-	background: -ms-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%);
-	background: linear-gradient(to bottom, #eae7e5 0%, #cccccc 78%, #cccccc 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eae7e5', endColorstr='#cccccc',GradientType=0 );
+	background: #eae7e5 !important;
+	background: -moz-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%) !important;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eae7e5), color-stop(78%, #cccccc), color-stop(100%, #cccccc)) !important;
+	background: -webkit-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%) !important;
+	background: -o-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%) !important;
+	background: -ms-linear-gradient(top, #eae7e5 0%, #cccccc 78%, #cccccc 100%) !important;
+	background: linear-gradient(to bottom, #eae7e5 0%, #cccccc 78%, #cccccc 100%) !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eae7e5', endColorstr='#cccccc',GradientType=0 )!important;
 }
