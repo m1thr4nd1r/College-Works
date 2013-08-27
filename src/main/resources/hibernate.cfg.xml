@@ -14,8 +14,8 @@
         <property name="hibernate.connection.password">5ab3d940</property>
 		<!-- <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/roomsManager_development</property> 
         <property name="hibernate.connection.username">root</property> 
-        <property name="hibernate.connection.password">123456</property>   -->
-
+        <property name="hibernate.connection.password">123456</property>  
+        -->
         <!-- JDBC connection pool (use the built-in) -->
         <property name="hibernate.connection.pool_size">1</property>
 
@@ -38,6 +38,7 @@
         <mapping resource="br/com/ufba/roomsmanageradmin/Setor.hbm.xml"/>
         <mapping resource="br/com/ufba/roomsmanageradmin/Sala.hbm.xml"/>
         <mapping resource="br/com/ufba/roomsmanageradmin/ReservaSala.hbm.xml"/>
+        <mapping resource="br/com/ufba/roomsmanageradmin/Tipo.hbm.xml"/>
 
     </session-factory>
 
