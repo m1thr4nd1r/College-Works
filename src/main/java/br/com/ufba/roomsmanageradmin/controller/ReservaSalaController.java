@@ -58,11 +58,11 @@ public class ReservaSalaController implements Serializable{
 	    for (ReservaSala reservaSala : l) {
 	    		
 	    	/** ADD 0 formula encontrado para solucionar o Problema com '.0' na data **/
-	    	Date dataI = addDay(0,(Date)reservaSala.getDataInicio());
-	    	Date horaI = addDay(0,(Date)reservaSala.getHorarioInicio());
+	    	Date dataI = pularDay(0,(Date)reservaSala.getDataInicio());
+	    	Date horaI = pularDay(0,(Date)reservaSala.getHorarioInicio());
 	    	
-	    	Date dataF = addDay(0,(Date)reservaSala.getDataFim());
-	    	Date horaF = addDay(0,(Date)reservaSala.getHorarioTermino());
+	    	Date dataF = pularDay(0,(Date)reservaSala.getDataFim());
+	    	Date horaF = pularDay(0,(Date)reservaSala.getHorarioTermino());
 	    	
 //	    	JOptionPane.showMessageDialog(null,"#"+dataI+"\n#"+dataF);
 	    	Sala sala = reservaSala.getSala();
@@ -71,8 +71,8 @@ public class ReservaSalaController implements Serializable{
 //		    										"M2 "+mergeDateHour(dataF,horaF)
 //		    										);
 	    	
-				reservaSala.setDataInicio(addYear(1900,mergeDateHour(dataI,horaI)));
-		    	reservaSala.setDataFim(addYear(1900,mergeDateHour(dataF, horaF)));
+				reservaSala.setDataInicio(pularYear(1900,mergeDateHour(dataI,horaI)));
+		    	reservaSala.setDataFim(pularYear(1900,mergeDateHour(dataF, horaF)));
 	    	
 	    	//JOptionPane.showMessageDialog(null,"data "+d);
 	    	
@@ -108,13 +108,13 @@ public class ReservaSalaController implements Serializable{
 
     public void addEvent(){
 		
-    	Date date = addDay(1,event.getEndDate());
+    	Date date = pularDay(1,event.getEndDate());
 		reserva.setAceito(true);
 		Date hora = reserva.getHorarioInicio();
 		//1900
-		reserva.setDataInicio(mergeDateHour(addYear(1900, event.getStartDate()), hora));
+		reserva.setDataInicio(mergeDateHour(pularYear(1900, event.getStartDate()), hora));
 		hora = reserva.getHorarioTermino();
-		reserva.setDataFim(mergeDateHour(addYear(1900,event.getEndDate()), hora));
+		reserva.setDataFim(mergeDateHour(pularYear(1900,event.getEndDate()), hora));
 		
 		Sala sala = new Sala();
 		sala.setId(Integer.parseInt(sala_id));
@@ -164,28 +164,9 @@ public class ReservaSalaController implements Serializable{
     
     public void onEventSelect(SelectEvent selectEvent) {
     	this.event = (ScheduleEvent) selectEvent.getObject();
-    	
-		SessionFactory sf = Hibernate.getSessionFactory();
-	    Session session = sf.openSession();
-	    ReservaSala res = new ReservaSala();
-	    
-	    try
-	    {
-	    	for (ReservaSala rs : (List<ReservaSala>) session.createQuery("FROM ReservaSala WHERE id = "+this.event.getData().toString()).list()){
-				res = rs;
-			};
-	    }
-	    catch (HibernateException e)
-	    {
-			// TODO: handle exception
-	    	e.printStackTrace();
-	    	JOptionPane.showMessageDialog(null,e.getMessage());
-		}
-	    session.close();
-	    this.selecionado = res;
+    	this.selecionado = getReserva(this.event);
 	    this.selecionado.setDataInicio(dateToformat(this.selecionado.getDataInicio(),ptBrFormat));
 	    this.selecionado.setDataFim(dateToformat(this.selecionado.getDataFim(),ptBrFormat));
-    	
 	}  
       
     public void onDateSelect(SelectEvent selectEvent) {
@@ -195,8 +176,21 @@ public class ReservaSalaController implements Serializable{
 		this.event = new DefaultScheduleEvent("Novo Evento", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
     }  
       
-    public void onEventMove(ScheduleEntryMoveEvent event) {  
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());          
+    public void onEventMove(ScheduleEntryMoveEvent event) {
+    	this.event = event.getScheduleEvent();
+    	this.selecionado = getReserva(this.event);
+    	
+    	JOptionPane.showMessageDialog(null,this.selecionado.getDataInicio());
+    	
+    	Date d = pularDay(event.getDayDelta(),this.selecionado.getDataInicio());
+    	JOptionPane.showMessageDialog(null,d);
+	    this.selecionado.setDataInicio(dateToformat(d,ptBrFormat));
+	    
+    	d = pularDay(event.getDayDelta(),this.selecionado.getDataFim());
+    	JOptionPane.showMessageDialog(null,d);
+    	this.selecionado.setDataFim(dateToformat(d,ptBrFormat));
+	    
+    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta()+"<br/>"+this.selecionado);          
         addMessage(message);  
     }  
       
@@ -211,14 +205,55 @@ public class ReservaSalaController implements Serializable{
     
     /********************** FUNÇÕES AUXILIARES ************************/
     
-    private Date addDay(int dias,Date data){
+    /**
+     * 
+     * @param event 
+     * @return a Reserva de Sala no qual o event representa
+     */
+    private ReservaSala getReserva(ScheduleEvent event){
+
+		SessionFactory sf = Hibernate.getSessionFactory();
+	    Session session = sf.openSession();
+	    ReservaSala res = new ReservaSala();
+	    
+	    try
+	    {
+	    	for (ReservaSala rs : (List<ReservaSala>) session.createQuery("FROM ReservaSala WHERE id = "+event.getData().toString()).list()){
+				res = rs;
+			};
+	    }
+	    catch (HibernateException e)
+	    {
+			// TODO: handle exception
+	    	e.printStackTrace();
+	    	JOptionPane.showMessageDialog(null,e.getMessage());
+		}
+	    session.close();
+	    
+	    return res;
+	    
+    }
+    
+    /**
+     * @param INT dias: quantidade de dias que se deseja pular (> 0: dias posteriores, < 0: dias anteriores);
+     * @param DATE data: a data servida como parâmetro para pular os dias.
+     * @return data com a quantidade de dias pulados.
+     */
+    private Date pularDay(int dias,Date data){
     	GregorianCalendar c = new GregorianCalendar();    	
     	c.setTime(data);
 		c.add(Calendar.DATE, dias);
 		return c.getTime();
     }
 
-    private Date addYear(int ano,Date data){
+    /**
+     * 
+     * @param INT ano: quantidade de anos que se deseja pular (> 0: anos posteriores, < 0: anos anteriores);
+     * @param DATE data: a data servida como parâmetro para pular os anos.
+     * @return data com a quantidade de anos pulados.
+     * 
+     */
+    private Date pularYear(int ano,Date data){
     	GregorianCalendar c = new GregorianCalendar();    	
     	c.setTime(data);
 		c.add(Calendar.YEAR, ano);
