@@ -78,7 +78,9 @@ public class SalaBean implements Serializable{
     	}finally {
 	    	session.close();
 	    }
-	   
+	    sala = new Sala();
+	    FacesMessage msg = new FacesMessage("Sala adiconada com sucesso");  
+	    FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 	
 	public String update(RowEditEvent event) throws ParseException

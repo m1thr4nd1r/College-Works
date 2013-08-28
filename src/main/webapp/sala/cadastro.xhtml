@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
   	xmlns:p="http://primefaces.org/ui" >
-
+<center>
 	<ui:define name="title">
 		RoomsManagerAdmin::Cadastra Sala
 	</ui:define>
@@ -131,7 +131,7 @@
 							<div class="span12">
 								<div class="bt span">
 									<div class="span2">
-								  		<p:commandButton value="Enviar" ajax="false" actionListener="#{salaBean.create}"/>
+								  		<p:commandButton value="Enviar" ajax="false" actionListener="#{salaBean.create}" update="growl"/>
 								  	</div>
 								  	<div class="span2">
 								  		<p:commandButton value="Resetar" type="reset"/>
@@ -144,4 +144,5 @@
 			</p:layoutUnit>
 		</section>
 	</ui:define>
+	</center>
 </ui:composition>

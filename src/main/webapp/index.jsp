@@ -49,28 +49,23 @@ for(String s : str){
           <%
         if(logado==null){
         %>
-        <div class="login">
-          <h1>Login</h1>
-          <form action="login" method="post">          	
-            <!--<div class="container-fluid offset5">
-               <div class="span10">
-                <div class="span10">
-                  <label>Nome do Usu&aacute;rio</label>
-                  <label>Usu&aacute;rio</label>    - -->     
+        <div id="login-form">
+
+      		<h1>Login</h1>
+      		 <fieldset>
+         		 <form action="login" method="post">                
                            
-                  <input name="username" id="user" type="text" value="" placeholder="Usu&aacute;rio"/>
-              <!--  </div>
-                <div class="span10">
-                  <label>Senha</label>-->
-                  <input name="senha" id="pass" type="password" value="" placeholder="Senha"/>
-               <!--  </div>
-              </div>
-              <div class="span10"> -->
-                <input class="btn btn-primary btn-block btn-larg" type="submit" value="Logar"/>
-              <!--</div>
-                </div>-->
-          </form>
-        </div>
+                  	 <input name="username" id="user"  type="text" value="" placeholder="Usu&aacute;rio"
+                  	 value="Usuário" onBlur="if(this.value=='')this.value='Usuário'" onFocus="if(this.value=='Email')this.value='' "/>
+              
+                	 <input name="senha" id="pass" type="password" value="" placeholder="Senha"
+                	 value="Senha" onBlur="if(this.value=='')this.value='Senha'" onFocus="if(this.value=='Password')this.value='' "/>               
+                
+                  	 <input id="btn-login" type="submit" value="Logar"/>              
+          		 </form>
+          	</fieldset>
+         </div> 
+	        
         <% }else{%>
           <div id="loader" class="middle">
           	<img src="<%=url %>/images/loader.gif" alt="Carregando pagina" style="z-index:999;"/>
@@ -84,9 +79,7 @@ for(String s : str){
           }
           redirect();
           </script>	
-<!--           <div class="logo_index"> -->
-<!--             <h1>RoomsManagerAdmin</h1> -->
-<!--           </div> -->
+
         <% } %>
           </div>
           <jsp:include page="/footer.xhtml"/>
