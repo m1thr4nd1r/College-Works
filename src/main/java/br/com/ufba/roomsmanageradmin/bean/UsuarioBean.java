@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.primefaces.event.RowEditEvent;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -29,7 +30,7 @@ public class UsuarioBean implements Serializable{
 	
 	private Usuario usuario = new Usuario();
 	private DataModel<Usuario> usuarios;
-	private DataModel<Tipo> tipos;
+	private ArrayList<Tipo> tipos = new ArrayList<Tipo>();
 	private String tipo_id;
 		
 	public Usuario getUsuario() {
@@ -45,7 +46,7 @@ public class UsuarioBean implements Serializable{
 		return usuarios;
 	}
 
-	public DataModel<Tipo> getTipos()
+	public ArrayList<Tipo> getTipos()
 	{
 		return tipos;
 	}
@@ -65,8 +66,7 @@ public class UsuarioBean implements Serializable{
 	    Session session = sf.openSession();
 	    List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
 	    usuarios = new ListDataModel(l);
-	    List<Tipo> t = (List<Tipo>) session.createQuery("FROM Tipo").list();
-	    tipos = new ListDataModel(t);
+	    tipos = (ArrayList<Tipo>) session.createQuery("FROM Tipo").list();
 	    session.close();
 	}
 

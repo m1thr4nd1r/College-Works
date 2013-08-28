@@ -34,7 +34,7 @@ public class TipoBean implements Serializable {
 	
 	private Tipo tipo = new Tipo();
 	private DataModel<Tipo> tipos;
-	
+
 	@PostConstruct
 	void init(){
 		SessionFactory sf = Hibernate.getSessionFactory();

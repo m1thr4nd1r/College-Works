@@ -17,7 +17,7 @@
 								<h:panelGrid id="panelGrid" columns="3">
 								<p:outputLabel for="dTipo">Tipo</p:outputLabel>
 								<p:selectOneMenu id="dTipo" required="true" value="#{usuarioBean.tipo_id}" style="width: 300px" title="tipos" requiredMessage="O campo tipo é Obrigatório">  
-					            	<f:selectItems var="tipo" value="#{tipoBean.tips}" itemLabel="#{tipo.descricao}"  itemValue="#{tipo.id}"/>
+					            	<f:selectItems var="tipo" value="#{usuarioBean.tipos}" itemLabel="#{tipo.descricao}"  itemValue="#{tipo.id}"/>
 						        </p:selectOneMenu>							 
 						     	<p:lightBox iframe="true" width="425px" height="150px">  
 								    <h:outputLink value="../tipo/modal.do" update="dTipo">  
@@ -39,13 +39,6 @@
 								<p:outputLabel for="num_cadastro">Numero de Cadastro</p:outputLabel>
 								<p:inputMask id="num_cadastro" style="width: 300px" value="#{usuarioBean.usuario.num_matricula}" title="Numero de Matricula" mask="999999"/>
 								<p:outputLabel></p:outputLabel>
-								
-
-								<!-- <h:outputText value="Tipo de Funcionario: " />  
-						        <p:selectOneRadio id="tipo" value="#{usuarioBean.usuario.tipo_id}">  
-						            <f:selectItem itemLabel="Professor" itemValue="1" />  
-						            <f:selectItem itemLabel="Funcionario" itemValue="2" />  
-						        </p:selectOneRadio>   -->
 								
 								</h:panelGrid>
 								</p:fieldset>
