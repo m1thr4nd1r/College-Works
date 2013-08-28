@@ -78,7 +78,7 @@ public class UsuarioBean implements Serializable{
 	    
 	    try{
 	    	tx = session.beginTransaction();
-	    	usuario.setTipo_Id(Integer.valueOf(tipo_id));
+	    	usuario.setTipo_id(Integer.valueOf(tipo_id));
 	    	session.saveOrUpdate(usuario); 
 	    	tx.commit();
     	}catch (HibernateException e) {
