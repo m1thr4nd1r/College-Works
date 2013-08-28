@@ -44,6 +44,7 @@ public class ReservaSalaController implements Serializable{
 	private List<Sala> salas;
 	private String sala_id;
 	private String ptBrFormat = "dd/MM/yyyy", enFormat = "yyyy-MM-dd", horaFormat = "HH:mm";
+	private String labelAction = "Salvar";
 	
 	@PostConstruct
 	void init(){  
@@ -57,41 +58,44 @@ public class ReservaSalaController implements Serializable{
 
 	    List<ReservaSala> l = (List<ReservaSala>) session.createQuery("FROM ReservaSala").list();
 	    for (ReservaSala reservaSala : l) {
-	    		
-	    	/** ADD 0 formula encontrado para solucionar o Problema com '.0' na data **/
-	    	Date dataI = pularData(0,0,0,0,0,(Date)reservaSala.getDataInicio());
-	    	Date horaI = pularData(0,0,0,0,0,(Date)reservaSala.getHorarioInicio());
-	    	
-	    	Date dataF = pularData(0,0,0,0,0,(Date)reservaSala.getDataFim());
-	    	Date horaF = pularData(0,0,0,0,0,(Date)reservaSala.getHorarioTermino());
-	    	
-//	    	JOptionPane.showMessageDialog(null,"#"+dataI+"\n#"+dataF);
+
 	    	Sala sala = reservaSala.getSala();
 	    	
-//		    	JOptionPane.showMessageDialog(null, "M1 "+mergeDateHour(dataI,horaI)+"\n"+
-//		    										"M2 "+mergeDateHour(dataF,horaF)
-//		    										);
-	    	
-			reservaSala.setDataInicio(pularData(0,0,1900,0,0,mergeDateHour(dataI,horaI)));
-	    	reservaSala.setDataFim(pularData(0,0,1900,0,0,mergeDateHour(dataF, horaF)));
-	    	
-	    	//JOptionPane.showMessageDialog(null,"data "+d);
-	    	
-	    	DefaultScheduleEvent evento = new DefaultScheduleEvent(sala.getNome()+" - "+reservaSala.getResponsavel()+" "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim());
-	    	evento.setId(reservaSala.getId()+"");
-	    	evento.setData(reservaSala.getId());
-	    	
-    		if(!sala.getTipo().toLowerCase().equals("laboratorio") && reservaSala.isAceito())
-    		{
-	    		evento.setStyleClass("style1");
-	    	}
-	    	else
+	    	if(!sala.getTipo().toLowerCase().equals("laboratorio") && (reservaSala.getStatus() != 2))
 	    	{
-	    		evento.setStyleClass("style2");
+	    	
+		    	/** ADD 0 formula encontrado para solucionar o Problema com '.0' na data **/
+		    	Date dataI = pularData(0,0,0,0,0,(Date)reservaSala.getDataInicio());
+		    	Date horaI = pularData(0,0,0,0,0,(Date)reservaSala.getHorarioInicio());
+		    	
+		    	Date dataF = pularData(0,0,0,0,0,(Date)reservaSala.getDataFim());
+		    	Date horaF = pularData(0,0,0,0,0,(Date)reservaSala.getHorarioTermino());
+		    	
+	//		    	JOptionPane.showMessageDialog(null, "M1 "+mergeDateHour(dataI,horaI)+"\n"+
+	//		    										"M2 "+mergeDateHour(dataF,horaF)
+	//		    										);
+		    	
+				reservaSala.setDataInicio(pularData(0,0,1900,0,0,mergeDateHour(dataI,horaI)));
+		    	reservaSala.setDataFim(pularData(0,0,1900,0,0,mergeDateHour(dataF, horaF)));
+		    	
+		    	//JOptionPane.showMessageDialog(null,"data "+d);
+		    	
+		    	DefaultScheduleEvent evento = new DefaultScheduleEvent(sala.getNome()+" - "+reservaSala.getResponsavel()+" "+reservaSala.getReservadoPara(),reservaSala.getDataInicio(),reservaSala.getDataFim());
+		    	evento.setId(reservaSala.getId()+"");
+		    	evento.setData(reservaSala.getId());
+		    	
+	    		if(reservaSala.getStatus() == 1)
+	    		{
+		    		evento.setStyleClass("style1");
+		    	}
+		    	else
+		    	{
+		    		evento.setStyleClass("style2");
+		    	}
+	
+	    		eventModel.addEvent(evento);
 	    	}
-
-    		eventModel.addEvent(evento);
-    		
+	    	
 		}
 	    session.close();
 	    
@@ -99,19 +103,10 @@ public class ReservaSalaController implements Serializable{
 	
 	/********************************************************/
 
-	public void aceitaReserva(){
-		JOptionPane.showMessageDialog(null,"ACEITA");
-    }
-
-	public void recusaReserva(){
-		JOptionPane.showMessageDialog(null,"RECUSA");
-    }
-
     public void addEvent(){
 		
     	Date date = pularData(1,0,0,0,0,event.getEndDate());
 		reserva.setAceito(true);
-		reserva.setStatus(1);
 		
 		//1900
 		Date hora = reserva.getHorarioInicio();
@@ -132,15 +127,16 @@ public class ReservaSalaController implements Serializable{
     	SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    Transaction tx = null;
-	    
+	    JOptionPane.showMessageDialog(null,reserva);
 		try{
 			
 	    	tx = session.beginTransaction();
 	    	session.saveOrUpdate(reserva); 
 	    	tx.commit();
 	    	
-	    	FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva de sala","Reserva adicionada com sucesso!");
-    	    addMessage(msg);
+	    	String msg = (labelAction.equals("Salvar")) ? "Reserva adicionada com sucesso!" : "Reserva atualizado com sucesso!";
+	    	FacesMessage mesg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva de sala",msg);
+    	    addMessage(mesg);
 	    	
 	    	List<Sala> l = (List<Sala>) session.createQuery("FROM Sala WHERE id = "+reserva.getSala().getId()).list();
     		for (Sala s : l) {
@@ -168,18 +164,20 @@ public class ReservaSalaController implements Serializable{
     
     public void onEventSelect(SelectEvent selectEvent) {
     	this.event = (ScheduleEvent) selectEvent.getObject();
-    	this.selecionado = getReserva(this.event);
-	    this.selecionado.setDataInicio(dateToFormat(this.selecionado.getDataInicio(),ptBrFormat));
-	    this.selecionado.setDataFim(dateToFormat(this.selecionado.getDataFim(),ptBrFormat));
+    	this.reserva = getReserva(this.event);
+	    this.reserva.setDataInicio(dateToFormat(this.reserva.getDataInicio(),ptBrFormat));
+	    this.reserva.setDataFim(dateToFormat(this.reserva.getDataFim(),ptBrFormat));
+	    this.labelAction = "Atualizar";
 	}  
       
     public void onDateSelect(SelectEvent selectEvent) {
     	Date d = (Date) selectEvent.getObject();
     	this.reserva.setDataInicio(dateToFormat(d,ptBrFormat));
 		this.event = new DefaultScheduleEvent("Novo Evento", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
+		this.labelAction = "Salvar";
     }  
       
-    public void onEventMove(ScheduleEntryMoveEvent event) {
+    public void onEventMove(ScheduleEntryMoveEvent event){
     	this.event = event.getScheduleEvent();
     	this.selecionado = getReserva(this.event);
     	this.selecionado.setDataInicio(dateToFormat(this.event.getStartDate(),enFormat));
@@ -318,7 +316,7 @@ public class ReservaSalaController implements Serializable{
 	public List<Sala> getSalas(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
-	    this.salas = (List<Sala>) session.createQuery("FROM Sala").list();
+	    this.salas = (List<Sala>) session.createQuery("FROM Sala WHERE tipo <> 'Laboratorio'").list();
 	    session.close();
 		return salas;
 	}
@@ -349,6 +347,14 @@ public class ReservaSalaController implements Serializable{
 
 	public void setSelecionado(ReservaSala selecionado) {
 		this.selecionado = selecionado;
+	}
+
+	public String getLabelAction() {
+		return labelAction;
+	}
+
+	public void setLabelAction(String labelAction) {
+		this.labelAction = labelAction;
 	}
 
 }

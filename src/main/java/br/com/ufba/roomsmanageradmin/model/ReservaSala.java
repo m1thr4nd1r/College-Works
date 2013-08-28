@@ -30,8 +30,7 @@ public class ReservaSala implements Serializable {
 	private String telefone;
 	private String observacao;
 	private boolean aceito = false;
-	private int status = 0;
-	
+	private int status = 1;	
 	
 	public int getId() {
 		return id;
