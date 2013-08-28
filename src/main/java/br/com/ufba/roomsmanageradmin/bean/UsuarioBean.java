@@ -20,6 +20,7 @@ import javax.faces.model.ListDataModel;
 
 import br.com.ufba.roomsmanageradmin.dao.Hibernate;
 import br.com.ufba.roomsmanageradmin.model.Usuario;
+import br.com.ufba.roomsmanageradmin.model.Tipo;
 
 @ManagedBean
 public class UsuarioBean implements Serializable{
@@ -28,7 +29,8 @@ public class UsuarioBean implements Serializable{
 	
 	private Usuario usuario = new Usuario();
 	private DataModel<Usuario> usuarios;
-	private String tipo;
+	private DataModel<Tipo> tipos;
+	private String tipo_id;
 		
 	public Usuario getUsuario() {
 		return usuario;
@@ -43,12 +45,28 @@ public class UsuarioBean implements Serializable{
 		return usuarios;
 	}
 
+	public DataModel<Tipo> getTipos()
+	{
+		return tipos;
+	}
+
+	public void setTipo_Id(String tipo_id) {
+		this.tipo_id = tipo_id;
+	}
+
+	public String getTipo_Id()
+	{
+		return tipo_id;
+	}
+
 	@PostConstruct
 	public void UsuarioBean(){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    List<Usuario> l = (List<Usuario>) session.createQuery("FROM Usuario").list();
 	    usuarios = new ListDataModel(l);
+	    List<Tipo> t = (List<Tipo>) session.createQuery("FROM Tipo").list();
+	    tipos = new ListDataModel(t);
 	    session.close();
 	}
 
@@ -60,6 +78,7 @@ public class UsuarioBean implements Serializable{
 	    
 	    try{
 	    	tx = session.beginTransaction();
+	    	usuario.setTipo_Id(Integer.valueOf(tipo_id));
 	    	session.saveOrUpdate(usuario); 
 	    	tx.commit();
     	}catch (HibernateException e) {
