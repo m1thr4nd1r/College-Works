@@ -101,20 +101,22 @@ public class SetorBean implements Serializable {
 	    Session session = sf.openSession();
 	    Transaction tx = null;
 	
-	    select();
-	    JOptionPane.showMessageDialog(null,setor.getNome());
+	    select();	    
 	    
 	    try{
 	    	tx = session.beginTransaction();
 	    	session.delete(setor); 
 	    	tx.commit();
-	    	setores = (ArrayList<Setor>) session.createQuery("FROM Setor").list();
-		    sal = new ListDataModel(setores);
+	    	session.close();
+	    	
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 
-	    	JOptionPane.showMessageDialog(null, "Não foi possivel deletar "+setor.getNome()+".");
+	    	JOptionPane.showMessageDialog(null, "Não foi possivel deletar\n"+e);
     	}finally {
+    		session = sf.openSession();
+    		setores = (ArrayList<Setor>) session.createQuery("FROM Setor").list();
+		    sal = new ListDataModel(setores);
 	    	session.close();
 	    }
     }
@@ -123,6 +125,7 @@ public class SetorBean implements Serializable {
 	{
         this.setor = this.sal.getRowData();
     }
+	
 	 private String getRandomModel() {  
 	        return UUID.randomUUID().toString().substring(0, 8);  
 	 }

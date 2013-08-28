@@ -68,7 +68,7 @@ for(String s : str){
 	        
         <% }else{%>
           <div id="loader" class="middle">
-          	<img src="<%=url %>/images/loader.gif" alt="Carregando pagina" style="z-index:999;"/>
+          	<img src="/images/loader.gif" alt="Carregando pagina" style="z-index:999;"/>
           </div>
           <script>
           function redirect(){
