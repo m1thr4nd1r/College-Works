@@ -36,14 +36,14 @@
 							<h:panelGrid columns="2"> 						
 								
 							<p:outputLabel for="tdesc">Nome</p:outputLabel>
-							<p:inputText id="tdesc" value="#{tipoBean.tipo.descriçao}" size="60" locale="pt_BR" required="true"/>
+							<p:inputText id="tdesc" value="#{tipoBean.tipo.descricao}" size="60" locale="pt_BR" required="true"/>
 													
 							</h:panelGrid> 
 					  	   </p:panel>
 							<div class="span12">
 								<div class="bt span">
 									<div class="span2">
-								  		<p:commandButton value="Enviar" actionListener="#{tipoBean.create}" ajax="false"/>
+								  		<p:commandButton value="Criar" actionListener="#{tipoBean.create}" ajax="false"/>
 								  	</div>
 								  	<div class="span2">
 								  		<p:commandButton value="Resetar" type="reset"/>
