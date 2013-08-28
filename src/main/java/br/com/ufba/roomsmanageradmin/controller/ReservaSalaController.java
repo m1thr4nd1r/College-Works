@@ -127,14 +127,13 @@ public class ReservaSalaController implements Serializable{
     	SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    Transaction tx = null;
-	    JOptionPane.showMessageDialog(null,reserva);
-		try{
+	    try{
 			
 	    	tx = session.beginTransaction();
 	    	session.saveOrUpdate(reserva); 
 	    	tx.commit();
 	    	
-	    	String msg = (labelAction.equals("Salvar")) ? "Reserva adicionada com sucesso!" : "Reserva atualizado com sucesso!";
+	    	String msg = (this.labelAction.equals("Salvar")) ? "Reserva adicionada com sucesso!" : "Reserva atualizado com sucesso!";
 	    	FacesMessage mesg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva de sala",msg);
     	    addMessage(mesg);
 	    	
