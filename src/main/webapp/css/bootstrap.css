@@ -4700,7 +4700,8 @@ input[type="submit"].btn.btn-mini {
   margin-top: 3px;
 }
 
-.navbar .nav > li > .dropdown-menu:before {
+.navbar .nav > li > .dropdown-menu:before, 
+.navbar .nav > li > .btn-group .dropdown-menu:before  {
   position: absolute;
   top: -7px;
   left: 9px;
@@ -4712,7 +4713,8 @@ input[type="submit"].btn.btn-mini {
   content: '';
 }
 
-.navbar .nav > li > .dropdown-menu:after {
+.navbar .nav > li > .dropdown-menu:after,
+.navbar .nav > li > .btn-group .dropdown-menu:after {
   position: absolute;
   top: -6px;
   left: 10px;

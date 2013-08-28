@@ -102,13 +102,14 @@ public class SetorBean implements Serializable {
 	    Transaction tx = null;
 	
 	    select();
+	    JOptionPane.showMessageDialog(null,setor.getNome());
 	    
 	    try{
 	    	tx = session.beginTransaction();
 	    	session.delete(setor); 
 	    	tx.commit();
-	    	List<Setor> l = (List<Setor>) session.createQuery("FROM Setor").list();
-		    sal = new ListDataModel(l);
+	    	setores = (ArrayList<Setor>) session.createQuery("FROM Setor").list();
+		    sal = new ListDataModel(setores);
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 

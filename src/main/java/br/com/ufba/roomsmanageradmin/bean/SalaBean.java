@@ -60,13 +60,12 @@ public class SalaBean implements Serializable{
 	    session.close();
 	}
 	
-	public String create(ActionEvent ae) throws ParseException
+	public void create(ActionEvent ae) throws ParseException
 	{
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    Transaction tx = null;
-	
-	    
+	    	    
 	    try{
 	    	tx = session.beginTransaction();
 	    	sala.setSetor_id(Integer.valueOf(setor_id));
@@ -75,10 +74,11 @@ public class SalaBean implements Serializable{
     	}catch (HibernateException e) {
     		if (tx!=null) tx.rollback();
 	    	e.printStackTrace(); 
+	    	JOptionPane.showMessageDialog(null, e);
     	}finally {
 	    	session.close();
 	    }
-	    return "list?faces-redirect=true";
+	   
     }
 	
 	public String update(RowEditEvent event) throws ParseException
