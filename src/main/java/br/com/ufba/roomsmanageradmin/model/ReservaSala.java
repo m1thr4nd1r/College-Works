@@ -44,6 +44,7 @@ public class ReservaSala implements Serializable {
 		this.sala = new Sala();
 	}
 
+	//Usando no WS
 	public ReservaSala(int sala_id, Date dataInicio, Date dataFim,
 			Date horarioInicio, Date horarioTermino, String responsavel,
 			String reservadoPara, boolean eventoPrivado, String email,
@@ -68,6 +69,34 @@ public class ReservaSala implements Serializable {
 		this.telefone = telefone;
 		this.observacao = observacao;
 		this.aceito = aceito;
+	}
+	
+	//Usando no WS
+	public ReservaSala(int sala_id, Date dataInicio, Date dataFim,
+			Date horarioInicio, Date horarioTermino, String responsavel,
+			String reservadoPara, boolean eventoPrivado, String email,
+			String telefone, String observacao, boolean aceito,int status) {
+		super();
+		
+		SalaDAO s = new SalaDAO();
+		try {
+			this.sala = s.getSalaById(sala_id);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null,"RESERVA ERRO: "+e.getMessage());
+			e.printStackTrace();
+		}
+		this.dataInicio = dataInicio;
+		this.dataFim = dataFim;
+		this.horarioInicio = horarioInicio;
+		this.horarioTermino = horarioTermino;
+		this.responsavel = responsavel;
+		this.reservadoPara = reservadoPara;
+		this.eventoPrivado = eventoPrivado;
+		this.email = email;
+		this.telefone = telefone;
+		this.observacao = observacao;
+		this.aceito = aceito;
+		this.status = status;
 	}
 	
 	public ReservaSala(int id, Sala sala, Date dataInicio, Date dataFim,
