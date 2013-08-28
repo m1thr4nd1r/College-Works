@@ -10,10 +10,10 @@
     </ui:define>
 
     <ui:define name="content">
+    	<p:growl id="growl" showDetail="false"/> 	
 		<section id="geral">
 			<p:layoutUnit position="center" id="conteudo">
 				<h:form id="form">  	
-					<p:growl id="messages" showDetail="true"/> 	
 					<p:dataTable id="tipos" var="tipo" value="#{tipoBean.tipos}"
 						paginator="true" rows="15" 
 			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
@@ -21,7 +21,7 @@
 			            editable="true"
 			            >
 			            
-						<p:ajax event="rowEdit" update=":form:messages" listener="#{tipoBean.update}"/>
+						<p:ajax event="rowEdit" update="tipos" listener="#{tipoBean.update}"/>
 									
 						<f:facet name="header">
 							<h:outputText value="Lista de Tipos de Funcionarios"/>

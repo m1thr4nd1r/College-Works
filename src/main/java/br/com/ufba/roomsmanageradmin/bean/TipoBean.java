@@ -78,6 +78,8 @@ public class TipoBean implements Serializable {
 			session.update(tipo);
 			session.flush();
 			tx.commit(); 
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Tipo atualizado com sucesso!", "Sucesso!");
+    	    FacesContext.getCurrentInstance().addMessage(null,message);    	    
 		}catch (HibernateException e) {
 			if (tx!=null) tx.rollback();
 				e.printStackTrace(); 
@@ -101,6 +103,8 @@ public class TipoBean implements Serializable {
 	    	tx = session.beginTransaction();
 	    	session.delete(tipo); 
 	    	tx.commit();
+	    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,"Tipo removido com sucesso!", "Sucesso!");
+    	    FacesContext.getCurrentInstance().addMessage(null,message);    	    
 	    	List<Tipo> t = (List<Tipo>) session.createQuery("FROM Tipo").list();
 		    tipos = new ListDataModel(t);
     	}catch (HibernateException e) {
@@ -116,15 +120,9 @@ public class TipoBean implements Serializable {
 	{
         this.tipo = this.tipos.getRowData();
     }
-	 
-	public void onEdit(RowEditEvent event) {  
-	       FacesMessage msg = new FacesMessage("Tipo editado", ((Tipo) event.getObject()).getDescricao());  
-	       FacesContext.getCurrentInstance().addMessage(null, msg);  
-	}  
-	      
+	 	      
 	public void onCancel(RowEditEvent event) {  
-	    FacesMessage msg = new FacesMessage("Edição Cancelada", ((Tipo) event.getObject()).getDescricao());  
-	    JOptionPane.showMessageDialog(null, "Edição cancelada");
+	    FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Edição cancelada!", "Falha!");
 	    FacesContext.getCurrentInstance().addMessage(null, msg);  
 	}
 
