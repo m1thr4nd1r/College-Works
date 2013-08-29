@@ -77,20 +77,21 @@
 							</p:cellEditor>
 						</p:column>
 
-						<p:column headerText="Tipo">
-							<p:cellEditor>	
+						<p:column headerText="Tipo" >
+							<p:cellEditor>
 								<f:facet name="output">
-									<h:outputText rendered="#{usuario.tipo_id == 1}" value="Professor"/>
-									<h:outputText rendered="#{usuario.tipo_id == 2}" value="Funcionario"/>
-								</f:facet>
-
-								<f:facet name="input">
-									<h:selectOneMenu value="#{usuario.tipo_id}" >
-			                        	<f:selectItem itemLabel="Professor" itemValue="1" />
-			                        	<f:selectItem itemLabel="Funcionario" itemValue="2" />
+									<h:outputText value="#{usuario.tipo_id}"/>
+								</f:facet>							
+							    <f:facet name="input">
+			                    	<h:selectOneMenu value="#{usuarioBean.tipo_id}" >
+			                        	<f:selectItems value="#{usuarioBean.tipos}"
+				                            var="man" 
+				                            itemLabel="#{man.descricao}"
+				                            itemValue="#{man.id}" />
 					               </h:selectOneMenu>
-								</f:facet>
-							</p:cellEditor>
+										
+					            </f:facet>
+	                		</p:cellEditor>  
 						</p:column>
 
 			            <p:column style="width:4%">  

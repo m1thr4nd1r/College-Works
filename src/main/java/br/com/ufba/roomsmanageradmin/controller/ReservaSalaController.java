@@ -167,6 +167,7 @@ public class ReservaSalaController implements Serializable{
 	    this.reserva.setDataInicio(dateToFormat(this.reserva.getDataInicio(),ptBrFormat));
 	    this.reserva.setDataFim(dateToFormat(this.reserva.getDataFim(),ptBrFormat));
 	    this.labelAction = "Atualizar";
+	    this.sala_id = ""+this.reserva.getSala().getId();
 	}  
       
     public void onDateSelect(SelectEvent selectEvent) {

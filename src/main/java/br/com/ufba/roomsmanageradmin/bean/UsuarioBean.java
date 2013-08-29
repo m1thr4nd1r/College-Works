@@ -100,6 +100,7 @@ public class UsuarioBean implements Serializable{
 		
 		try{
 			tx = session.beginTransaction();
+			usuario.setTipo_id(Integer.valueOf(tipo_id));
 			session.update(usuario);
 			session.flush();
 			tx.commit(); 
