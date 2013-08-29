@@ -2,7 +2,11 @@
 <html>
 <head>
   <title>Rooms Manager :: <%= @title %> </title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "bootstrap-responsive", media:"screen" %>
+  <%= stylesheet_link_tag "bootstrap", media:"screen" %>
+  <%= stylesheet_link_tag "jquery-ui", media:"all" %>
+  <%= stylesheet_link_tag "jquery.ui.datepicker", media:"all" %>
+  <%= stylesheet_link_tag "responsive", media:"only screen and (max-device-width: 700px)" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -14,11 +18,11 @@
 		<div class="container">
 		  <a class="brand" href="./">RoomsManager</a>
 		  <div class="nav-collapse collapse">
-			<ul class="nav">
+			<!-- <ul class="nav">
 			  <li class="">
 				<a href="./">Fazer Reserva</a>
 			  </li>
-			</ul>
+			</ul> -->
 		  </div>
 		</div>
 	  </div>
