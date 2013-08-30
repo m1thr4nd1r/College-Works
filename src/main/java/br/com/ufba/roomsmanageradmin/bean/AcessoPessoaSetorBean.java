@@ -36,7 +36,7 @@ public class AcessoPessoaSetorBean implements Serializable{
 	private String 				 pessoaMatricula;
 	private String 				 setor_id, sala_id;
 	private List<Setor>			 setores;
-	private List<Sala>			 salas,salasOcupadas,salasLivres;
+	private List<Sala>			 salas =  new ArrayList<Sala>(),salasOcupadas =  new ArrayList<Sala>(),salasLivres = new ArrayList<Sala>();
 	private List<ControleAcesso> cAcessos;
 	
 	@PostConstruct
@@ -166,7 +166,8 @@ public class AcessoPessoaSetorBean implements Serializable{
 			    try{
 			    	tx = session.beginTransaction();
 			    	Date atual = new Date(System.currentTimeMillis());
-			    	session.update(new ControleAcesso(pessoa,sala,cAcesso.getHoraEntrada(),cAcesso.getDataEntrada(),atual,atual)); 
+			    	ControleAcesso ctr = new ControleAcesso(pessoa,sala,cAcesso.getHoraEntrada(),cAcesso.getDataEntrada(),atual,atual,true);
+			    	session.update(ctr); 
 			    	tx.commit();
 		    	}catch (HibernateException e) {
 		    		if (tx!=null) tx.rollback();
@@ -251,17 +252,19 @@ public class AcessoPessoaSetorBean implements Serializable{
 	
 	/**
 	 * 
-	 * @param eChave int que representa se a sala está ocupada ou não. O - sala livre, 1 - sala ocupada 
+	 * @param eChave int que representa se a sala está ocupada ou não. FALSE - sala ocupada - não entregue, TRUE - sala livre - entregue 
 	 * @return todas as salas ocupadas
 	 */
 	public List<Sala> getSalasAcesso(String eChave){
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
-	    List<Sala> salas = null;
+	    List<Sala> salas = new ArrayList<Sala>();
 	    try{
 			List<ControleAcesso> ctrl = (List<ControleAcesso>) session.createQuery("FROM ControleAcesso Where e_chave = "+eChave+" Order by data_entrada desc").list();
 		    for (ControleAcesso ca: ctrl) {
-		    	salas.add(ca.getSala());
+		    	Sala sala = ca.getSala();
+		    	salas.add(sala);
+		    	JOptionPane.showMessageDialog(null,sala.getNome());
 			}
 		}catch(HibernateException e){
 			JOptionPane.showMessageDialog(null,e.getMessage());
@@ -273,21 +276,27 @@ public class AcessoPessoaSetorBean implements Serializable{
 	}
 	
 	public List<Sala> getSalasOcupadas(){
-		this.salasOcupadas = getSalasAcesso("1");
-		return (salasOcupadas != null) ? salasOcupadas : new ArrayList<Sala>();
+		this.salasOcupadas = getSalasAcesso("0");
+		return (!salasOcupadas.isEmpty()) ? salasOcupadas : new ArrayList<Sala>();
 	}
 
 	public List<Sala> getSalasLivres(){
-		this.salasLivres = new ArrayList<Sala>();
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    try{
-	    	String query = "SELECT * FROM sala "+ 
-							"WHERE id NOT IN ("+
-							    "SELECT sala_id FROM controle_acesso "+
-							    "WHERE e_chave = 1)";
-	    	
-	    	List<Sala> salas = (List<Sala>) session.createSQLQuery(query).list();
+//	    	String query = "SELECT * FROM sala "+ 
+//							"WHERE id NOT IN ("+
+//							    "SELECT sala_id FROM controle_acesso "+
+//							    "WHERE e_chave = 0)";
+	    	List<ControleAcesso> ctrl = (List<ControleAcesso>) session.createQuery("FROM ControleAcesso").list();
+	    	List<Sala> salas = (List<Sala>) session.createQuery("FROM Sala").list();
+	    	for (ControleAcesso cAcess : ctrl) {
+	    		for (Sala sala : salas) {
+			    	if(sala.equals(cAcess.getSala())){
+			    		this.salasLivres.add(sala);
+			    	}
+				}	
+			}
 	    	this.salasLivres = salas;
 		}catch(HibernateException e){
 			JOptionPane.showMessageDialog(null,e.getMessage());

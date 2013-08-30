@@ -184,3 +184,9 @@ body{
 	box-pack:center;
 	box-align:center;
 }
+
+.form_acess{
+	margin: 0 auto;
+	width: 400px;
+	margin-top: 80px;
+}
