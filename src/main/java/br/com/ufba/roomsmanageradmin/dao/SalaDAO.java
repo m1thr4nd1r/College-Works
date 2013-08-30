@@ -67,14 +67,23 @@ public class SalaDAO {
 	public List<ControleAcesso> getLabsReservados() throws SQLException{
 		List<ControleAcesso> ctr = new ArrayList<ControleAcesso>();
 		
-		String query = "SELECT c.*, s.nome FROM controle_acesso AS c INNER JOIN sala AS s ON s.id = c.sala_id WHERE s.tipo = 'laboratorio'";
+		String query = "SELECT c.*, s.nome FROM controle_acesso AS c INNER JOIN sala AS s ON s.id = c.sala_id WHERE s.tipo = 'laboratorio' ORDER BY hora_entrada desc";
 		
 		Statement st = (Statement) Myconnection.getStatement();
 		ResultSet rs = st.executeQuery(query);
 		
 		while(rs.next()){
 			Sala s = new Sala(rs.getInt("sala_id"),rs.getString("nome"));
-			ctr.add(new ControleAcesso(s,rs.getDate("hora_entrada"),rs.getDate("data_entrada"),rs.getDate("hora_saida"),rs.getDate("data_saida"),rs.getBoolean("e_chave")));
+			boolean naLista = false;
+			for(ControleAcesso ca : ctr){
+				Sala aux = ca.getSala();
+				if(!naLista){
+					naLista = (s.getId() == aux.getId());
+				}
+			}
+			if(!naLista){
+				ctr.add(new ControleAcesso(s,rs.getDate("hora_entrada"),rs.getDate("data_entrada"),rs.getDate("hora_saida"),rs.getDate("data_saida"),rs.getBoolean("e_chave")));
+			}
 		}
 		
 		return ctr;
