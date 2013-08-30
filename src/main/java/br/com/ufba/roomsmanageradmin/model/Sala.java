@@ -25,6 +25,12 @@ public class Sala implements Serializable{
 		setor_id = 1;
 	}
 	
+	public Sala(int id, String nome) {
+		super();
+		this.id = id;
+		this.nome = nome;
+	}
+
 	public Sala(String nome, boolean quadro, boolean retroprojetor,
 			boolean multimidia, String tipo, boolean arcondicionado,
 			int computadores, int capacidade, int setor_id) {

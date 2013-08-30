@@ -4,6 +4,7 @@ import java.util.*;
 import java.sql.*;
 
 
+import br.com.ufba.roomsmanageradmin.model.ControleAcesso;
 import br.com.ufba.roomsmanageradmin.model.Sala;
 
 public class SalaDAO {
@@ -51,7 +52,7 @@ public class SalaDAO {
 	public List<Sala> getSalas() throws SQLException{
 		List<Sala> salas = new ArrayList<Sala>();
 		
-		String consulta = "SELECT * FROM sala ";
+		String consulta = "SELECT * FROM sala";
 		
 		Statement st = (Statement) Myconnection.getStatement();
 		ResultSet rs = st.executeQuery(consulta);
@@ -62,5 +63,21 @@ public class SalaDAO {
 		
 		return salas;
 	}
-
+	
+	public List<ControleAcesso> getLabsReservados() throws SQLException{
+		List<ControleAcesso> ctr = new ArrayList<ControleAcesso>();
+		
+		String query = "SELECT c.*, s.nome FROM controle_acesso AS c INNER JOIN sala AS s ON s.id = c.sala_id WHERE s.tipo = 'laboratorio'";
+		
+		Statement st = (Statement) Myconnection.getStatement();
+		ResultSet rs = st.executeQuery(query);
+		
+		while(rs.next()){
+			Sala s = new Sala(rs.getInt("sala_id"),rs.getString("nome"));
+			ctr.add(new ControleAcesso(s,rs.getDate("hora_entrada"),rs.getDate("data_entrada"),rs.getDate("hora_saida"),rs.getDate("data_saida"),rs.getBoolean("e_chave")));
+		}
+		
+		return ctr;
+	}
+	
 }

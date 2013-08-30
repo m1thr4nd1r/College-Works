@@ -300,7 +300,6 @@ public class AcessoPessoaSetorBean implements Serializable{
 	    	Iterator it = salas.iterator();
 	    	while(it.hasNext()){
 	    		Sala t = (Sala) it.next();
-		    	JOptionPane.showMessageDialog(null,t.getNome());
 		    	this.salasLivres.add(t);
 			}
 	    	this.salasLivres = salas;

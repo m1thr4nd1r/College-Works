@@ -13,6 +13,18 @@ public class ControleAcesso implements Serializable {
 	public ControleAcesso() {
 		super();
 	}
+
+	public ControleAcesso(Sala sala, Date horaEntrada, Date dataEntrada,
+			Date horaSaida, Date dataSaida, boolean eChave) {
+		super();
+		this.sala = sala;
+		this.horaEntrada = horaEntrada;
+		this.dataEntrada = dataEntrada;
+		this.horaSaida = horaSaida;
+		this.dataSaida = dataSaida;
+		this.eChave = eChave;
+	}
+
 	public ControleAcesso(int id, Usuario pessoa, Sala sala, Date horaEntrada,
 			Date dataEntrada, Date horaSaida, Date dataSaida, boolean eChave) {
 		super();
