@@ -4,32 +4,47 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ControleAcesso implements Serializable {
-	private int id;
-	private int pessoaId, salaId;
-	private Date horaEntrada, dataEntrada, horaSaida, dataSaida;
-	public ControleAcesso(int id, int pessoaId, int salaId, Date horaEntrada,
-			Date dataEntrada, Date horaSaida, Date dataSaida) {
-		super();
-		this.id = id;
-		this.pessoaId = pessoaId;
-		this.salaId = salaId;
-		this.horaEntrada = horaEntrada;
-		this.dataEntrada = dataEntrada;
-		this.horaSaida = horaSaida;
-		this.dataSaida = dataSaida;
-	}
-	public ControleAcesso(int pessoaId, int salaId, Date horaEntrada,
-			Date dataEntrada, Date horaSaida, Date dataSaida) {
-		super();
-		this.pessoaId = pessoaId;
-		this.salaId = salaId;
-		this.horaEntrada = horaEntrada;
-		this.dataEntrada = dataEntrada;
-		this.horaSaida = horaSaida;
-		this.dataSaida = dataSaida;
-	}
+	private int 	id;
+	private Usuario pessoa; 
+	private Sala 	sala;
+	private Date 	horaEntrada, dataEntrada, horaSaida, dataSaida;
+	private boolean eChave;
+	
 	public ControleAcesso() {
 		super();
+	}
+	public ControleAcesso(int id, Usuario pessoa, Sala sala, Date horaEntrada,
+			Date dataEntrada, Date horaSaida, Date dataSaida, boolean eChave) {
+		super();
+		this.id = id;
+		this.pessoa = pessoa;
+		this.sala = sala;
+		this.horaEntrada = horaEntrada;
+		this.dataEntrada = dataEntrada;
+		this.horaSaida = horaSaida;
+		this.dataSaida = dataSaida;
+		this.eChave = eChave;
+	}
+	public ControleAcesso(Usuario pessoa, Sala sala, Date horaEntrada,
+			Date dataEntrada, Date horaSaida, Date dataSaida, boolean eChave) {
+		super();
+		this.pessoa = pessoa;
+		this.sala = sala;
+		this.horaEntrada = horaEntrada;
+		this.dataEntrada = dataEntrada;
+		this.horaSaida = horaSaida;
+		this.dataSaida = dataSaida;
+		this.eChave = eChave;
+	}
+	public ControleAcesso(Usuario pessoa, Sala sala, Date horaEntrada,
+			Date dataEntrada, Date horaSaida, Date dataSaida) {
+		super();
+		this.pessoa = pessoa;
+		this.sala = sala;
+		this.horaEntrada = horaEntrada;
+		this.dataEntrada = dataEntrada;
+		this.horaSaida = horaSaida;
+		this.dataSaida = dataSaida;
 	}
 	public int getId() {
 		return id;
@@ -37,17 +52,17 @@ public class ControleAcesso implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getPessoaId() {
-		return pessoaId;
+	public Usuario getPessoa() {
+		return pessoa;
 	}
-	public void setPessoaId(int pessoaId) {
-		this.pessoaId = pessoaId;
+	public void setPessoa(Usuario pessoa) {
+		this.pessoa = pessoa;
 	}
-	public int getSalaId() {
-		return salaId;
+	public Sala getSala() {
+		return sala;
 	}
-	public void setSalaId(int salaId) {
-		this.salaId = salaId;
+	public void setSala(Sala sala) {
+		this.sala = sala;
 	}
 	public Date getHoraEntrada() {
 		return horaEntrada;
@@ -73,6 +88,11 @@ public class ControleAcesso implements Serializable {
 	public void setDataSaida(Date dataSaida) {
 		this.dataSaida = dataSaida;
 	}
-	
+	public boolean iseChave() {
+		return eChave;
+	}
+	public void seteChave(boolean eChave) {
+		this.eChave = eChave;
+	}
 	
 }

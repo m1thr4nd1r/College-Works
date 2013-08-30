@@ -8,12 +8,12 @@
             <column name="ID" />
             <generator class="assigned" />
         </id>
-        <property name="pessoaId" type="int">
-            <column name="PESSOA_ID" />
-        </property>
-        <property name="salaId" type="int">
+        <many-to-one name="sala" class="br.com.ufba.roomsmanageradmin.model.Sala" fetch="join">
             <column name="SALA_ID" />
-        </property>
+        </many-to-one>
+        <many-to-one name="pessoa" class="br.com.ufba.roomsmanageradmin.model.Usuario" fetch="join">
+            <column name="PESSOA_ID" />
+        </many-to-one>
         <property name="dataEntrada" type="java.util.Date">
             <column name="DATA_ENTRADA" />
         </property>
@@ -25,6 +25,9 @@
         </property>
         <property name="horaSaida" type="java.util.Date">
             <column name="HORA_SAIDA" />
+        </property>
+        <property name="eChave" type="boolean">
+            <column name="E_CHAVE" />
         </property>
     </class>
 </hibernate-mapping>

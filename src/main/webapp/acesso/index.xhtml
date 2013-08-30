@@ -17,8 +17,7 @@
 							<p:selectOneMenu style="margin-bottom:2px;" id="setor" value="#{acessoPessoaSetorBean.setor_id}" required="true" title="Setor" requiredMessage="O campo setor é Obrigatório">  
 					            <f:selectItems value="#{acessoPessoaSetorBean.setores}" var="setor" itemLabel="#{setor.nome}" itemValue="#{setor.id}"/>
 					        </p:selectOneMenu>
-					        <h:outputText></h:outputText>
-							
+					        <h:outputText></h:outputText>							
 							<p:outputLabel for="matricula">Matricula</p:outputLabel>
 							<p:inputText id="matricula" value="#{acessoPessoaSetorBean.pessoaMatricula}" required="true" title="Responsavel" requiredMessage="O campo Matricula é Obrigatório"/>
 							<h:outputText></h:outputText>

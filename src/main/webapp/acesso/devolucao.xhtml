@@ -15,9 +15,12 @@
 				        <h:panelGrid id="pessoatDetails" columns="3">  
 				        	<p:outputLabel for="sala">Sala</p:outputLabel>
 							<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{acessoPessoaSetorBean.sala_id}" required="true" title="Sala" requiredMessage="O campo Sala é Obrigatório">  
-					            <f:selectItems value="#{acessoPessoaSetorBean.salas}" var="sala" itemLabel="#{sala.nome}" itemValue="#{sala.id}"/>
+					            <f:selectItems value="#{acessoPessoaSetorBean.salasOcupadas}" var="sala" itemLabel="#{sala.nome}" itemValue="#{sala.id}"/>
 					        </p:selectOneMenu>
 					        <h:outputText></h:outputText>
+   							<p:outputLabel for="matricula">Matricula</p:outputLabel>
+							<p:inputText id="matricula" value="#{acessoPessoaSetorBean.pessoaMatricula}" required="true" title="Num. Matricula" requiredMessage="O campo Matricula é Obrigatório"/>
+							<h:outputText></h:outputText>
 						</h:panelGrid>
 				        <p:separator style="width:100%;height:1px" />
 						<div style="text-align:center;">
