@@ -21,7 +21,14 @@ class SiteController < ApplicationController
 		#puts YAML::dump(@reservas)
 		@data = dataPtBR(@data)
 		@salas = salas()
+		labs = labsReservados();
+		@labsRes = {}
 		
+		labs.each do|e,i|
+			@labsRes[e['sala']['nome']] = {}
+			@labsRes[e['sala']['nome']]['entregue'] = e['eChave'];
+		end
+
 		#Notifier.signup_email("euler.santana@yahoo.com").deliver
 		
 		respond_to do |format|
@@ -55,6 +62,24 @@ class SiteController < ApplicationController
 		require 'json'
 
 	   	url = "#{@@base_url}/salas"
+	   	
+		url = URI.parse(url)
+	   	
+	   	resp = Net::HTTP.get_response(url)
+	   	dados = resp.body
+		
+	   	result = JSON.parse(dados)
+		#puts YAML::dump(result)
+	   	return result
+
+	end
+
+	def labsReservados()
+
+		require 'open-uri'
+		require 'json'
+
+	   	url = "#{@@base_url}/laboratorios"
 	   	
 		url = URI.parse(url)
 	   	

@@ -12,15 +12,10 @@
 				<li>
 					<% 
 					labReservado = false
-					for reserva in @reservas
-						if(reserva["sala"]["nome"] == sala[0])
-							#puts YAML::dump(reserva["horarioTermino"])
-							#se horario de termino igual a 00:00 chave ainda nao entregue
-							if(reserva["horarioTermino"] != "00:00:00")
-								labReservado = true
-							end
-						end
-					end
+
+					if(@labsRes.has_key?(sala[0]))
+						labReservado = !@labsRes[:entregue]
+					end	
 
 					if(labReservado)
 					%>
