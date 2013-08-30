@@ -11,13 +11,13 @@
 				%>
 				<li>
 					<% 
-					labReservado = true
+					entregue = true
 
 					if(@labsRes.has_key?(sala[0]))
-						labReservado = !@labsRes[:entregue]
+						entregue = @labsRes[sala[0]]['entregue']
 					end	
 
-					if(labReservado)
+					if(entregue)
 					%>
 					<a href="#" title="Lab. Liberado">
 						<i class="icon-green icon-ok"></i>
