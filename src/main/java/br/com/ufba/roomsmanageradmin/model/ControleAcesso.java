@@ -95,4 +95,15 @@ public class ControleAcesso implements Serializable {
 		this.eChave = eChave;
 	}
 	
+	@Override
+	public String toString(){
+		return  "ID: "+this.id+"\n"+
+				"DEntrada: "+this.dataEntrada+"\n"+
+				"DSaida: "+this.dataSaida+"\n"+
+				"HEntrada: "+this.horaEntrada+"\n"+
+				"HSaida: "+this.horaSaida+"\n"+
+				"Pessoa: "+this.pessoa+"\n"+
+				"Sala: "+this.sala+"\n"+
+				"Chave Entregue: "+this.eChave;
+	}
 }

@@ -185,8 +185,12 @@ body{
 	box-align:center;
 }
 
-.form_acess{
+.form_acess,
+.form_acess table{
 	margin: 0 auto;
 	width: 400px;
+}
+
+.form_acess{
 	margin-top: 80px;
 }

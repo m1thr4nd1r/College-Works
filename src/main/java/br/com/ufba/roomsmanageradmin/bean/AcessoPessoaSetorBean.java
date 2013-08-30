@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import javax.faces.model.ListDataModel;
 import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -127,6 +129,7 @@ public class AcessoPessoaSetorBean implements Serializable{
 			    	session.close();
 			    	sala_id = "";
 			    	pessoaMatricula = "";
+			    	getSalasOcupadas();
 			    	addMessage("Permissão de acesso adicionada com sucesso!","");
 			    }
 			}
@@ -161,22 +164,24 @@ public class AcessoPessoaSetorBean implements Serializable{
 			{
 				SessionFactory sf = Hibernate.getSessionFactory();
 			    Session session = sf.openSession();
-			    Transaction tx = null;   
-			    
+			    Transaction tx = null;
 			    try{
 			    	tx = session.beginTransaction();
 			    	Date atual = new Date(System.currentTimeMillis());
-			    	ControleAcesso ctr = new ControleAcesso(pessoa,sala,cAcesso.getHoraEntrada(),cAcesso.getDataEntrada(),atual,atual,true);
-			    	session.update(ctr); 
+			    	cAcesso.setDataSaida(atual);
+			    	cAcesso.setHoraSaida(atual);
+			    	cAcesso.seteChave(true);
+			    	session.update(cAcesso); 
 			    	tx.commit();
 		    	}catch (HibernateException e) {
 		    		if (tx!=null) tx.rollback();
 			    	e.printStackTrace(); 
-			    	JOptionPane.showMessageDialog(null,e.getMessage());
+			    	JOptionPane.showMessageDialog(null,"DEVOLUÇÃO "+e.getMessage());
 		    	}finally {
 			    	session.close();
 			    	sala_id = "";
 			    	pessoaMatricula = "";
+			    	getSalasLivres();
 			    	addMessage("Entrega realizada com sucesso!","");
 			    }
 			}
@@ -261,10 +266,10 @@ public class AcessoPessoaSetorBean implements Serializable{
 	    List<Sala> salas = new ArrayList<Sala>();
 	    try{
 			List<ControleAcesso> ctrl = (List<ControleAcesso>) session.createQuery("FROM ControleAcesso Where e_chave = "+eChave+" Order by data_entrada desc").list();
-		    for (ControleAcesso ca: ctrl) {
+			ctrl.toString();
+	    	for (ControleAcesso ca: ctrl) {
 		    	Sala sala = ca.getSala();
 		    	salas.add(sala);
-		    	JOptionPane.showMessageDialog(null,sala.getNome());
 			}
 		}catch(HibernateException e){
 			JOptionPane.showMessageDialog(null,e.getMessage());
@@ -284,18 +289,19 @@ public class AcessoPessoaSetorBean implements Serializable{
 		SessionFactory sf = Hibernate.getSessionFactory();
 	    Session session = sf.openSession();
 	    try{
-//	    	String query = "SELECT * FROM sala "+ 
-//							"WHERE id NOT IN ("+
-//							    "SELECT sala_id FROM controle_acesso "+
-//							    "WHERE e_chave = 0)";
-	    	List<ControleAcesso> ctrl = (List<ControleAcesso>) session.createQuery("FROM ControleAcesso").list();
-	    	List<Sala> salas = (List<Sala>) session.createQuery("FROM Sala").list();
-	    	for (ControleAcesso cAcess : ctrl) {
-	    		for (Sala sala : salas) {
-			    	if(sala.equals(cAcess.getSala())){
-			    		this.salasLivres.add(sala);
-			    	}
-				}	
+	    	this.salasLivres = new ArrayList<Sala>();
+	    	String query = "SELECT * FROM sala "+ 
+							"WHERE id NOT IN ("+
+							    "SELECT sala_id FROM controle_acesso "+
+							    "WHERE e_chave = 0)";
+	    	SQLQuery consulta = session.createSQLQuery(query);
+	    	consulta.addEntity(Sala.class);
+	    	List salas = consulta.list();
+	    	Iterator it = salas.iterator();
+	    	while(it.hasNext()){
+	    		Sala t = (Sala) it.next();
+		    	JOptionPane.showMessageDialog(null,t.getNome());
+		    	this.salasLivres.add(t);
 			}
 	    	this.salasLivres = salas;
 		}catch(HibernateException e){
