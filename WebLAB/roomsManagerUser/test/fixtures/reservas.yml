@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  data_inicio: MyString
+  responsavel: MyString
+
+two:
+  data_inicio: MyString
+  responsavel: MyString
