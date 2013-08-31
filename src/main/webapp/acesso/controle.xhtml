@@ -1,0 +1,40 @@
+<ui:composition template="/template.xhtml"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.org/ui" >
+
+  <ui:define name="content">
+        <section id="geral">
+        <p:layoutUnit position="center" id="conteudo">
+      		<div class="container-fluid offset3 span12">
+         		<h:form id="form">  
+				    <p:growl id="messages" showDetail="false" />
+				    <div class="container-fluid span8 acesso_style" id="acessoDialog">
+				    	<div class="form_acess">
+					    	<h1>Controle de Acesso</h1>
+					        <p:separator style="width:100%;height:1px" />
+					        <h:panelGrid id="pessoatDetails" columns="3">  
+					        	<p:outputLabel for="sala">Sala</p:outputLabel>
+								<p:selectOneMenu style="margin-bottom:2px;" id="sala" value="#{acessoPessoaSetorBean.sala_id}" required="true" title="Sala" requiredMessage="O campo Sala é Obrigatório">  
+						            <f:selectItems value="#{acessoPessoaSetorBean.salasLivres}" var="sala" itemLabel="#{sala.nome}" itemValue="#{sala.id}"/>
+						        </p:selectOneMenu>
+						        <h:outputText></h:outputText>
+								<p:outputLabel for="matricula">Matricula</p:outputLabel>
+								<p:inputText id="matricula" value="#{acessoPessoaSetorBean.pessoaMatricula}" required="true" title="Num. Matricula" requiredMessage="O campo Matricula é Obrigatório"/>
+								<h:outputText></h:outputText>
+							</h:panelGrid>
+					        <p:separator style="width:100%;height:1px" />
+							<div style="text-align:center;">
+						        <p:commandButton id="addButton" value="Salvar" actionListener="#{acessoPessoaSetorBean.salvarControle()}" update="messages"/>
+					            <p:commandButton type="reset" value="Limpar" />
+			            	</div>
+		            	</div>  
+				  	</div>
+				</h:form>
+			</div>
+   		</p:layoutUnit>
+    </section>
+  </ui:define>
+</ui:composition>

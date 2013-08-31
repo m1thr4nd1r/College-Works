@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/08/2013 18:25:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="br.com.ufba.roomsmanageradmin.model.Acesso" table="acesso_pessoa_setor">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="pessoa_id" type="int">
+            <column name="PESSOA_ID" />
+        </property>
+        <property name="setor_id" type="int">
+            <column name="SETOR_ID" />
+        </property>
+    </class>
+</hibernate-mapping>

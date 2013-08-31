@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 20/08/2013 18:15:47 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="br.com.ufba.roomsmanageradmin.model.Sala" table="sala">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="nome" type="java.lang.String">
+            <column name="NOME" />
+        </property>
+        <property name="quadro" type="boolean">
+            <column name="QUADRO" />
+        </property>
+        <property name="retroprojetor" type="boolean">
+            <column name="RETROPROJETOR" />
+        </property>
+        <property name="multimidia" type="boolean">
+            <column name="MULTIMIDIA" />
+        </property>
+        <property name="tipo" type="java.lang.String">
+            <column name="TIPO" />
+        </property>
+        <property name="arcondicionado" type="boolean">
+            <column name="AR_CONDICIONADO" />
+        </property>
+        <property name="computadores" type="int">
+            <column name="COMPUTADORES" />
+        </property>
+        <property name="capacidade" type="int">
+            <column name="CAPACIDADE" />
+        </property>
+        <property name="setor_id" type="int">
+            <column name="SETOR_ID" />
+        </property>
+        <property name="setorNome" type="java.lang.String">
+            <column name="SETORNOME" />
+        </property>
+    </class>
+</hibernate-mapping>

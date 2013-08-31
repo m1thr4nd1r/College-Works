@@ -1,0 +1,60 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+ 	
+ 	
+
+	<ui:define name="scripts">
+		<link href="css/aplicacao.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="css/bootstrap-responsive.min.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="css/bootstrap-responsive.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+		<link href="css/jquery-ui.css" media="all" rel="stylesheet" type="text/css" />
+		<style>
+			span.ui-outputlabel-rfi{
+				color: #FF0000;
+			}
+		</style> 
+	</ui:define>	
+
+	<ui:define name="content">
+		<p:growl id="growl" showDetail="false" life="6000" />
+		<p:layoutUnit position="center" id="conteudo">
+			<div class="container-fluid offset4 span10">
+				<div class="row-fluid">					
+						<p:message for="form"></p:message>
+						<h:form id="form">
+							<p:fieldset legend="Cadastro de Setor" >
+							<h:panelGrid columns="2"> 
+							
+								
+							<p:outputLabel for="dNome">Nome</p:outputLabel>
+							<p:inputText id="dNome" value="#{setorBean.setor.nome}" size="60" locale="pt_BR" required="true"/>
+						
+							<p:outputLabel for="email">Email</p:outputLabel>
+							<p:inputText id="email" value="#{setorBean.setor.email}" required="true" title="Email" requiredMessage="O campo Email é Obrigatório"  validatorMessage="Email inválido">
+								<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+							</p:inputText>
+													
+							</h:panelGrid> 
+					  	    </p:fieldset>
+							<div class="span12">
+								<div class="bt span">
+									<div class="span2">
+								  		<p:commandButton value="Enviar" actionListener="#{setorBean.create}" ajax="false"/>
+								  	</div>
+								  	<div class="span2">
+								  		<p:commandButton value="Resetar" type="reset"/>
+								  	</div>
+							  	</div>
+					  		</div>
+					  		
+						</h:form>
+				</div>
+			</div>
+		</p:layoutUnit>
+	</ui:define>
+</ui:composition>

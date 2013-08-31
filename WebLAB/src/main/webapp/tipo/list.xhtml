@@ -1,0 +1,56 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+
+  	<ui:define name="title">
+        RoomsManagerAdmin :: Lista de Tipos de Funcionarios
+    </ui:define>
+
+    <ui:define name="content">
+    	<p:growl id="growl" showDetail="false"/> 	
+		<section id="geral">
+			<p:layoutUnit position="center" id="conteudo">
+				<h:form id="form">  	
+					<p:dataTable id="tipos" var="tipo" value="#{tipoBean.tipos}"
+						paginator="true" rows="15" 
+			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+						rowsPerPageTemplate="5,10,15"  
+			            editable="true"
+			            >
+			            
+						<p:ajax event="rowEdit" update="tipos" listener="#{tipoBean.update}"/>
+									
+						<f:facet name="header">
+							<h:outputText value="Lista de Tipos de Funcionarios"/>
+						</f:facet>
+						
+						<p:column headerText="ID">
+							<h:outputText value="#{tipo.id}"/>
+						</p:column>
+						
+						<p:column headerText="Descricao">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{tipo.descricao}"/>
+								</f:facet>							
+							    <f:facet name="input">  
+		                    		<p:inputText value="#{tipo.descricao}" style="width:100%"/>  
+	                			</f:facet>
+	                		</p:cellEditor>
+						</p:column>		
+
+			            <p:column style="width:4%">  
+	            			<p:rowEditor icon="ui-icon-edit"/>
+	        			</p:column>
+						<p:column style="width:4%">  
+							<p:commandButton id="deleteButton" action="#{tipoBean.delete}" update="tipos" icon="ui-icon-trash" title="Deletar"/>  
+	        			</p:column>
+	        		</p:dataTable>
+				</h:form>
+			</p:layoutUnit>
+		</section>
+	</ui:define>
+</ui:composition>

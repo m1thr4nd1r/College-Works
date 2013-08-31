@@ -1,0 +1,108 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+
+  	<ui:define name="title">
+        RoomsManagerAdmin :: Lista de Pessoas
+    </ui:define>
+
+    <ui:define name="content">
+		<section id="geral">
+			<p:layoutUnit position="center" id="conteudo">
+				<h:form id="form">  	
+					<p:growl id="messages" showDetail="true"/> 	
+					<p:dataTable id="usuarios" var="usuario" value="#{usuarioBean.usuarios}"
+						paginator="true" rows="15" 
+			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+						rowsPerPageTemplate="5,10,15"  
+			            editable="true"
+			            >
+			            
+						<p:ajax event="rowEdit" update=":form:messages" listener="#{usuarioBean.update}"/>
+									
+						<f:facet name="header">
+							<h:outputText value="Lista de Usuarios"/>
+						</f:facet>
+						
+						<p:column headerText="ID">
+							<h:outputText value="#{usuario.id}"/>
+						</p:column>
+						
+						<p:column headerText="Nome">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{usuario.nome}"/>
+								</f:facet>							
+							    <f:facet name="input">  
+		                    		<p:inputText value="#{usuario.nome}" style="width:100%"/>  
+	                			</f:facet>
+	                		</p:cellEditor>
+						</p:column>		
+
+						<p:column headerText="Email">
+							<p:cellEditor>	
+								<f:facet name="output">
+									<h:outputText value="#{usuario.email}"/>
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="#{usuario.email}" style="width:100%"/>  
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Matricula">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{usuario.num_matricula}" id="matricula" />
+								</f:facet>
+
+								<f:facet name="input">
+								<p:inputText value="#{usuario.num_matricula}" style="width:100%"/>  
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Senha">
+							<p:cellEditor>	
+								<f:facet name="output">
+									<h:outputText value="********"/>
+								</f:facet>
+
+								<f:facet name="input">
+									<p:inputText value="#{usuario.senha}" style="width:100%"/>  
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="Tipo" >
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{usuario.tipo_id}"/>
+								</f:facet>							
+							    <f:facet name="input">
+			                    	<h:selectOneMenu value="#{usuarioBean.tipo_id}" >
+			                        	<f:selectItems value="#{usuarioBean.tipos}"
+				                            var="man" 
+				                            itemLabel="#{man.descricao}"
+				                            itemValue="#{man.id}" />
+					               </h:selectOneMenu>
+										
+					            </f:facet>
+	                		</p:cellEditor>  
+						</p:column>
+
+			            <p:column style="width:4%">  
+	            			<p:rowEditor icon="ui-icon-edit"/>
+	        			</p:column>
+						<p:column style="width:4%">  
+							<p:commandButton id="deleteButton" action="#{usuarioBean.delete}" update="usuarios" icon="ui-icon-trash" title="Deletar"/>  
+	        			</p:column>
+	        		</p:dataTable>
+				</h:form>
+			</p:layoutUnit>
+		</section>
+	</ui:define>
+</ui:composition>

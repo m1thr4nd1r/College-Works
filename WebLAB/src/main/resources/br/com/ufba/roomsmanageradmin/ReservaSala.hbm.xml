@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/08/2013 18:25:12 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="br.com.ufba.roomsmanageradmin.model.ReservaSala" table="reserva_sala">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="sala" class="br.com.ufba.roomsmanageradmin.model.Sala" fetch="join">
+            <column name="SALA_ID" />
+        </many-to-one>
+        <property name="dataInicio" type="java.util.Date">
+            <column name="DATA_INICIO" />
+        </property>
+        <property name="dataFim" type="java.util.Date">
+            <column name="DATA_FIM" />
+        </property>
+        <property name="horarioInicio" type="java.util.Date">
+            <column name="HORARIO_INICIO" />
+        </property>
+        <property name="horarioTermino" type="java.util.Date">
+            <column name="HORARIO_TERMINO" />
+        </property>
+        <property name="responsavel" type="java.lang.String">
+            <column name="RESPONSAVEL" />
+        </property>
+        <property name="reservadoPara" type="java.lang.String">
+            <column name="RESERVA_PARA" />
+        </property>
+        <property name="eventoPrivado" type="boolean">
+            <column name="EVENTO_PRIVADO" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="EMAIL" />
+        </property>
+        <property name="telefone" type="java.lang.String">
+            <column name="TELEFONE" />
+        </property>
+        <property name="observacao" type="java.lang.String">
+            <column name="OBS" />
+        </property>
+        <property name="aceito" type="boolean">
+            <column name="ACEITO" />
+        </property>
+        <property name="status" type="int">
+            <column name="STATUS" />
+        </property>
+    </class>
+</hibernate-mapping>

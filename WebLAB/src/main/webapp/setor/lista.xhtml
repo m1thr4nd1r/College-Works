@@ -1,0 +1,66 @@
+<ui:composition template="../template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+  	xmlns:p="http://primefaces.org/ui" >
+
+  	<ui:define name="title">
+  		RoomsManagerAdmin :: Lista de Setores
+	</ui:define>
+	
+	<ui:define name="content">
+		<section id="geral">
+			<p:layoutUnit position="center" id="conteudo">
+				<h:form id="form"> 
+					<p:growl id="messages" showDetail="true" /> 	
+					<p:dataTable id="seto" var="setor" value="#{setorBean.setores}"
+						paginator="true" rows="15" 
+			            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+						rowsPerPageTemplate="5,10,15"
+						editable="true"
+						
+			            >
+			            <p:ajax event="rowEdit" listener="#{setorBean.update}" update=":form:messages" />
+        				<p:ajax event="rowEditCancel" listener="#{setorBean.onCancel}" update=":form:messages" />
+						<f:facet name="header">
+							<h:outputText value="Lista de setor"/>
+						</f:facet>	  
+						<p:column headerText="Nome">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{setor.nome}"/>
+								</f:facet>							
+							    <f:facet name="input">  
+		                    		<p:inputText value="#{setor.nome}" style="width:100%"/>  
+	                			</f:facet>
+	                		</p:cellEditor>  
+						</p:column>						
+						<p:column headerText="E-mail">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{setor.email}"/>
+								</f:facet>							
+							    <f:facet name="input">  
+		                    		<p:inputText value="#{setor.email}" style="width:100%"/>  
+	                			</f:facet>
+	                		</p:cellEditor>  
+						</p:column>		
+									
+						<p:column id="update" style="width:4%">  
+	            			<p:rowEditor />  
+	        			</p:column>
+	           			<p:column style="width:4%">  
+							<p:commandButton id="deleteButton" action="#{setorBean.delete}" update="seto" icon="ui-icon-trash" title="Deletar"/>  
+	        			</p:column> 
+					</p:dataTable>
+				</h:form>
+			</p:layoutUnit>
+		</section>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				dlg.show();
+			});
+		</script>
+	</ui:define>
+</ui:composition>
