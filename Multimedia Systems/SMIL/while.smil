@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 2.0//EN" "http://www.w3.org/2001/SMIL20/SMIL20.dtd">
+<smil>
+	<head>
+		<layout>
+			<region id="A" z-index="1" />
+			<region id="B" fit="fill" top="65%"  z-index="2" />
+		</layout>
+	</head>
+	<body>
+		<!-- delta1 = (1,v1_dur - 2) = 7s -->
+		<!-- delta2 = (delta1 + 1, v1_dur - 1) = 6s -->
+		<par>
+			<!-- Video 1 inicia normalmente -->
+			<video id="v1" src="v1_360.mp4" region="A" type="mp4" dur="46s" />
+			<!-- Video 2 inicia com (v1_begin + delta1) e termina com (v1_dur - delta2) -->
+			<video id="v2" src="v2_360.mp4" region="B" type="mp4" begin="7s" end="40s" />
+		</par>
+	</body>
+</smil>
