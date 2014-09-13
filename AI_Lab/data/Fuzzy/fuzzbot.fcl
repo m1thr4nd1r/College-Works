@@ -1,0 +1,184 @@
+// Block definition (there may be more than one block per file)
+FUNCTION_BLOCK moveType
+
+// Define input variables
+VAR_INPUT
+    lastShot : REAL;
+    energy : REAL;    
+END_VAR
+
+// Define output variable
+VAR_OUTPUT
+    type : REAL;
+END_VAR
+
+// Fuzzify input variable 'lastShot'
+FUZZIFY lastShot
+	TERM short := (0, 1) (75, 1) (100, 0) ; 
+    TERM medium := (80, 0) (145, 1) (200, 0);
+    TERM great := (180, 0) (345, 1) (500, 1) ;
+END_FUZZIFY
+
+// Fuzzify input variable 'energy'
+FUZZIFY energy
+    TERM low := (0, 1) (10, 1) (40, 0) ;
+    TERM normal := (30, 0) (50, 1) (80, 0);
+    TERM high := (70, 0) (90, 1) (150,1) ;
+END_FUZZIFY
+
+// Defzzzify output variable 'type'
+DEFUZZIFY type
+    TERM angular := (0, 1) (0.5, 1) (1, 0);
+    TERM perpendicular := (0.9, 0) (1.5, 1) (2, 0);
+    TERM move := (1.9, 0) (2.5, 1) (3, 1); 
+    // Use 'Center Of Gravity' defuzzification method
+    METHOD : COG;
+    // Default value is 0 (if no rule activates defuzzifier)
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    // Use 'min' for 'and' (also implicit use 'max'
+    // for 'or' to fulfill DeMorgan's Law)
+    AND : MIN;
+    // Use 'min' activation method
+    ACT : MIN;
+    // Use 'max' accumulation method
+    ACCU : MAX;
+
+	RULE 1 : IF energy IS low OR lastShot IS short 
+                THEN type IS angular;
+                
+	RULE 2 : IF energy IS normal OR lastShot IS medium
+                THEN type IS perpendicular;
+                
+    RULE 3 : IF energy IS high OR lastShot IS great
+                THEN type IS move;
+                
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK velocity
+
+// Define input variables
+VAR_INPUT
+    distance : REAL;    
+END_VAR
+
+// Define output variable
+VAR_OUTPUT
+    speed : REAL;
+END_VAR
+
+// Fuzzify input variable 'distance'
+FUZZIFY distance
+	TERM short := (0, 1) (0.1, 1) (0.3, 0) ; 
+    TERM medium := (0.25, 0) (0.4,1) (0.6,0);
+    TERM great := (0.5, 0) (0.85, 1) (0.9, 1) ;
+END_FUZZIFY
+
+// Defzzzify output variable 'speed'
+DEFUZZIFY speed
+    TERM low := (0, 1) (1, 1) (2, 0); 
+    TERM normal := (1, 0) (4, 1) (7, 0); 
+    TERM high := (5, 0) (7, 1) (8, 1); 
+    // Use 'Center Of Gravity' defuzzification method
+    METHOD : COG;
+    // Default value is 0 (if no rule activates defuzzifier)
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    // Use 'min' for 'and' (also implicit use 'max'
+    // for 'or' to fulfill DeMorgan's Law)
+    AND : MIN;
+    // Use 'min' activation method
+    ACT : MIN;
+    // Use 'max' accumulation method
+    ACCU : MAX;
+
+	RULE 1 : IF distance IS short 
+                THEN speed IS low;
+                
+    RULE 2 : IF distance IS medium 
+                THEN speed IS normal;
+                
+    RULE 3 : IF distance IS great 
+                THEN speed IS high;
+                
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK shoot
+
+// Define input variables
+VAR_INPUT
+    distance : REAL;
+    energy : REAL;
+END_VAR
+
+// Define output variable
+VAR_OUTPUT
+    power : REAL;
+END_VAR
+
+// Fuzzify input variable 'distance'
+FUZZIFY distance
+	TERM tiny := (0, 1) (0.1, 1) (0.3, 0) ;
+    TERM short := (0.1, 0) (0.3, 1) (0.4, 0) ; 
+    TERM medium := (0.3, 0) (0.4,1) (0.6,0);
+    TERM great := (0.5, 0) (0.6, 1) (0.8, 0);
+    TERM huge := (0.6, 0) (0.85, 1) (0.9, 1);
+END_FUZZIFY
+
+// Fuzzify input variable 'energy'
+FUZZIFY energy
+    TERM low := (0, 1) (10, 1) (40, 0) ;
+    TERM normal := (30, 0) (50, 1) (80, 0);
+    TERM high := (70, 0) (90, 1) (150,1) ;
+END_FUZZIFY
+
+// Defzzzify output variable 'power'
+DEFUZZIFY power
+    TERM minimum := (0, 1) (0.015, 1) (0.3, 0); // (0,1) (0.5,1) (1,0);
+    TERM low := (0, 0) (0.6, 1) (0.9, 0); // (0,0) (2,1) (3,0);
+    TERM normal := (0.6, 0) (1.5, 1) (2.4, 0); // (2,0) (5,1) (8,0);
+    TERM high := (2.1, 0) (2.7, 1) (2.85, 0); // (7,0) (9,1) (9.5,0);
+    TERM maximum := (2.7, 0) (2.85, 1) (3, 1); // (9,0) (9.5,1) (10,1);
+    // Use 'Center Of Gravity' defuzzification method
+    METHOD : COG;
+    // Default value is 0 (if no rule activates defuzzifier)
+    DEFAULT := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    // Use 'min' for 'and' (also implicit use 'max'
+    // for 'or' to fulfill DeMorgan's Law)
+    AND : MIN;
+    // Use 'min' activation method
+    ACT : MIN;
+    // Use 'max' accumulation method
+    ACCU : MAX;
+
+	RULE 1 : IF energy IS high AND distance IS medium 
+                THEN power IS normal;
+
+	RULE 3 : IF energy IS normal AND distance IS medium 
+                THEN power IS low;
+	
+	RULE 4 : IF distance IS short 
+                THEN power IS high;                
+    
+	RULE 5 : IF energy IS low OR distance IS great 
+                THEN power IS low;
+                
+    RULE 6 : IF distance IS huge 
+                THEN power IS minimum; 
+
+    RULE 7 : IF distance IS tiny 
+                THEN power IS maximum;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

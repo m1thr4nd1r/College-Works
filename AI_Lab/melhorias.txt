@@ -1,0 +1,8 @@
+DT:
+Separar arvores (uma para decidir tiro, outra pra decidir movimentação, etc)
+Usar outro framework (quickDT?)
+
+Fuzzy:
+Trocar a mudança de movimentação de baseada em lastShot, para baseada em "Turnos sem se mecher"
+Trocar a ideia de como se movimentar com fuzzy
+Trocar a ideia da velocidade, ou ate mesmo remove-la

@@ -1,0 +1,5 @@
+energy down = se a energia do inimigo diminui entre as duas novas deteções (tentar se mover antes de ser atingido)
+moving = esta se movendo
+locked = inimigo encontrado
+
+ps: Mudar forma de obtenção dos dados (talvez uma coleta a cada 10/100 turnos)

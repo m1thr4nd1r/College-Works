@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="C:/robocode/libs/robocode.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/robocode/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/jaDTi/jaDTi-0.6.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/m1thr4nd1r/Dropbox/Superior/Codigos/LabIA/libs/jaDTi/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/jFuzzyLogic.jar"/>
+	<classpathentry kind="lib" path="D:/Dropbox/Superior/Codigos/Labia/libs/neuroph-2.8/neuroph-core-2.8.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/D:/Dropbox/Superior/Codigos/Labia/libs/neuroph-2.8/doc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
