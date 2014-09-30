@@ -1,0 +1,7 @@
+LINHA 1: '\'abcd
+LINHA 3: '
+LINHA 4: ''
+LINHA 5: ''
+LINHA 5: '
+LINHA 6: '\a'
+LINHA 7: 'marcos'

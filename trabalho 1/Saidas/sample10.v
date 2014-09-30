@@ -1,0 +1,10 @@
+LINHA 1: \
+LINHA 2: \
+LINHA 3: "
+LINHA 4: ;
+LINHA 5: 'abc'
+LINHA 6: ''
+LINHA 6: '
+LINHA 7: "abc
+LINHA 7: "
+LINHA 8: "
