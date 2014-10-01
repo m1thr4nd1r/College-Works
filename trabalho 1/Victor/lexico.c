@@ -46,7 +46,7 @@ int validSeparator(int code1, int code2)
 
 int nextSeparator(char *line, char type)
 {
-	int i = 0, size = (int) strlen(line); //, temp = -1;
+	int i = 0, size = (int) strlen(line);
 
 	switch (type)
 	{
@@ -57,14 +57,7 @@ int nextSeparator(char *line, char type)
 							line[i] != 0 &&
 							(line[i] != '\"' || line[i-1] == '\\') &&
 							line[i] != EOF)
-					{
-//						if (line[i] == '\"')
-//							temp = i;
 						i++;
-					}
-
-//					if (temp != -1 && line[i] != '\"')
-//						i = temp;
 
 					break;
 		case 'c':
@@ -74,21 +67,14 @@ int nextSeparator(char *line, char type)
 							line[i] != 0 &&
 							(line[i] != '\'' || line[i-1] == '\\') &&
 							line[i] != EOF)
-					{
-//						if (line[i] == '\'')
-//							temp = i;
 						i++;
-					}
-
-//					if (temp != -1 && line[i] != '\'')
-//						i = temp;
 
 					break;
 		case 'n':
 		case 'i':
 					while (	i < size &&
 							line[i] != EOF &&
-							(!isSeparator(line[i]) || // line[i] == 34 || line[i] == 39 ||
+							(!isSeparator(line[i]) ||
 							(line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
 							(line[i] == '>' && line[i+1] == '=') ||
 							(line[i-1] == '<' && (line[i] == '>' || line[i] == '=')) ||
@@ -97,7 +83,6 @@ int nextSeparator(char *line, char type)
 					break;
 	}
 
-//	return (i == size) ? -1: i;
 	return i;
 }
 
@@ -118,17 +103,10 @@ void processLine(char *line)
 			while (isalnum(line[j]))
 				j++;
 
-			//if (validSeparator(line[j],line[j+1]))
 			if (isSeparator(line[j]))
 				i = (line[j] == 34 || line[j] == 39 || line[j] == 10 || line[j] == 9)? j : j+1;
 			else
-			{
-//				char error[j - i];
-//				memset(error, 0, j - i);
-//				strncat(error, line+i, j - i);
-//				printError(error, currentLine);
 				i = j;
-			}
 		}
 		else if (isdigit(line[j]))
 		{
@@ -178,6 +156,7 @@ void processLine(char *line)
 			else
 			{
 				int flag = 1 ;
+
 				// Se o separador é valido, preciso imprimir ele no erro
 				if (line[separator] == '\'')
 				{
@@ -185,13 +164,10 @@ void processLine(char *line)
 					flag = 0;
 				}
 
-//				if (line[separator] != '\'')
-//					separator--;
 				char error[separator-i];
 				memset(error, 0, separator-i);
 				strncat(error, line+i, separator-i);
 				printError(error, currentLine);
-				// i = (line[separator] != '\'') ? separator + 2 : separator + 1;
 				i = (line[separator] == '\n') ? separator : separator + flag;
 			}
 		}
@@ -230,14 +206,6 @@ void processLine(char *line)
 				strncat(error, line+i, separator-i);
 				printError(error, currentLine);
 				i = (line[separator] == '\n') ? separator : separator + flag;
-
-//				if (j != separator)
-//					j = separator;
-//				char error[j-i];
-//				memset(error, 0, j-i);
-//				strncat(error, line+i, j-i);
-//				printError(error, currentLine);
-//				i = (line[j] == 10)? j : j + 1;
 			}
 		}
 		else if (line[j] == '\n')
@@ -246,7 +214,6 @@ void processLine(char *line)
 			currentLine++;
 		}
 		else if (isSeparator(line[j]))
-		//else if (validSeparator(line[j],line[j+1]))
 			i++;
 		else
 		{
