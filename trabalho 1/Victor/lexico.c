@@ -28,7 +28,7 @@ int isSeparator(int code)
 {
 	if (code == 32 || code == 37 || code == 91 || code == 93 ||
 		code == 39 || code == 34 || code == 00 ||
-		code == 9  || code == 10 ||
+		code == 9  || code == 10 || !isalnum(code) ||
 		(code > 59 && code < 63) ||
 		(code > 38 && code < 48))
 		return 1;
@@ -51,6 +51,8 @@ int nextSeparator(char *line, char type)
 	switch (type)
 	{
 		case 's':
+					i++;
+
 					while (	i < size &&
 							line[i] != '\n' &&
 							line[i] != '\t' &&
@@ -59,8 +61,13 @@ int nextSeparator(char *line, char type)
 							line[i] != EOF)
 						i++;
 
+//					if (line[i] == '\"')
+						i++;
+
 					break;
 		case 'c':
+					i++;
+
 					while (	i < size &&
 							line[i] != '\n' &&
 							line[i] != '\t' &&
@@ -69,21 +76,61 @@ int nextSeparator(char *line, char type)
 							line[i] != EOF)
 						i++;
 
+//					if (line[i] == '\'')
+						i++;
+
 					break;
 		case 'n':
 		case 'i':
 					while (	i < size &&
 							line[i] != EOF &&
-							(!isSeparator(line[i]) ||
-							(line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
-							(line[i] == '>' && line[i+1] == '=') ||
-							(line[i-1] == '<' && (line[i] == '>' || line[i] == '=')) ||
-							(line[i-1] == '>' && line[i] == '=')))
+							!isSeparator(line[i]))
+//							(!isSeparator(line[i]) ||
+//							(line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
+//							(line[i] == '>' && line[i+1] == '=') ||
+//							(line[i-1] == '<' && (line[i] == '>' || line[i] == '=')) ||
+//							(line[i-1] == '>' && line[i] == '=')))
 						i++;
 					break;
+		case 't':
+					if ((line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
+					    (line[i] == '>' && line[i+1] == '='))
+							i = 2;
+					else
+							i = 1;
 	}
 
 	return i;
+}
+
+void tokenizer(char *file)
+{
+	int i = 0, j = 0;
+	char *tokens[strlen(file)];
+
+	while (file[i] > 0)
+	{
+		int separator = -1;
+
+		if (file[i] == '\'')
+			separator = nextSeparator(file+i,'c');
+		else if (file[i] == '\"')
+			separator = nextSeparator(file+i,'s');
+		else if (isalpha(file[i]))
+			separator = nextSeparator(file+i,'i');
+		else if (isdigit(file[i]))
+			separator = nextSeparator(file+i,'n');
+		else
+			separator = nextSeparator(file+i,'t');
+
+		tokens[j] = malloc(sizeof(char) * separator);
+		memset(tokens[j], 0, separator);
+		strncat(tokens[j], file+i, separator);
+
+		printf("|%s/\n", tokens[j]);
+		j++;
+		i += separator;
+	}
 }
 
 void processLine(char *line)
@@ -247,7 +294,8 @@ void readFile(FILE *file)
 	lines[size+1] = EOF;
 
 	if (i == size)
-		processLine(lines);
+		tokenizer(lines);
+//		processLine(lines);
 	else
 		printf("ARQUIVO INVÁLIDO!\n");
 }
@@ -260,7 +308,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = malloc(sizeof(char) * 58);
-		strcpy(name, "D:/Dropbox/Superior/Codigos/Compiladores/separators.in"); // Windows
+		strcpy(name, "D:/Dropbox/Superior/Codigos/compiladores/trabalho 1/Entradas/sample2.in"); // Windows
 		//strcpy(name, "./simpletest.in"); // Linux
 	}
 	else
