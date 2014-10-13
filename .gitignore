@@ -3,7 +3,6 @@ INSTALL
 configure
 install-sh
 missing
-Makefile.in
 config.*
 autom4te.cache/
 *.m4
