@@ -6,3 +6,4 @@ missing
 config.*
 autom4te.cache/
 /Makefile
+*.sol
