@@ -1,8 +1,3 @@
-COPYING
-INSTALL
-configure
-install-sh
-missing
 config.*
 autom4te.cache/
 *.m4
