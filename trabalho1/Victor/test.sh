@@ -51,8 +51,6 @@ echo "Numbers"
 diff numbers.sol ../Saidas/numbersV.out
 echo "Char"
 diff char.sol ../Saidas/charV.out
-echo "Separators"
-diff separators.sol ../Saidas/separatorsV.out
 echo "Teste"
 diff test.sol ../Saidas/test.out
 echo "Maximos"
