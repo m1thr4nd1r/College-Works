@@ -1,4 +1,4 @@
-cd trabalho1/Victor/
+gcc -g lexico.c
 
 ./a.out ../Entradas/sample1.in > sample1.sol
 ./a.out ../Entradas/sample2.in > sample2.sol
@@ -24,46 +24,46 @@ cd trabalho1/Victor/
 ./a.out ../Entradas/sala5.in > sala5.sol
 
 echo "Sample 1"
-diff sample1.sol ../Saidas/sample1.out
+diff -N -y -q sample1.sol ../Saidas/sample1.out
 echo "Sample 2"
-diff sample2.sol ../Saidas/sample2.out
+diff -N -y -q sample2.sol ../Saidas/sample2.out
 echo "Sample 3"
-diff sample3.sol ../Saidas/sample3V.out
+diff -N -y -q sample3.sol ../Saidas/sample3V.out
 echo "Sample 4"
-diff sample4.sol ../Saidas/sample4V.out
+diff -N -y -q sample4.sol ../Saidas/sample4V.out
 echo "Sample 5"
-diff sample5.sol ../Saidas/sample5V.out
+diff -N -y -q sample5.sol ../Saidas/sample5V.out
 echo "Sample 6"
-diff sample6.sol ../Saidas/sample6V.out
+diff -N -y -q sample6.sol ../Saidas/sample6V.out
 echo "Sample 7"
-diff sample7.sol ../Saidas/sample7V.out
+diff -N -y -q sample7.sol ../Saidas/sample7V.out
 echo "Sample 8"
-diff sample8.sol ../Saidas/sample8V.out
+diff -N -y -q sample8.sol ../Saidas/sample8V.out
 echo "Sample 9"
-diff sample9.sol ../Saidas/sample9V.out
+diff -N -y -q sample9.sol ../Saidas/sample9V.out
 echo "Sample 10"
-diff sample10.sol ../Saidas/sample10V.out
+diff -N -y -q sample10.sol ../Saidas/sample10V.out
 echo "Samples"
-diff samples.sol ../Saidas/samplesV.out
+diff -N -y -q samples.sol ../Saidas/samplesV.out
 echo "Strings"
-diff strings.sol ../Saidas/stringsV.out
+diff -N -y -q strings.sol ../Saidas/stringsV.out
 echo "Numbers"
-diff numbers.sol ../Saidas/numbersV.out
+diff -N -y -q numbers.sol ../Saidas/numbersV.out
 echo "Char"
-diff char.sol ../Saidas/charV.out
+diff -N -y -q char.sol ../Saidas/charV.out
 echo "Separators"
-diff separators.sol ../Saidas/separatorsV.out
+diff -N -y -q separators.sol ../Saidas/separatorsV.out
 echo "Teste"
-diff test.sol ../Saidas/test.out
+diff -N -y -q test.sol ../Saidas/test.out
 echo "Maximos"
-diff maximos.sol ../Saidas/maximosV.out
+diff -N -y -q maximos.sol ../Saidas/maximosV.out
 echo "Sala"
-diff sala.sol ../Saidas/salaV.out
+diff -N -y -q sala.sol ../Saidas/salaV.out
 echo "Sala 2"
-diff sala2.sol ../Saidas/sala2V.out
+diff -N -y -q sala2.sol ../Saidas/sala2V.out
 echo "Sala 3"
-diff sala3.sol ../Saidas/sala3V.out
+diff -N -y -q sala3.sol ../Saidas/sala3V.out
 echo "Sala 4"
-diff sala4.sol ../Saidas/sala4V.out
+diff -N -y -q sala4.sol ../Saidas/sala4V.out
 echo "Sala 5"
-diff sala5.sol ../Saidas/sala5V.out
+diff -N -y -q sala5.sol ../Saidas/sala5V.out
