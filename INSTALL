@@ -20,7 +20,7 @@ instructions specific to this package.  Some packages provide this
 below.  The lack of an optional feature in a given package is not
 necessarily a bug.  More recommendations for GNU packages can be found
 in *note Makefile Conventions: (standards)Makefile Conventions.
-
+ada
    The `configure' shell script attempts to guess correct values for
 various system-dependent variables used during compilation.  It uses
 those values to create a `Makefile' in each directory of the package.
