@@ -1,0 +1,17 @@
+#!/bin/bash 
+
+CMD="sh testsVictor.sh" # Command that runs your tests
+
+# Check if we actually have commits to push
+commits=`git log @{u}..`
+if [ -z "$commits" ]; then
+    exit 0
+fi
+
+$CMD
+RESULT=$?
+if [ $RESULT -ne 0 ]; then 
+    echo "failed $CMD"
+    exit 1
+fi
+exit 0
