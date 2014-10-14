@@ -1,6 +1,7 @@
 #! /bin/bash
 
 gcc -g lexico.c
+flag=true
 
 #input="../Entradas/sample3.in"
 
@@ -9,7 +10,6 @@ do
 	name=`basename ${input} .in`
 	out="../Saidas/${name}.out"
 	saida="./${name}.sol"
-	flag=true
 
 	$(./a.out ${input} > ${saida})	
 
