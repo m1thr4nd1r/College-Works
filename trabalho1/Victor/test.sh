@@ -9,6 +9,7 @@ do
 	name=`basename ${input} .in`
 	out="../Saidas/${name}.out"
 	saida="./${name}.sol"
+	flag=true
 
 	$(./a.out ${input} > ${saida})	
 
@@ -18,6 +19,7 @@ do
 		res=$?
 		if [ $res -ne 0 ]; then
 			echo $name "\n" $diff
+			flag=false
 		fi
 	else
 		out="../Saidas/${name}V.out"
@@ -26,6 +28,13 @@ do
 		# echo $out $saida $diff
 		if [ -e $out ] && [ $res -ne 0 ]; then
 			echo $name "\n" $diff
+			flag=false
 		fi
 	fi
 done
+
+if [ $flag ]; then
+	return 1
+else
+	return 0
+fi
