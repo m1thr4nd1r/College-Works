@@ -35,15 +35,6 @@ int isSeparator(int code)
 	return 0;
 }
 
-int validSeparator(int code1, int code2)
-{
-	if (isSeparator(code1) &&
-		(code1 != '<' || (code2 != '>' && code2 != '=' )) &&
-		(code1 != '>' || code2 != '='))
-			return 1;
-	return 0;
-}
-
 int nextSeparator(char *line, char type)
 {
 	int i = 0, size = (int) strlen(line);
@@ -51,22 +42,39 @@ int nextSeparator(char *line, char type)
 	switch (type)
 	{
 		case 's':
+					i++;
+
 					while (	i < size &&
 							line[i] != '\n' &&
 							line[i] != '\t' &&
 							line[i] != 0 &&
-							(line[i] != '\"' || line[i-1] == '\\') &&
+							line[i] != '\"' &&
 							line[i] != EOF)
+								if (line[i] == '\\' && (line[i+1] == '\'' || line[i+1] == '\"' || line[i+1] == 't' || line[i+1] == 'n' || line[i+1] == '\\'))
+									i+=2;
+								else
+									i++;
+
+//					if (line[i] == '\"')
 						i++;
 
 					break;
 		case 'c':
+					i++;
+
 					while (	i < size &&
 							line[i] != '\n' &&
 							line[i] != '\t' &&
 							line[i] != 0 &&
-							(line[i] != '\'' || line[i-1] == '\\') &&
+							line[i] != '\'' &&
+//							(line[i] != '\'' || line[i-1] == '\\') &&
 							line[i] != EOF)
+								if (line[i] == '\\' && (line[i+1] == '\'' || line[i+1] == '\"' || line[i+1] == 't' || line[i+1] == 'n' || line[i+1] == '\\'))
+									i+=2;
+								else
+									i++;
+
+//					if (line[i] == '\'')
 						i++;
 
 					break;
@@ -74,16 +82,248 @@ int nextSeparator(char *line, char type)
 		case 'i':
 					while (	i < size &&
 							line[i] != EOF &&
-							(!isSeparator(line[i]) ||
-							(line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
-							(line[i] == '>' && line[i+1] == '=') ||
-							(line[i-1] == '<' && (line[i] == '>' || line[i] == '=')) ||
-							(line[i-1] == '>' && line[i] == '=')))
+							!isSeparator(line[i]) &&
+							isalnum(line[i]))
+//							(!isSeparator(line[i]) ||
+//							(line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
+//							(line[i] == '>' && line[i+1] == '=') ||
+//							(line[i-1] == '<' && (line[i] == '>' || line[i] == '=')) ||
+//							(line[i-1] == '>' && line[i] == '=')))
 						i++;
 					break;
+		case 't':
+					if ((line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
+					    (line[i] == '>' && line[i+1] == '='))
+							i = 2;
+					else
+							i = 1;
 	}
 
 	return i;
+}
+
+char** tokenizer(char *file, int *amount)
+{
+	int i = 0, j = 0;
+	char **token = NULL;
+	token = malloc(sizeof(int) * strlen(file));
+//	char *token[strlen(file)];
+//	char *tokens[strlen(file)];
+
+	while (file[i] > 0)
+	{
+//		*tokens[j] = NULL;
+		token[j] = NULL;
+
+		int separator = -1;
+
+		if (file[i] == '\'')
+			separator = nextSeparator(file+i,'c');
+		else if (file[i] == '\"')
+			separator = nextSeparator(file+i,'s');
+		else if (isalpha(file[i]))
+			separator = nextSeparator(file+i,'i');
+		else if (isdigit(file[i]))
+			separator = nextSeparator(file+i,'n');
+		else
+			separator = nextSeparator(file+i,'t');
+
+//		do
+//		{
+			//*tokens[j] = malloc(sizeof(char) * separator);
+			token[j] = malloc(sizeof(char) * separator);
+//		} while (token[j] == NULL);
+
+		memcpy(token[j], file+i, separator);
+		token[j][separator] = '\0';
+		//memset(token[j], ' ', separator);
+		//strncat(token[j], file+i, separator);
+		//strncpy(token[j], file+i, separator);
+
+		//printf("|%s/\n", token[j]);
+		j++;
+		i += separator;
+	}
+
+	*amount = j;
+	return token;
+}
+
+void verifyTokens(char** tokens, int amount)
+// ------------------Testar--------------------
+{
+	int codes[amount];
+	int i, index = 0, line = 1;
+
+	for (i = 0; i < amount; i++)
+	{
+		if (tokens[i][0] == '\'')
+		{
+			if (validChar(tokens[i], line))
+			{
+				codes[index] = 1;
+				index++;
+			}
+		}
+		else if (tokens[i][0] == '\"')
+		{
+			if (validString(tokens[i], line))
+			{
+				codes[index] = 1;
+				index++;
+			}
+		}
+		else if (isalpha(tokens[i][0])) // && validId(tokens[i], line))
+		{
+			codes[index] = 1;
+			index++;
+		}
+		else if (isdigit(tokens[i][0]))
+		{
+			if (validNumber(tokens[i], line))
+			{
+				codes[index] = 1;
+				index++;
+			}
+		}
+		else if (validSeparator(tokens[i], line))
+		{
+			codes[index] = 1;
+			index++;
+		}
+
+		if (tokens[i][strlen(tokens[i]) - 1] == '\n')
+			line++;
+	}
+
+	if (index == amount)
+		printf("Analise Sintatica");
+}
+// ------------------Testar--------------------
+
+int validId(char *s)
+{
+	int j = 1;
+	while (isalnum(s[j]))
+		j++;
+
+	return 1;
+
+//	if (isSeparator(s[j]))
+//		i = (s[j] == 34 || s[j] == 39 || s[j] == 10 || s[j] == 9)? j : j+1;
+//	else
+//		i = j;
+}
+
+int validNumber(char *s, int line)
+{
+	int j = 1;
+
+	while (isdigit(s[j]) && j < 10)
+		j++;
+
+	if (j == strlen(s))
+		return 1;
+	else
+	{
+		printError(s, line);
+		return 0;
+	}
+}
+
+int validChar(char* s, int line)
+{
+	int j = 1, size = strlen(s), count = 0;
+
+	if (s[size-1] == '\'')
+	{
+		while (isPrintable(s[j]) && j < size - 1)
+		{
+			if ( s[j] == '\\' &&
+				 (s[j+1] == '\"' || s[j+1] == '\\' || s[j+1] == 't' || s[j+1] == 'n'  || s[j+1] == '\''))
+				j++;
+			else if (s[j] == '\\' || s[j] == '\"')
+				break;
+			j++;
+			count++;
+		}
+
+		if (j == size - 1 && count == 1)
+			return 1;
+		else
+		{
+			printError(s, line);
+			return 0;
+		}
+	}
+	else
+	{
+		if (s[size-1] == '\t' || s[size-1] == '\n')
+		{
+			char temp = s[size-1];
+			s[size-1] = '\0';
+			printError(s, line);
+			s[size-1] = temp;
+		}
+		else
+			printError(s, line);
+
+		return 0;
+	}
+}
+
+int validString(char* s, int line)
+{
+	int j = 1, size = strlen(s), count = 0;
+
+	if (s[size-1] == '\"')
+	{
+		while (isPrintable(s[j]) && j < size - 1)
+		{
+			if ( s[j] == '\\' &&
+				 (s[j+1] == '\"' || s[j+1] == '\\' || s[j+1] == 't' || s[j+1] == 'n'  || s[j+1] == '\''))
+				j++;
+			else if (s[j] == '\\' || s[j] == '\'')
+				break;
+			j++;
+			count++;
+		}
+
+		if (j == size - 1 && count <= 256)
+			return 1;
+		else
+		{
+			printError(s, line);
+			return 0;
+		}
+	}
+	else
+	{
+		if (s[size-1] == '\t' || s[size-1] == '\n')
+		{
+			char temp = s[size-1];
+			s[size-1] = '\0';
+			printError(s, line);
+			s[size-1] = temp;
+		}
+		else
+			printError(s, line);
+
+		return 0;
+	}
+}
+
+int validSeparator(char* s, int line)
+{
+	if ((isSeparator(s[0]) && strlen(s) == 1) ||
+		(strlen(s) == 2 && ((s[0] == '>' && s[1] == '=') ||
+							(s[0] == '<' && (s[1] == '>' || s[1] == '=')))))
+		return 1;
+	else
+	{
+		printError(s, line);
+		return 0;
+	}
 }
 
 void processLine(char *line)
@@ -229,27 +469,30 @@ void processLine(char *line)
 	}
 }
 
-void readFile(FILE *file)
+char* readFile(FILE *file)
 {
-	char *lines;
+	char *text;
 
 	fseek(file, 0, SEEK_END);
 	int size = ftell(file);
 	rewind(file);
 
-	lines = malloc(sizeof(char) * size);
-	fread(lines, 1, size+1, file);
+	text = malloc(sizeof(char) * (size + 1));
+	fread(text, 1, size+1, file);
 	fclose(file);
 
 	int i = 0;
-	while (i < size && (isPrintable(lines[i]) || lines[i] == 9 || lines[i] == 10))
+	while (i < size && (isPrintable(text[i]) || text[i] == 9 || text[i] == 10))
 		i++;
-	lines[size+1] = EOF;
+	text[size+1] = EOF;
 
 	if (i == size)
-		processLine(lines);
+		return text;
 	else
+	{
 		printf("ARQUIVO INVÁLIDO!\n");
+		return NULL;
+	}
 }
 
 int main(int argc, char** argv)
@@ -260,7 +503,8 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = malloc(sizeof(char) * 58);
-		strcpy(name, "D:/Dropbox/Superior/Codigos/Compiladores/separators.in"); // Windows
+		//strcpy(name, "D:/Dropbox/Superior/Codigos/compiladores/sample2.in"); // Windows
+		strcpy(name, "../Entradas/sala3.in"); // Windows
 		//strcpy(name, "./simpletest.in"); // Linux
 	}
 	else
@@ -272,7 +516,17 @@ int main(int argc, char** argv)
 	if (file == NULL)
 		printf("Problemas na abertura do arquivo\n");
 	else
-		readFile(file);
+	{
+		char *text = readFile(file);
+		if (text != NULL)
+		{
+			char **tokens = NULL;
+			int tokensAmount = 0;
+//			tokens = malloc(sizeof(char) * strlen(text));
+			tokens = tokenizer(text, &tokensAmount);
+			verifyTokens(tokens, tokensAmount);
+		}
+	}
 
 	return 0;
 }

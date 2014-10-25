@@ -23,7 +23,7 @@ do
 		fi
 	else
 		out="../Saidas/${name}V.out"
-		diff=`diff -N ${saida} ${out}`
+		diff=`diff -q -N ${saida} ${out}`
 		res=$?
 		# echo $out $saida $diff
 		if [ -e $out ] && [ $res -ne 0 ]; then
