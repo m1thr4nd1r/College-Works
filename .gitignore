@@ -1,2 +1,3 @@
 *.sol
 pre-commit
+.settings/
