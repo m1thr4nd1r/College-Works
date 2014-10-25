@@ -131,14 +131,17 @@ char** tokenizer(char *file, int *amount)
 //		do
 //		{
 			//*tokens[j] = malloc(sizeof(char) * separator);
-			token[j] = malloc(sizeof(char) * separator);
+			//token[j] = malloc(sizeof(char) * separator);
+		token[j] = calloc(separator, sizeof(char));
 //		} while (token[j] == NULL);
 
-		memcpy(token[j], file+i, separator);
-		token[j][separator] = '\0';
-		//memset(token[j], ' ', separator);
-		//strncat(token[j], file+i, separator);
+		//memset(token[j], 0, separator);
 		//strncpy(token[j], file+i, separator);
+//		memmove(token[j], file + i, separator);
+		//memset(token[j], ' ', separator);
+		strncat(token[j], file+i, separator);
+		//strncpy(token[j], file+i, separator);
+		token[j][separator] = '\0';
 
 		//printf("|%s/\n", token[j]);
 		j++;
@@ -197,7 +200,7 @@ void verifyTokens(char** tokens, int amount)
 	}
 
 	if (index == amount)
-		printf("Analise Sintatica");
+		printf("SIM");
 }
 // ------------------Testar--------------------
 
@@ -504,7 +507,7 @@ int main(int argc, char** argv)
 	{
 		name = malloc(sizeof(char) * 58);
 		//strcpy(name, "D:/Dropbox/Superior/Codigos/compiladores/sample2.in"); // Windows
-		strcpy(name, "../Entradas/sala3.in"); // Windows
+		strcpy(name, "../Entradas/numbers.in"); // Windows
 		//strcpy(name, "./simpletest.in"); // Linux
 	}
 	else
