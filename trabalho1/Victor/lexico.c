@@ -106,13 +106,12 @@ char** tokenizer(char *file, int *amount)
 {
 	int i = 0, j = 0;
 	char **token = NULL;
-	token = malloc(sizeof(int) * strlen(file));
+	token = (char**) calloc(strlen(file), sizeof(int));
 //	char *token[strlen(file)];
 //	char *tokens[strlen(file)];
 
-	while (file[i] > 0)
+	while (file[i] > 0 && i < strlen(file))
 	{
-//		*tokens[j] = NULL;
 		token[j] = NULL;
 
 		int separator = -1;
@@ -128,12 +127,12 @@ char** tokenizer(char *file, int *amount)
 		else
 			separator = nextSeparator(file+i,'t');
 
-//		do
-//		{
+		do
+		{
 			//*tokens[j] = malloc(sizeof(char) * separator);
 			//token[j] = malloc(sizeof(char) * separator);
-		token[j] = calloc(separator, sizeof(char));
-//		} while (token[j] == NULL);
+			token[j] = (char*) calloc(separator+1, sizeof(char));
+		} while (token[j] == NULL);
 
 		//memset(token[j], 0, separator);
 		//strncpy(token[j], file+i, separator);
@@ -151,58 +150,6 @@ char** tokenizer(char *file, int *amount)
 	*amount = j;
 	return token;
 }
-
-void verifyTokens(char** tokens, int amount)
-// ------------------Testar--------------------
-{
-	int codes[amount];
-	int i, index = 0, line = 1;
-
-	for (i = 0; i < amount; i++)
-	{
-		if (tokens[i][0] == '\'')
-		{
-			if (validChar(tokens[i], line))
-			{
-				codes[index] = 1;
-				index++;
-			}
-		}
-		else if (tokens[i][0] == '\"')
-		{
-			if (validString(tokens[i], line))
-			{
-				codes[index] = 1;
-				index++;
-			}
-		}
-		else if (isalpha(tokens[i][0])) // && validId(tokens[i], line))
-		{
-			codes[index] = 1;
-			index++;
-		}
-		else if (isdigit(tokens[i][0]))
-		{
-			if (validNumber(tokens[i], line))
-			{
-				codes[index] = 1;
-				index++;
-			}
-		}
-		else if (validSeparator(tokens[i], line))
-		{
-			codes[index] = 1;
-			index++;
-		}
-
-		if (tokens[i][strlen(tokens[i]) - 1] == '\n')
-			line++;
-	}
-
-	if (index == amount)
-		printf("SIM");
-}
-// ------------------Testar--------------------
 
 int validId(char *s)
 {
@@ -328,6 +275,58 @@ int validSeparator(char* s, int line)
 		return 0;
 	}
 }
+
+void verifyTokens(char** tokens, int amount)
+// ------------------Testar--------------------
+{
+	int codes[amount];
+	int i, index = 0, line = 1;
+
+	for (i = 0; i < amount; i++)
+	{
+		if (tokens[i][0] == '\'')
+		{
+			if (validChar(tokens[i], line))
+			{
+				codes[index] = 1;
+				index++;
+			}
+		}
+		else if (tokens[i][0] == '\"')
+		{
+			if (validString(tokens[i], line))
+			{
+				codes[index] = 1;
+				index++;
+			}
+		}
+		else if (isalpha(tokens[i][0])) // && validId(tokens[i], line))
+		{
+			codes[index] = 1;
+			index++;
+		}
+		else if (isdigit(tokens[i][0]))
+		{
+			if (validNumber(tokens[i], line))
+			{
+				codes[index] = 1;
+				index++;
+			}
+		}
+		else if (validSeparator(tokens[i], line))
+		{
+			codes[index] = 1;
+			index++;
+		}
+
+		if (tokens[i][strlen(tokens[i]) - 1] == '\n')
+			line++;
+	}
+
+	if (index == amount)
+		printf("SIM");
+}
+// ------------------Testar--------------------
 
 void processLine(char *line)
 {
@@ -474,13 +473,13 @@ void processLine(char *line)
 
 char* readFile(FILE *file)
 {
-	char *text;
+	char *text = NULL;
 
 	fseek(file, 0, SEEK_END);
 	int size = ftell(file);
 	rewind(file);
 
-	text = malloc(sizeof(char) * (size + 1));
+	text = (char*) malloc(sizeof(char) * (size + 1));
 	fread(text, 1, size+1, file);
 	fclose(file);
 
@@ -515,12 +514,15 @@ int main(int argc, char** argv)
 		name = argv[1];
 
 	file = fopen(name , "rt");
+	if (argc == 1) free(name);
 
 	if (file == NULL)
 		printf("Problemas na abertura do arquivo\n");
 	else
 	{
 		char *text = readFile(file);
+		//free(file);
+
 		if (text != NULL)
 		{
 			char **tokens = NULL;
