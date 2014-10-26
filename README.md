@@ -1,9 +1,13 @@
 # README #
 
-Repositório para o trabalho da disciplina de Compiladores 2014.2, da Universidade Federal da Bahia.
-
 ### Links Uteis: ###
 
-https://zaach.github.io/jison/
+#### Para Construção de Gramaticas ####
 
-http://www.theasciicode.com.ar/
+* [Jison](https://zaach.github.io/jison)
+
+* [Jison (USF)](https://zaach.github.io/jison/try/usf/index.html)
+
+#### Para verificação de codigo ASCII ####
+
+* [ASCII Code](http://www.theasciicode.com.ar)
