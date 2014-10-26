@@ -1,1 +1,1 @@
-tar -zcvf trabalho1.tgz trabalho1
+tar -zcvf trabalho2.tgz trabalho2
