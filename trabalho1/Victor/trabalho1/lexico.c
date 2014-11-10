@@ -12,6 +12,11 @@ char* toUpper(char *word)
 	return word;
 }
 
+int tokenToCode(char *token)
+{
+	return 1;
+}
+
 void printError(char *content, int line)
 {
 	printf("LINHA %d: %s\n", line, content);
@@ -106,7 +111,7 @@ char** tokenizer(char *file, int *amount)
 {
 	int i = 0, j = 0;
 	char **token = NULL;
-	token = (char**) calloc(strlen(file), sizeof(int));
+	token = (char**) calloc(strlen(file), sizeof(char*));
 //	char *token[strlen(file)];
 //	char *tokens[strlen(file)];
 
@@ -142,7 +147,7 @@ char** tokenizer(char *file, int *amount)
 		//strncpy(token[j], file+i, separator);
 		token[j][separator] = '\0';
 
-		//printf("|%s/\n", token[j]);
+		// printf("|%s/\n", token[j]);
 		j++;
 		i += separator;
 	}
@@ -277,7 +282,6 @@ int validSeparator(char* s, int line)
 }
 
 void verifyTokens(char** tokens, int amount)
-// ------------------Testar--------------------
 {
 	int codes[amount];
 	int i, index = 0, line = 1;
@@ -288,7 +292,7 @@ void verifyTokens(char** tokens, int amount)
 		{
 			if (validChar(tokens[i], line))
 			{
-				codes[index] = 1;
+				codes[index] = tokenToCode(tokens[i]);
 				index++;
 			}
 		}
@@ -296,26 +300,26 @@ void verifyTokens(char** tokens, int amount)
 		{
 			if (validString(tokens[i], line))
 			{
-				codes[index] = 1;
+				codes[index] = tokenToCode(tokens[i]);
 				index++;
 			}
 		}
 		else if (isalpha(tokens[i][0])) // && validId(tokens[i], line))
 		{
-			codes[index] = 1;
+			codes[index] = tokenToCode(tokens[i]);
 			index++;
 		}
 		else if (isdigit(tokens[i][0]))
 		{
 			if (validNumber(tokens[i], line))
 			{
-				codes[index] = 1;
+				codes[index] = tokenToCode(tokens[i]);
 				index++;
 			}
 		}
 		else if (validSeparator(tokens[i], line))
 		{
-			codes[index] = 1;
+			codes[index] = tokenToCode(tokens[i]);
 			index++;
 		}
 
@@ -326,7 +330,6 @@ void verifyTokens(char** tokens, int amount)
 	if (index == amount)
 		printf("SIM\n");
 }
-// ------------------Testar--------------------
 
 void processLine(char *line)
 {
@@ -492,7 +495,7 @@ char* readFile(FILE *file)
 		return text;
 	else
 	{
-		printf("ARQUIVO INVÁLIDO!\n");
+		printf("ARQUIVO INVALIDO!\n");
 		return NULL;
 	}
 }
