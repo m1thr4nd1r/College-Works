@@ -60,7 +60,6 @@ int nextSeparator(char *line, char type)
 								else
 									i++;
 
-//					if (line[i] == '\"')
 						i++;
 
 					break;
@@ -72,14 +71,11 @@ int nextSeparator(char *line, char type)
 							line[i] != '\t' &&
 							line[i] != 0 &&
 							line[i] != '\'' &&
-//							(line[i] != '\'' || line[i-1] == '\\') &&
 							line[i] != EOF)
 								if (line[i] == '\\' && (line[i+1] == '\'' || line[i+1] == '\"' || line[i+1] == 't' || line[i+1] == 'n' || line[i+1] == '\\'))
 									i+=2;
 								else
 									i++;
-
-//					if (line[i] == '\'')
 						i++;
 
 					break;
@@ -89,11 +85,6 @@ int nextSeparator(char *line, char type)
 							line[i] != EOF &&
 							!isSeparator(line[i]) &&
 							isalnum(line[i]))
-//							(!isSeparator(line[i]) ||
-//							(line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
-//							(line[i] == '>' && line[i+1] == '=') ||
-//							(line[i-1] == '<' && (line[i] == '>' || line[i] == '=')) ||
-//							(line[i-1] == '>' && line[i] == '=')))
 						i++;
 					break;
 		case 't':
@@ -112,8 +103,6 @@ char** tokenizer(char *file, int *amount)
 	int i = 0, j = 0;
 	char **token = NULL;
 	token = (char**) calloc(strlen(file), sizeof(char*));
-//	char *token[strlen(file)];
-//	char *tokens[strlen(file)];
 
 	while (file[i] > 0 && i < strlen(file))
 	{
@@ -134,17 +123,10 @@ char** tokenizer(char *file, int *amount)
 
 		do
 		{
-			//*tokens[j] = malloc(sizeof(char) * separator);
-			//token[j] = malloc(sizeof(char) * separator);
 			token[j] = (char*) calloc(separator+1, sizeof(char));
 		} while (token[j] == NULL);
 
-		//memset(token[j], 0, separator);
-		//strncpy(token[j], file+i, separator);
-//		memmove(token[j], file + i, separator);
-		//memset(token[j], ' ', separator);
 		strncat(token[j], file+i, separator);
-		//strncpy(token[j], file+i, separator);
 		token[j][separator] = '\0';
 
 		// printf("|%s/\n", token[j]);
@@ -154,20 +136,6 @@ char** tokenizer(char *file, int *amount)
 
 	*amount = j;
 	return token;
-}
-
-int validId(char *s)
-{
-	int j = 1;
-	while (isalnum(s[j]))
-		j++;
-
-	return 1;
-
-//	if (isSeparator(s[j]))
-//		i = (s[j] == 34 || s[j] == 39 || s[j] == 10 || s[j] == 9)? j : j+1;
-//	else
-//		i = j;
 }
 
 int validNumber(char *s, int line)
@@ -304,7 +272,7 @@ void verifyTokens(char** tokens, int amount)
 				index++;
 			}
 		}
-		else if (isalpha(tokens[i][0])) // && validId(tokens[i], line))
+		else if (isalpha(tokens[i][0]))
 		{
 			codes[index] = tokenToCode(tokens[i]);
 			index++;
@@ -329,149 +297,6 @@ void verifyTokens(char** tokens, int amount)
 
 	if (index == amount)
 		printf("SIM\n");
-}
-
-void processLine(char *line)
-{
-	int i = 0, j, currentLine = 1;
-
-	while (line[i] > 0)
-	{
-		j = i;
-
-		if (isalpha(line[j]))
-		{
-			j++;
-			int separator = nextSeparator(line+i, 'i');
-			separator = (separator < 0)? -1: separator + i;
-
-			while (isalnum(line[j]))
-				j++;
-
-			if (isSeparator(line[j]))
-				i = (line[j] == 34 || line[j] == 39 || line[j] == 10 || line[j] == 9)? j : j+1;
-			else
-				i = j;
-		}
-		else if (isdigit(line[j]))
-		{
-			j++;
-			int separator = nextSeparator(line+i, 'n');
-			separator = (separator < 0)? -1: separator + i;
-
-			while (isdigit(line[j]) && (j-i) < 10)
-				j++;
-
-			if (isSeparator(line[j]))
-				i = (line[j] == 34 || line[j] == 39 || line[j] == 10 || line[j] == 9)? j : j+1;
-			else if (isalnum(line[j]))
-			{
-				char error[separator - i];
-				memset(error, 0, separator - i);
-				strncat(error, line+i, separator - i);
-				printError(error, currentLine);
-				i = (line[separator] == '\n') ? separator : separator+1;
-			}
-			else
-			{
-				char error[1];
-				memset(error, 0, 1);
-				strncat(error, line+j, 1);
-				printError(error, currentLine);
-				i = (line[j] == '\n') ? j : j + 1;
-			}
-		}
-		else if (line[j] == '\'')
-		{
-			j++;
-			int separator = nextSeparator(line+j, 'c');
-			separator = (separator == 0)? j: separator + j;
-
-			if (isPrintable(line[j]) && j < separator)
-			{
-				if (line[j] == '\\' &&
-					(line[j+1] == '\"' || line[j+1] == '\\' || line[j+1] == 't' || line[j+1] == 'n'  || line[j+1] == '\''))
-					j+=2;
-				else if (line[j] != '\\' && line[j] != '\"')
-					j++;
-			}
-
-			if (line[j] == '\'' && j-i > 1)
-				i = j + 1;
-			else
-			{
-				int flag = 1 ;
-
-				// Se o separador é valido, preciso imprimir ele no erro
-				if (line[separator] == '\'')
-				{
-					separator++;
-					flag = 0;
-				}
-
-				char error[separator-i];
-				memset(error, 0, separator-i);
-				strncat(error, line+i, separator-i);
-				printError(error, currentLine);
-				i = (line[separator] == '\n') ? separator : separator + flag;
-			}
-		}
-		else if (line[j] == '"')
-		{
-			j++;
-			int separator = nextSeparator(line+j, 's');
-			separator = (separator == 0)? j: separator + j;
-			int count = 0;
-
-			while (isPrintable(line[j]) && count < 256 && j < separator)
-			{
-				if (line[j] == '\\' &&
-					(line[j+1] == '\"' || line[j+1] == '\\' || line[j+1] == 't' || line[j+1] == 'n'  || line[j+1] == '\''))
-					j++;
-				else if (line[j] == '\\' || line[j] == '\'')
-					break;
-				j++;
-				count++;
-			}
-
-			if (line[j] == '"')
-				i = j + 1;
-			else
-			{
-				int flag = 1 ;
-				// Se o separador é valido, preciso imprimir ele no erro
-				if (line[separator] == '\"')
-				{
-					separator++;
-					flag = 0;
-				}
-
-				char error[separator-i];
-				memset(error, 0, separator-i);
-				strncat(error, line+i, separator-i);
-				printError(error, currentLine);
-				i = (line[separator] == '\n') ? separator : separator + flag;
-			}
-		}
-		else if (line[j] == '\n')
-		{
-			i++;
-			currentLine++;
-		}
-		else if (isSeparator(line[j]))
-			i++;
-		else
-		{
-			int size = 1;
-			if (line[j] == '<' || line[j] == '>')
-				size++;
-			char error[size];
-			memset(error, 0, size);
-			strncat(error, line+j, size);
-			printError(error, currentLine);
-			i = j + size;
-		}
-	}
 }
 
 char* readFile(FILE *file)
@@ -508,7 +333,6 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = malloc(sizeof(char) * 58);
-		//strcpy(name, "D:/Dropbox/Superior/Codigos/compiladores/sample2.in"); // Windows
 		strcpy(name, "../Entradas/numbers.in"); // Windows
 		//strcpy(name, "./simpletest.in"); // Linux
 	}
@@ -524,13 +348,11 @@ int main(int argc, char** argv)
 	else
 	{
 		char *text = readFile(file);
-		//free(file);
 
 		if (text != NULL)
 		{
 			char **tokens = NULL;
 			int tokensAmount = 0;
-//			tokens = malloc(sizeof(char) * strlen(text));
 			tokens = tokenizer(text, &tokensAmount);
 			verifyTokens(tokens, tokensAmount);
 		}
