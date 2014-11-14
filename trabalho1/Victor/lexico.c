@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+char terminals[][10] = {"$","%","(",")","*","+",",","-",".","/","<","<=","<>","=",">",">=","[","]","as","char","declare","do","else","for","foreach","from","id","if","in","letter","num","number","print","put","read","resize","string","then","to"};
+
 char* toUpper(char *word)
 {
 	int i;
@@ -12,9 +14,33 @@ char* toUpper(char *word)
 	return word;
 }
 
-int tokenToCode(char *token)
+int tokenToCode(char *token, char type)
 {
-	return 1;
+	int i = 0;
+
+	switch(type)
+	{
+		case 't':
+		case 'i':
+					while(i < 39 && strcmp(terminals[i], token))
+							i++;
+
+					if (i == 39)
+						i = 42;
+					break;
+		case 'c':
+					i = 39;
+					break;
+		case 's':
+					i = 40;
+					break;
+		case 'n':
+					i = 41;
+					break;
+	}
+
+	// printf("Token:%s|i:%d\n", token, i);
+	return i;
 }
 
 void printError(char *content, int line)
@@ -31,9 +57,9 @@ int isPrintable(int code)
 
 int isSeparator(int code)
 {
-	if (code == 32 || code == 37 || code == 91 || code == 93 ||
+	if (code == 37 || code == 91 || code == 93 ||
 		code == 39 || code == 34 || code == 00 ||
-		code == 9  || code == 10 ||
+		code == 9  || code == 10 || code == 32 ||
 		(code > 59 && code < 63) ||
 		(code > 38 && code < 48))
 		return 1;
@@ -129,7 +155,7 @@ char** tokenizer(char *file, int *amount)
 		strncat(token[j], file+i, separator);
 		token[j][separator] = '\0';
 
-		// printf("|%s/\n", token[j]);
+//		printf("|%s/\n", token[j]);
 		j++;
 		i += separator;
 	}
@@ -249,10 +275,10 @@ int validSeparator(char* s, int line)
 	}
 }
 
-void verifyTokens(char** tokens, int amount)
+int* verifyTokens(char** tokens, int amount)
 {
-	int codes[amount];
-	int i, index = 0, line = 1;
+	int* codes = (int*) malloc((amount + 1) * sizeof(int));
+	int i, index = 0, line = 1, flag = 0;
 
 	for (i = 0; i < amount; i++)
 	{
@@ -260,43 +286,56 @@ void verifyTokens(char** tokens, int amount)
 		{
 			if (validChar(tokens[i], line))
 			{
-				codes[index] = tokenToCode(tokens[i]);
+				codes[index] = tokenToCode(tokens[i],'c');
 				index++;
 			}
+			else
+				flag = 1;
 		}
 		else if (tokens[i][0] == '\"')
 		{
 			if (validString(tokens[i], line))
 			{
-				codes[index] = tokenToCode(tokens[i]);
+				codes[index] = tokenToCode(tokens[i],'s');
 				index++;
 			}
+			else
+				flag = 1;
 		}
 		else if (isalpha(tokens[i][0]))
 		{
-			codes[index] = tokenToCode(tokens[i]);
+			codes[index] = tokenToCode(tokens[i],'i');
 			index++;
 		}
 		else if (isdigit(tokens[i][0]))
 		{
 			if (validNumber(tokens[i], line))
 			{
-				codes[index] = tokenToCode(tokens[i]);
+				codes[index] = tokenToCode(tokens[i],'n');
 				index++;
 			}
+			else
+				flag = 1;
 		}
 		else if (validSeparator(tokens[i], line))
 		{
-			codes[index] = tokenToCode(tokens[i]);
-			index++;
+			if (*tokens[i] != ' ' && *tokens[i] != '\n' && *tokens[i] != '\t' && *tokens[i] != '\'' && *tokens[i] != '\"')
+			{
+				codes[index] = tokenToCode(tokens[i],'t');
+				index++;
+			}
 		}
+		else
+			flag = 1;
 
 		if (tokens[i][strlen(tokens[i]) - 1] == '\n')
 			line++;
 	}
 
-	if (index == amount)
-		printf("SIM\n");
+	if (!flag)
+		return codes;
+	else
+		return NULL;
 }
 
 char* readFile(FILE *file)
@@ -333,8 +372,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = malloc(sizeof(char) * 58);
-		strcpy(name, "../Entradas/numbers.in"); // Windows
-		//strcpy(name, "./simpletest.in"); // Linux
+		strcpy(name, "../Entradas/sample5.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
@@ -354,7 +392,12 @@ int main(int argc, char** argv)
 			char **tokens = NULL;
 			int tokensAmount = 0;
 			tokens = tokenizer(text, &tokensAmount);
-			verifyTokens(tokens, tokensAmount);
+
+			int *codes = NULL;
+			codes = verifyTokens(tokens, tokensAmount);
+
+			if (codes != NULL)
+				printf("SIM\n");
 		}
 	}
 
