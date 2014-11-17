@@ -1,0 +1,39 @@
+RESIZE vetor TO a+b.
+RESIZE nome TO MAXTAM.
+PUT fat * i in fat.
+put 1 In FAT.
+PUT 1 in a.
+PUT "teste" in text.
+print fat.
+PRINT a.
+PRINT 100.
+PRINT "flag; a; alfa".
+PRINT '\n'.
+
+read N.
+if a+'a'-2%0 > b*'c'/3 then [ read d. ]
+
+if e <> f then [ ] else []
+
+IF a > b THEN [
+PUT a IN c.
+]
+ELSE [
+PUT b IN c . ]
+FOR I fRoM 1 to N do[
+PUT fat * i in fat.
+]
+
+FOR I['a'+'b'] from 2+'c' to n do []
+
+for I from 1 to 10 do [
+put 0 in a[i].
+]
+foreach n in vet do [
+put soma+n in soma.
+]
+declare n As NumBer.
+DECLARE fat, i as NUMBER.
+DECLARE X AS LETTER.
+DECLARE y, w,k as number .
+declare vetor [ ] , lista[]as Letter.DECLare oQUE[] as NuMbEr.
