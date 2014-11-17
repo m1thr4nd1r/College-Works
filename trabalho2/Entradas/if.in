@@ -7,3 +7,33 @@ PUT a IN c.
 ]
 ELSE [
 PUT b IN c . ]
+
+IF a <= b THEN [
+    declare a, b as letter. 
+    
+    IF a >= b THEN [
+    
+        put C in d.
+        
+        
+        IF a >= b THEN [
+    
+            put C in d.
+        ] else [
+            
+            put C in d.
+            
+            IF a <> b THEN [
+    
+            put C in d.
+            ]
+        ] 
+        
+    ] 
+
+]
+
+IF a >= b THEN [
+    
+    put C in d.
+]
