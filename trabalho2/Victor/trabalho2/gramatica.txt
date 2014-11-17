@@ -47,6 +47,6 @@ r45 #ELSE -> else [ #COMMAND ]
 r46 #ELSE -> &
 r47 #FOR -> for #VAR from #ARIT to #ARIT do [ #COMMAND ]
 r48 #FOREACH -> foreach #VAR in id do [ #COMMAND ]
-r49 #READ -> read id .
+r49 #READ -> read VAR .
 r50 #PRINT -> print #OPERANDO .
 r51 #PRINT -> print string .
