@@ -1,0 +1,9 @@
+if a+'a'-2%0 > b*'c'/3 then [ read d. ]
+
+if e <> f then [ ] else []
+
+IF a > b THEN [
+PUT a IN c.
+]
+ELSE [
+PUT b IN c . ]
