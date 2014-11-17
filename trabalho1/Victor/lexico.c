@@ -683,7 +683,7 @@ int** readMatrix(FILE *file)
 	int **mat;
 	int sizeI = 22+39;
 	int sizeJ = 119;
-	mat = malloc(sizeJ * sizeof(int));
+	mat = malloc(sizeJ * sizeof(int*));
 
 	int i, j = 0;
 	for (i = 0; i < sizeJ; i++)

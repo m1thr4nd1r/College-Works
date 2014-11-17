@@ -1,15 +1,58 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include <stdlib.h> // malloc calloc
+#include <ctype.h> // isdigit isalpha isalnum
+#include <limits.h> // INT_MAX INT_MIN
 
-char* toUpper(char *word)
+// --------------Analise Lexica-------------- //
+
+const char terminals[][9] = {"$","%","(",")","*","+",",","-",".","/","<","<=","<>","=",">",">=","[","]","as","char","declare","do","else","for","foreach","from","id","if","in","letter","num","number","print","put","read","resize","string","then","to"};
+
+char* toLower(char *word)
 {
 	int i;
 	for (i = 0; i < strlen(word); i++)
-		word[i] = toupper(word[i]);
+		word[i] = tolower(word[i]);
 
 	return word;
+}
+
+int terminalIndex(char *token)
+{
+	if (!strcmp(token,"&")) return INT_MIN;
+	int size = 39; // baseado no vetor de terminais (terminals)
+	int i = 0;
+	while(i < size && strcmp(terminals[i], token))
+		i++;
+	if (i == size)
+		i = 26;
+	return i;
+}
+
+int tokenToCode(char *token, char type)
+{
+	int i = 0;
+	token = toLower(token);
+
+	switch(type)
+	{
+		case 't':
+		case 'i':
+					i = terminalIndex(token);
+					break;
+		case 'c':
+					i = 19;
+					break;
+		case 's':
+					i = 36;
+					break;
+		case 'n':
+					i = 30;
+					break;
+	}
+
+//	printf("Token:%s|i:%d\n", token, i);
+	return i;
 }
 
 void printError(char *content, int line)
@@ -26,9 +69,9 @@ int isPrintable(int code)
 
 int isSeparator(int code)
 {
-	if (code == 32 || code == 37 || code == 91 || code == 93 ||
+	if (code == 37 || code == 91 || code == 93 ||
 		code == 39 || code == 34 || code == 00 ||
-		code == 9  || code == 10 ||
+		code == 9  || code == 10 || code == 32 ||
 		(code > 59 && code < 63) ||
 		(code > 38 && code < 48))
 		return 1;
@@ -55,7 +98,6 @@ int nextSeparator(char *line, char type)
 								else
 									i++;
 
-//					if (line[i] == '\"')
 						i++;
 
 					break;
@@ -67,14 +109,11 @@ int nextSeparator(char *line, char type)
 							line[i] != '\t' &&
 							line[i] != 0 &&
 							line[i] != '\'' &&
-//							(line[i] != '\'' || line[i-1] == '\\') &&
 							line[i] != EOF)
 								if (line[i] == '\\' && (line[i+1] == '\'' || line[i+1] == '\"' || line[i+1] == 't' || line[i+1] == 'n' || line[i+1] == '\\'))
 									i+=2;
 								else
 									i++;
-
-//					if (line[i] == '\'')
 						i++;
 
 					break;
@@ -84,11 +123,6 @@ int nextSeparator(char *line, char type)
 							line[i] != EOF &&
 							!isSeparator(line[i]) &&
 							isalnum(line[i]))
-//							(!isSeparator(line[i]) ||
-//							(line[i] == '<' && (line[i+1] == '>' || line[i+1] == '=')) ||
-//							(line[i] == '>' && line[i+1] == '=') ||
-//							(line[i-1] == '<' && (line[i] == '>' || line[i] == '=')) ||
-//							(line[i-1] == '>' && line[i] == '=')))
 						i++;
 					break;
 		case 't':
@@ -102,16 +136,19 @@ int nextSeparator(char *line, char type)
 	return i;
 }
 
-char** tokenizer(char *file, int *amount)
+char** tokenizer(char *file, int *amount, int *emptyAmount)
 {
-	int i = 0, j = 0;
+	int i = 0, j = 0, k = 0;
 	char **token = NULL;
-	token = (char**) calloc(strlen(file), sizeof(int));
-//	char *token[strlen(file)];
-//	char *tokens[strlen(file)];
+	do
+	{
+		token = (char**) calloc((int)strlen(file), sizeof(char*));
+	}
+	while (token == NULL);
 
 	while (file[i] > 0 && i < strlen(file))
 	{
+		free(token[j]);
 		token[j] = NULL;
 
 		int separator = -1;
@@ -129,40 +166,22 @@ char** tokenizer(char *file, int *amount)
 
 		do
 		{
-			//*tokens[j] = malloc(sizeof(char) * separator);
-			//token[j] = malloc(sizeof(char) * separator);
 			token[j] = (char*) calloc(separator+1, sizeof(char));
 		} while (token[j] == NULL);
 
-		//memset(token[j], 0, separator);
-		//strncpy(token[j], file+i, separator);
-//		memmove(token[j], file + i, separator);
-		//memset(token[j], ' ', separator);
 		strncat(token[j], file+i, separator);
-		//strncpy(token[j], file+i, separator);
 		token[j][separator] = '\0';
 
-		//printf("|%s/\n", token[j]);
+//		printf("|(%d)%s/\n",j, token[j]);
+		if (!strcmp(token[j]," ") || !strcmp(token[j],"\n"))
+			k++;
 		j++;
 		i += separator;
 	}
 
 	*amount = j;
+	*emptyAmount = k;
 	return token;
-}
-
-int validId(char *s)
-{
-	int j = 1;
-	while (isalnum(s[j]))
-		j++;
-
-	return 1;
-
-//	if (isSeparator(s[j]))
-//		i = (s[j] == 34 || s[j] == 39 || s[j] == 10 || s[j] == 9)? j : j+1;
-//	else
-//		i = j;
 }
 
 int validNumber(char *s, int line)
@@ -276,11 +295,10 @@ int validSeparator(char* s, int line)
 	}
 }
 
-void verifyTokens(char** tokens, int amount)
-// ------------------Testar--------------------
+int* verifyTokens(char** tokens, int amount, int emptyAmount)
 {
-	int codes[amount];
-	int i, index = 0, line = 1;
+	int* codes = (int*) calloc((amount - emptyAmount + 1), sizeof(int));
+	int i, index = 0, line = 1, flag = 0;
 
 	for (i = 0; i < amount; i++)
 	{
@@ -288,187 +306,56 @@ void verifyTokens(char** tokens, int amount)
 		{
 			if (validChar(tokens[i], line))
 			{
-				codes[index] = 1;
+				codes[index] = tokenToCode(tokens[i],'c');
 				index++;
 			}
+			else
+				flag = 1;
 		}
 		else if (tokens[i][0] == '\"')
 		{
 			if (validString(tokens[i], line))
 			{
-				codes[index] = 1;
+				codes[index] = tokenToCode(tokens[i],'s');
 				index++;
 			}
+			else
+				flag = 1;
 		}
-		else if (isalpha(tokens[i][0])) // && validId(tokens[i], line))
+		else if (isalpha(tokens[i][0]))
 		{
-			codes[index] = 1;
+			codes[index] = tokenToCode(tokens[i],'i');
 			index++;
 		}
 		else if (isdigit(tokens[i][0]))
 		{
 			if (validNumber(tokens[i], line))
 			{
-				codes[index] = 1;
+				codes[index] = tokenToCode(tokens[i],'n');
 				index++;
 			}
+			else
+				flag = 1;
 		}
 		else if (validSeparator(tokens[i], line))
 		{
-			codes[index] = 1;
-			index++;
+			if (strcmp(tokens[i]," ") && strcmp(tokens[i], "\n") && strcmp(tokens[i],"\t"))
+			{
+				codes[index] = tokenToCode(tokens[i],'t');
+				index++;
+			}
 		}
+		else
+			flag = 1;
 
-		if (tokens[i][strlen(tokens[i]) - 1] == '\n')
+		if (tokens[i][(int)strlen(tokens[i]) - 1] == '\n')
 			line++;
 	}
 
-	if (index == amount)
-		printf("SIM");
-}
-// ------------------Testar--------------------
-
-void processLine(char *line)
-{
-	int i = 0, j, currentLine = 1;
-
-	while (line[i] > 0)
-	{
-		j = i;
-
-		if (isalpha(line[j]))
-		{
-			j++;
-			int separator = nextSeparator(line+i, 'i');
-			separator = (separator < 0)? -1: separator + i;
-
-			while (isalnum(line[j]))
-				j++;
-
-			if (isSeparator(line[j]))
-				i = (line[j] == 34 || line[j] == 39 || line[j] == 10 || line[j] == 9)? j : j+1;
-			else
-				i = j;
-		}
-		else if (isdigit(line[j]))
-		{
-			j++;
-			int separator = nextSeparator(line+i, 'n');
-			separator = (separator < 0)? -1: separator + i;
-
-			while (isdigit(line[j]) && (j-i) < 10)
-				j++;
-
-			if (isSeparator(line[j]))
-				i = (line[j] == 34 || line[j] == 39 || line[j] == 10 || line[j] == 9)? j : j+1;
-			else if (isalnum(line[j]))
-			{
-				char error[separator - i];
-				memset(error, 0, separator - i);
-				strncat(error, line+i, separator - i);
-				printError(error, currentLine);
-				i = (line[separator] == '\n') ? separator : separator+1;
-			}
-			else
-			{
-				char error[1];
-				memset(error, 0, 1);
-				strncat(error, line+j, 1);
-				printError(error, currentLine);
-				i = (line[j] == '\n') ? j : j + 1;
-			}
-		}
-		else if (line[j] == '\'')
-		{
-			j++;
-			int separator = nextSeparator(line+j, 'c');
-			separator = (separator == 0)? j: separator + j;
-
-			if (isPrintable(line[j]) && j < separator)
-			{
-				if (line[j] == '\\' &&
-					(line[j+1] == '\"' || line[j+1] == '\\' || line[j+1] == 't' || line[j+1] == 'n'  || line[j+1] == '\''))
-					j+=2;
-				else if (line[j] != '\\' && line[j] != '\"')
-					j++;
-			}
-
-			if (line[j] == '\'' && j-i > 1)
-				i = j + 1;
-			else
-			{
-				int flag = 1 ;
-
-				// Se o separador é valido, preciso imprimir ele no erro
-				if (line[separator] == '\'')
-				{
-					separator++;
-					flag = 0;
-				}
-
-				char error[separator-i];
-				memset(error, 0, separator-i);
-				strncat(error, line+i, separator-i);
-				printError(error, currentLine);
-				i = (line[separator] == '\n') ? separator : separator + flag;
-			}
-		}
-		else if (line[j] == '"')
-		{
-			j++;
-			int separator = nextSeparator(line+j, 's');
-			separator = (separator == 0)? j: separator + j;
-			int count = 0;
-
-			while (isPrintable(line[j]) && count < 256 && j < separator)
-			{
-				if (line[j] == '\\' &&
-					(line[j+1] == '\"' || line[j+1] == '\\' || line[j+1] == 't' || line[j+1] == 'n'  || line[j+1] == '\''))
-					j++;
-				else if (line[j] == '\\' || line[j] == '\'')
-					break;
-				j++;
-				count++;
-			}
-
-			if (line[j] == '"')
-				i = j + 1;
-			else
-			{
-				int flag = 1 ;
-				// Se o separador é valido, preciso imprimir ele no erro
-				if (line[separator] == '\"')
-				{
-					separator++;
-					flag = 0;
-				}
-
-				char error[separator-i];
-				memset(error, 0, separator-i);
-				strncat(error, line+i, separator-i);
-				printError(error, currentLine);
-				i = (line[separator] == '\n') ? separator : separator + flag;
-			}
-		}
-		else if (line[j] == '\n')
-		{
-			i++;
-			currentLine++;
-		}
-		else if (isSeparator(line[j]))
-			i++;
-		else
-		{
-			int size = 1;
-			if (line[j] == '<' || line[j] == '>')
-				size++;
-			char error[size];
-			memset(error, 0, size);
-			strncat(error, line+j, size);
-			printError(error, currentLine);
-			i = j + size;
-		}
-	}
+	if (!flag)
+		return codes;
+	else
+		return NULL;
 }
 
 char* readFile(FILE *file)
@@ -479,8 +366,8 @@ char* readFile(FILE *file)
 	int size = ftell(file);
 	rewind(file);
 
-	text = (char*) malloc(sizeof(char) * (size + 1));
-	fread(text, 1, size+1, file);
+	text = calloc(size+2, sizeof(char));
+	fread(text, 1, size+2, file);
 	fclose(file);
 
 	int i = 0;
@@ -491,11 +378,356 @@ char* readFile(FILE *file)
 	if (i == size)
 		return text;
 	else
-	{
-		printf("ARQUIVO INVÁLIDO!\n");
 		return NULL;
+}
+
+// --------------------------------------------- //
+// --------------Analise Sintatica-------------- //
+
+const char nonterminals[][9] = {"ARIT","COMMAND","CONS","DEC","DECLARE","ELSE","F","FOR","FOREACH","G","ID","IF","OP","OPERANDO","PRINT","PUT","READ","REL","RESIZE","S","TYPE","VAR"};
+
+char p[] = {"SS > S $\nS > COMMAND\nCOMMAND > IF COMMAND\nCOMMAND > DECLARE COMMAND\nCOMMAND > RESIZE COMMAND\nCOMMAND > PUT COMMAND\nCOMMAND > FOR COMMAND\nCOMMAND > FOREACH COMMAND\nCOMMAND > READ COMMAND\nCOMMAND > PRINT COMMAND\nCOMMAND >\nDECLARE > declare ID DEC as TYPE .\nDEC > , ID DEC\nDEC >\nID > id\nID > id [ ]\nTYPE > number\nTYPE > letter\nRESIZE > resize id to ARIT .\nPUT > put ARIT in VAR .\nPUT > put string in id .\nARIT > ARIT + F\nARIT > ARIT - F\nARIT > F\nF > F * G\nF > F / G\nF > F % G\nF > G\nF > - G\nG > ( ARIT )\nG > OPERANDO\nOPERANDO > CONS\nOPERANDO > VAR\nCONS > num\nCONS > char\nVAR > id [ ARIT ]\nVAR > id\nREL > ARIT OP ARIT\nOP > <\nOP > >\nOP > <=\nOP > >=\nOP > <>\nOP > =\nIF > if REL then [ COMMAND ] ELSE\nELSE > else [ COMMAND ]\nELSE >\nFOR > for VAR from ARIT to ARIT do [ COMMAND ]\nFOREACH > foreach VAR in id do [ COMMAND ]\nREAD > read id .\nPRINT > print OPERANDO .\nPRINT > print string ."};
+
+struct prod{
+	int p, n, *q;
+	char *lhs, *productions; // Para Debug
+} *r;
+
+struct node{
+	int code;
+	struct node *next;
+};
+
+struct stack{
+	struct node *first;
+	struct node *last;
+	int qnt;
+};
+
+void addElementN(struct stack **l, int code)
+{
+	struct node *e = malloc(sizeof(struct node));
+	e->code = code;
+	e->next = NULL;
+
+	if ((*l)->first == NULL)
+	{
+		(*l)->first = e;
+		(*l)->last = e;
+	}
+	else
+	{
+		(*l)->last->next = e;
+		(*l)->last = e;
+	}
+	(*l)->qnt++;
+}
+
+void addElements(struct stack **l, int *nodes, int amount)
+{
+	int i;
+//	struct node *e;
+	for (i = 0; i < amount; i++)
+	{
+//		e = malloc(sizeof(struct node));
+//		e->code = nodes[i];
+//		e->next = NULL;
+
+//		addElement(l,e);
+		addElementN(l,nodes[i]);
 	}
 }
+
+void addElementI(struct stack **l, int code)
+{
+	struct node *e = malloc(sizeof(struct node));
+	e->code = code;
+	e->next = NULL;
+	if ((*l)->first == NULL)
+	{
+		(*l)->first = e;
+		(*l)->last = e;
+		(*l)->qnt++;
+	}
+	else
+	{
+		e->next = (*l)->first;
+		(*l)->first = e;
+		(*l)->qnt++;
+	}
+}
+
+struct node* popElement(struct stack **l)
+{
+	struct node *n = (*l)->first, *temp = (*l)->first;
+	if ((*l)->qnt == 1)
+	{
+//		n = (*l)->first;
+		(*l)->first = NULL;
+		(*l)->last = NULL;
+	}
+	else
+	{
+		while (temp->next != (*l)->last)
+			temp = temp->next;
+
+		n = (*l)->last;
+		(*l)->last = temp;
+		temp->next = NULL;
+	}
+	(*l)->qnt--;
+
+	return n;
+}
+
+int popNElements(struct stack **l, int amount, int at)
+{
+	if (amount == 0) return at;
+	int i = 0;
+	struct node *e;
+	for (i = 0; i < amount; i++)
+		e = popElement(l);
+	return e->code;
+}
+
+struct node* popFirstElement(struct stack **l)
+{
+	struct node *n = (*l)->first;
+	if ((*l)->qnt <= 1)
+	{
+//		n = (*l)->first;
+		(*l)->first = NULL;
+		(*l)->last = NULL;
+		(*l)->qnt = 0;
+	}
+	else
+	{
+		(*l)->first = (*l)->first->next;
+		(*l)->qnt--;
+	}
+
+	return n;
+}
+
+void clearStack(struct stack **l)
+{
+	struct node *e = (*l)->first;
+
+	while (e != NULL)
+	{
+		struct node *temp = e;
+		e = e->next;
+		free(temp);
+	}
+
+	(*l)->last = NULL;
+	(*l)->first = NULL;
+	(*l)->qnt = 0;
+}
+
+void printStack(struct stack *l)
+{
+	struct node *e = l->first;
+	int index = 0;
+
+	while (e != NULL)
+	{
+//		printf("Elemento %d:\n", index);
+//		printf("code:  %d:\n", e->code);
+		printf("(%d)%d ", index, e->code);
+		e = e->next;
+		index++;
+	}
+	printf("\n");
+}
+
+void initStack(struct stack **l)
+{
+	*l = malloc(sizeof(struct stack));
+	(*l)->first = NULL;
+	(*l)->last = NULL;
+	(*l)->qnt = 0;
+}
+
+int nonterminalIndex(char* token)
+{
+	int size = 22; // baseado no vetor de naoterminais (nonterminals)
+	int i = 0;
+	while(i < size && strcmp(nonterminals[i], token))
+		i++;
+
+	i = (i == size)? INT_MAX : i + 39;
+	return i;
+}
+
+struct prod* createProds()
+{
+	int size = 52, begin = 0, end = 0, amount, i = 0;
+	char *temp = NULL, *rhs = NULL, *lhs = NULL;
+
+	struct prod *prods = NULL;
+	prods = malloc(sizeof(struct prod) * size);
+//	for (i = 0; i < size; i++)
+//		prods[i] = calloc(1,sizeof(struct prod));
+
+	for (i = 0; i < size; i++)
+//	while (p[begin] > 0)
+	{
+		amount = 1;
+		lhs = calloc(50,sizeof(char));
+		rhs = calloc(50,sizeof(char));
+		temp = calloc(50,sizeof(char));
+
+		end = strcspn(p+begin," >");
+		strncpy(lhs,p+begin,end);
+
+		begin += end + 2;
+		end = strcspn(p+begin,"\n");
+		if (!end)
+		{
+			strcat(rhs,"&"); // Qual o codigo para vazio ?
+			amount--;
+		}
+		else
+			strncpy(rhs,p+begin+1,end-1);
+
+		begin += end + 1;
+		temp = strchr(rhs,' ');
+		while (temp != NULL)
+		{
+			amount++;
+			temp = strchr(temp + 1,' ');
+		}
+
+//		prods[i] = malloc(sizeof(struct prod));
+		prods[i].lhs = lhs;
+		prods[i].productions = rhs;
+		prods[i].p = nonterminalIndex(lhs);
+		prods[i].n = amount;
+		prods[i].q = malloc(sizeof(int) * amount);
+
+		char *t = calloc(50,sizeof(char));
+		strcpy(t,rhs);
+		temp = strtok(t," ");
+		int j;
+		for (j = 0; j < amount; j++)
+		{
+			prods[i].q[j] = (temp[0] > 64 && temp[0] < 91)? nonterminalIndex(temp) : terminalIndex(temp);
+			temp = strtok(NULL," ");
+		}
+	}
+
+	return prods;
+
+//	for (i = 0; i < size; i++)
+//	{
+//		printf("(%d)%s -> %s", prods[i].p, prods[i].lhs, prods[i].productions);
+//		int j;
+//		printf("(");
+//		for (j = 0; j < prods[i].n; j++)
+//			printf("%d ", prods[i].q[j]);
+//		printf(")\n");
+//	}
+}
+
+int parseSLR(int** mat, int *input, int inputSize, struct prod *p)
+{
+	int at = 0;
+	struct stack *estados = NULL, *entrada = NULL;
+	initStack(&estados);
+	initStack(&entrada);
+	addElements(&entrada,input,inputSize);
+
+//	printStack(entrada);
+
+	for (;;)
+	{
+		int elem = popFirstElement(&entrada)->code;
+		int acao = mat[at][elem];
+		if (acao == INT_MIN)
+		{
+//			printf("estado: %d acao: %d elem: %d\n", at, acao, elem);
+			return 0;
+		}
+		else if (acao == INT_MAX)
+			return 1;
+		else if (acao > 0)
+		{
+			addElementN(&estados, at);
+			at = acao;
+		}
+		else
+		{
+			addElementI(&entrada,elem);
+			addElementI(&entrada, p[-acao].p);
+			at = popNElements(&estados,p[-acao].n,at);
+		}
+	}
+}
+
+int** readMatrix(FILE *file)
+{
+	char *text = NULL;
+	fseek(file, 0, SEEK_END);
+	int size = ftell(file);
+	rewind(file);
+
+	do
+	{
+		text = calloc(size+1,sizeof(char));//(char*) malloc(sizeof(char) * (size + 1));
+	} while (text == NULL);
+
+	fread(text, 1, size+1, file);
+	fclose(file);
+
+	int **mat;
+	int sizeI = 22+39;
+	int sizeJ = 119;
+	mat = malloc(sizeJ * sizeof(int*));
+
+	int i, j = 0;
+	for (i = 0; i < sizeJ; i++)
+		mat[i] = malloc(sizeI * sizeof(int));
+
+	char* temp = NULL;
+	temp = strtok(text,",\n");
+
+	i = 0;
+	while (temp != NULL)
+	{
+		if (temp[0] == ' ')
+			mat[j][i] = INT_MIN;
+		else if (temp[0] == 'a')
+			mat[j][i] = INT_MAX;
+		else if (isdigit(temp[0]))
+			mat[j][i] = atoi(temp);
+		else
+			mat[j][i] = (temp[0] == 's')? atoi(temp+1) : -atoi(temp+1);
+
+		i++;
+		if (i == sizeI)
+		{
+			j++;
+			i = 0;
+		}
+
+		temp = strtok(NULL,",\n\0");
+	}
+
+//	for (i = 0; i < sizeJ; i++)
+//	{
+//		for (j = 0; j < sizeI; j++)
+//			if (mat[i][j] != 0)
+//				printf("%d ,", mat[i][j]);
+//			else
+//				printf("    ,");
+//		printf("\n");
+//	}
+
+	return mat;
+}
+
+// --------------------------------------------- //
 
 int main(int argc, char** argv)
 {
@@ -504,34 +736,59 @@ int main(int argc, char** argv)
 
 	if (argc == 1)
 	{
-		name = malloc(sizeof(char) * 58);
-		//strcpy(name, "D:/Dropbox/Superior/Codigos/compiladores/sample2.in"); // Windows
-		strcpy(name, "../Entradas/numbers.in"); // Windows
-		//strcpy(name, "./simpletest.in"); // Linux
+		name = calloc(100, sizeof(char));
+		strcpy(name, "../../trabalho2/Entradas/all.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
 		name = argv[1];
 
 	file = fopen(name , "rt");
-	if (argc == 1) free(name);
 
-	if (file == NULL)
-		printf("Problemas na abertura do arquivo\n");
-	else
+	if (file != NULL)
 	{
-		char *text = readFile(file);
-		//free(file);
+		char *text = NULL;
+		text = readFile(file);
 
 		if (text != NULL)
 		{
 			char **tokens = NULL;
-			int tokensAmount = 0;
-//			tokens = malloc(sizeof(char) * strlen(text));
-			tokens = tokenizer(text, &tokensAmount);
-			verifyTokens(tokens, tokensAmount);
+			int tokensAmount = 0, emptyAmount = 0;
+			tokens = tokenizer(text, &tokensAmount, &emptyAmount);
+
+//			printf("Amounts: %d %d\n", tokensAmount, emptyAmount);
+			int *codes = NULL;
+			codes = verifyTokens(tokens, tokensAmount, emptyAmount);
+
+			if (codes != NULL)
+			{
+//				int i;
+//				for (i = 0; i <= tokensAmount-emptyAmount; i++)
+//					printf("%d ",codes[i]);
+
+				int **mat = NULL;
+				struct prod *prods = NULL;
+				name = calloc(20,sizeof(char));
+				strcpy(name, "Data.csv");
+				file = fopen(name, "rt");
+				if (file != NULL)
+				{
+					mat = readMatrix(file);
+					prods = createProds();
+					if(parseSLR(mat,codes,tokensAmount - emptyAmount + 1,prods))
+						printf("SIM\n");
+					else
+						printf("NAO\n");
+				}
+				else
+					printf("Problemas na leitura da tabela\n");
+			}
 		}
+		else
+			printf("ARQUIVO INVALIDO!\n");
 	}
+	else
+		printf("Problemas na abertura do arquivo\n");
 
 	return 0;
 }
