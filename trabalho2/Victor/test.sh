@@ -5,10 +5,12 @@ flag=true
 
 #input="../Entradas/sample3.in"
 
-for input in `ls ../Entradas/*.in`
+echo "Testando..."
+
+for input in `ls ../../trabalho1/Entradas/*.in`
 do
 	name=`basename ${input} .in`
-	out="../Saidas/${name}.out"
+	out="../../trabalho1/Saidas/${name}.out"
 	saida="./${name}.sol"
 
 	$(./a.out ${input} > ${saida})	
@@ -24,18 +26,33 @@ do
 			$(rm ${saida})
 		fi
 	else
-		out="../Saidas/${name}V.out"
+		out="../../trabalho1/Saidas/${name}V.out"
 		diff=`diff -N ${saida} ${out}`
 		res=$?
 		# echo $out $saida $diff
-		if [ -e $out ] && [ $res -ne 0 ]; then
-			echo $name "\n" $diff
-			flag=false
+		if [ -e $out ]; then
+			if [ $res -ne 0 ]; then
+				echo $name "\n" $diff
+				flag=false
+			else
+				$(rm ${saida})
+			fi
 		else
-			$(rm ${saida})
+			$(mv ${saida} ${out})
 		fi
 	fi
 done
+
+for input in `ls ../Entradas/*.in`
+do
+	name=`basename ${input} .in`
+	out="../Saidas/${name}.out"
+	saida="./${name}.sol"
+
+	echo $name : $(./a.out ${input})	
+done
+
+echo "\nFim do Teste"
 
 if [ $flag ]; then
 	return 1

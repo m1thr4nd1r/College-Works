@@ -3,3 +3,4 @@ DECLARE fat, i as NUMBER.
 DECLARE X AS LETTER.
 DECLARE y, w,k as number .
 declare vetor [ ] , lista[]as Letter.DECLare oQUE[] as NuMbEr.
+declare n,A[],d[ ] As NumBer.
