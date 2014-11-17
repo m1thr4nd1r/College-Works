@@ -596,7 +596,6 @@ struct prod* createProds()
 		while (temp != NULL)
 		{
 			amount++;
-			int end = (temp - rhs + 1);
 			temp = strchr(temp + 1,' ');
 		}
 
@@ -770,14 +769,19 @@ int main(int argc, char** argv)
 				int **mat = NULL;
 				struct prod *prods = NULL;
 				name = calloc(20,sizeof(char));
-				strcpy(name, "./Data.csv");
+				strcpy(name, "Data.csv");
 				file = fopen(name, "rt");
-				mat = readMatrix(file);
-				prods = createProds();
-				if(parseSLR(mat,codes,tokensAmount - emptyAmount + 1,prods))
-					printf("SIM\n");
+				if (file != NULL)
+				{
+					mat = readMatrix(file);
+					prods = createProds();
+					if(parseSLR(mat,codes,tokensAmount - emptyAmount + 1,prods))
+						printf("SIM\n");
+					else
+						printf("NAO\n");
+				}
 				else
-					printf("NAO\n");
+					printf("Problemas na leitura da tabela\n");
 			}
 		}
 		else
