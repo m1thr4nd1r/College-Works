@@ -339,7 +339,7 @@ int* verifyTokens(char** tokens, int amount, int emptyAmount)
 		}
 		else if (validSeparator(tokens[i], line))
 		{
-			if (*tokens[i] != ' ' && *tokens[i] != '\n' && *tokens[i] != '\t' && *tokens[i] != '\'' && *tokens[i] != '\"')
+			if (strcmp(tokens[i]," ") && strcmp(tokens[i], "\n") && strcmp(tokens[i],"\t"))
 			{
 				codes[index] = tokenToCode(tokens[i],'t');
 				index++;
@@ -348,7 +348,7 @@ int* verifyTokens(char** tokens, int amount, int emptyAmount)
 		else
 			flag = 1;
 
-		if (tokens[i][strlen(tokens[i]) - 1] == '\n')
+		if (tokens[i][(int)strlen(tokens[i]) - 1] == '\n')
 			line++;
 	}
 
@@ -366,14 +366,14 @@ char* readFile(FILE *file)
 	int size = ftell(file);
 	rewind(file);
 
-	text = calloc(size+1, sizeof(char));
-	fread(text, 1, size+1, file);
+	text = calloc(size+2, sizeof(char));
+	fread(text, 1, size+2, file);
 	fclose(file);
 
 	int i = 0;
 	while (i < size && (isPrintable(text[i]) || text[i] == 9 || text[i] == 10))
 		i++;
-	text[size+1] = '\0';
+	text[size+1] = EOF;
 
 	if (i == size)
 		return text;
@@ -563,7 +563,7 @@ int nonterminalIndex(char* token)
 struct prod* createProds()
 {
 	int size = 52, begin = 0, end = 0, amount, i = 0;
-	char *temp, *rhs, *lhs;
+	char *temp = NULL, *rhs = NULL, *lhs = NULL;
 
 	struct prod *prods = NULL;
 	prods = malloc(sizeof(struct prod) * size);
@@ -574,9 +574,9 @@ struct prod* createProds()
 //	while (p[begin] > 0)
 	{
 		amount = 1;
-		temp = calloc(50,sizeof(char));
 		lhs = calloc(50,sizeof(char));
 		rhs = calloc(50,sizeof(char));
+		temp = calloc(50,sizeof(char));
 
 		end = strcspn(p+begin," >");
 		strncpy(lhs,p+begin,end);
@@ -592,12 +592,12 @@ struct prod* createProds()
 			strncpy(rhs,p+begin+1,end-1);
 
 		begin += end + 1;
-		temp = memchr(rhs,' ',(int)strlen(rhs));
+		temp = strchr(rhs,' ');
 		while (temp != NULL)
 		{
 			amount++;
 			int end = (temp - rhs + 1);
-			temp = memchr(rhs + end, ' ',(int) strlen(rhs));
+			temp = strchr(temp + 1,' ');
 		}
 
 //		prods[i] = malloc(sizeof(struct prod));
@@ -738,7 +738,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = calloc(100, sizeof(char));
-		strcat(name, "../Entradas2/put.in");
+		strcpy(name, "../../trabalho2/Entradas/all.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
