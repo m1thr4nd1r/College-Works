@@ -1,1 +1,0 @@
-tar -zcvf trabalho2.tgz trabalho2

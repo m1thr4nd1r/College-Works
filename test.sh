@@ -3,14 +3,14 @@
 gcc -g lexico.c
 flag=true
 
-#input="../Entradas/sample3.in"
+#input="Entradas/sample3.in"
 
 echo "Testando..."
 
-for input in `ls ../Entradas/*.in`
+for input in `ls Entradas/*.in`
 do
 	name=`basename ${input} .in`
-	out="../Saidas/${name}.out"
+	out="Saidas/${name}.out"
 	saida="./${name}.sol"
 
 	$(./a.out ${input} > ${saida})	
@@ -26,7 +26,7 @@ do
 			$(rm ${saida})
 		fi
 	else
-		out="../Saidas/${name}V.out"
+		out="Saidas/${name}V.out"
 		diff=`diff -N ${saida} ${out}`
 		res=$?
 		# echo $out $saida $diff
