@@ -2,3 +2,5 @@
 pre-commit
 .settings/
 /a.out
+*.o
+*.exe
