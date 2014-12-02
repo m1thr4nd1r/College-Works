@@ -1,3 +1,4 @@
 *.sol
 pre-commit
 .settings/
+/a.out
