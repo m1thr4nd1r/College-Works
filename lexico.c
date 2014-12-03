@@ -8,6 +8,40 @@
 
 const char terminals[][9] = {"$","%","(",")","*","+",",","-",".","/","<","<=","<>","=",">",">=","[","]","as","char","declare","do","else","for","foreach","from","id","if","in","letter","num","number","print","put","read","resize","string","then","to"};
 
+struct token{
+	int code, value, line;
+	char *text, type;
+};
+
+struct tokenNode{
+	struct token *token;
+	struct tokenNode *next;
+};
+
+struct tokenList{
+	struct tokenNode *first, *last;
+	int qnt;
+};
+
+void addToken(struct tokenList **l, struct token *token)
+{
+	struct tokenNode *t = calloc(1,sizeof(struct tokeNode*));
+	t->token = token;
+	t->next = NULL;
+
+	if ((*l)->first == NULL)
+	{
+		(*l)->first = t;
+		(*l)->last = t;
+	}
+	else
+	{
+		(*l)->last->next = t;
+		(*l)->last = t;
+	}
+	(*l)->qnt++;
+}
+
 char* toLower(char *word)
 {
 	int i;
@@ -136,20 +170,26 @@ int nextSeparator(char *line, char type)
 	return i;
 }
 
-char** tokenizer(char *file, int *amount, int *emptyAmount)
+//char** tokenizer(char *file, int *amount, int *emptyAmount)
+struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
 {
-	int i = 0, j = 0, k = 0;
-	char **token = NULL;
+	int i = 0, j = 0, k = 0, line = 1;
+	//char **token = NULL;
+	struct tokenList *tokens = NULL;
+	struct token *token = NULL;
+
 	do
-	{
-		token = (char**) calloc((int)strlen(file), sizeof(char*));
-	}
-	while (token == NULL);
+//	{
+//		token = (char**) calloc((int)strlen(file), sizeof(char*));
+		tokens = (struct tokenList*) calloc((int)strlen(file), sizeof(struct tokenList*));
+//	}
+	while (tokens == NULL);
 
 	while (file[i] > 0 && i < strlen(file))
 	{
-		free(token[j]);
-		token[j] = NULL;
+//		free(token[j]);
+//		tokens[j].text = NULL;
+		token = (struct token*) calloc(1,sizeof(struct token*));
 
 		int separator = -1;
 
@@ -166,22 +206,34 @@ char** tokenizer(char *file, int *amount, int *emptyAmount)
 
 		do
 		{
-			token[j] = (char*) calloc(separator+1, sizeof(char));
-		} while (token[j] == NULL);
+			//token[j] = (char*) calloc(separator+1, sizeof(char));
+			token->text = (char*) calloc(separator+1, sizeof(char));
+		} while (token->text == NULL);
 
-		strncat(token[j], file+i, separator);
-		token[j][separator] = '\0';
+		//strncat(token[j], file+i, separator);
+		strncat(token->text, file+i, separator);
+		token->text[separator] = '\0';
+		token->line = line;
 
-//		printf("|(%d)%s/\n",j, token[j]);
-		if (!strcmp(token[j]," ") || !strcmp(token[j],"\n"))
-			k++;
+		printf("|(%d)%s/\n",j, token->text);
+
+		if (token->text[(int)strlen(token->text) - 1] == '\n')
+			line++;
+
+		if (!strcmp(token->text," ") || !strcmp(token->text,"\n") || !strcmp(token->text,"\t"))
+//			k++;
+			free(token);
+		else
+			addToken(&tokens,token);
+
 		j++;
 		i += separator;
 	}
 
+	printf("%d\n",tokens->qnt);
 	*amount = j;
 	*emptyAmount = k;
-	return token;
+	return tokens;
 }
 
 int validNumber(char *s, int line)
@@ -295,67 +347,83 @@ int validSeparator(char* s, int line)
 	}
 }
 
-int* verifyTokens(char** tokens, int amount, int emptyAmount)
+//int* verifyTokens(char** tokens, int amount, int emptyAmount)
+int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
 {
-	int* codes = (int*) calloc((amount - emptyAmount + 1), sizeof(int));
+	//int* codes = (int*) calloc((amount - emptyAmount + 1), sizeof(int));
 	int i, index = 0, line = 1, flag = 0;
+	struct tokenNode* node = tokens->first;
 
-	for (i = 0; i < amount; i++)
+	for (i = 0; i < tokens->qnt; i++)
 	{
-		if (tokens[i][0] == '\'')
+		//if (tokens[i][0] == '\'')
+		if (node->token->text[0] == '\'')
 		{
-			if (validChar(tokens[i], line))
+//			if (validChar(tokens[i], line))
+			if (validChar(node->token->text,node->token->line))
 			{
-				codes[index] = tokenToCode(tokens[i],'c');
+//				codes[index] = tokenToCode(tokens[i],'c');
+				node->token->code = tokenToCode(node->token->text,'c');
 				index++;
 			}
 			else
 				flag = 1;
 		}
-		else if (tokens[i][0] == '\"')
+//		else if (tokens[i][0] == '\"')
+		else if (node->token->text[0] == '\"')
 		{
-			if (validString(tokens[i], line))
+			if (validString(node->token->text,node->token->line))
+//			if (validString(tokens[i], line))
 			{
-				codes[index] = tokenToCode(tokens[i],'s');
+//				codes[index] = tokenToCode(tokens[i],'s');
+				node->token->code = tokenToCode(node->token->text,'s');
 				index++;
 			}
 			else
 				flag = 1;
 		}
-		else if (isalpha(tokens[i][0]))
+		else if (isalpha(node->token->text[0]))
+//		else if (isalpha(tokens[i][0]))
 		{
-			codes[index] = tokenToCode(tokens[i],'i');
+//			codes[index] = tokenToCode(tokens[i],'i');
+			node->token->code = tokenToCode(node->token->text,'i');
 			index++;
 		}
-		else if (isdigit(tokens[i][0]))
+		else if (isdigit(node->token->text[0]))
+//		else if (isdigit(tokens[i][0]))
 		{
-			if (validNumber(tokens[i], line))
+			if (validNumber(node->token->text,node->token->line))
+//			if (validNumber(tokens[i], line))
 			{
-				codes[index] = tokenToCode(tokens[i],'n');
+//				codes[index] = tokenToCode(tokens[i],'n');
+				node->token->code = tokenToCode(node->token->text,'n');
 				index++;
 			}
 			else
 				flag = 1;
 		}
-		else if (validSeparator(tokens[i], line))
+		else if (validSeparator(node->token->text,node->token->line))
+//		else if (validSeparator(tokens[i], line))
 		{
-			if (strcmp(tokens[i]," ") && strcmp(tokens[i], "\n") && strcmp(tokens[i],"\t"))
-			{
-				codes[index] = tokenToCode(tokens[i],'t');
+			//if (strcmp(tokens[i]," ") && strcmp(tokens[i], "\n") && strcmp(tokens[i],"\t"))
+			//{
+//				codes[index] = tokenToCode(tokens[i],'t');
+				node->token->code = tokenToCode(node->token->text,'t');
 				index++;
-			}
+			//}
 		}
 		else
 			flag = 1;
 
-		if (tokens[i][(int)strlen(tokens[i]) - 1] == '\n')
-			line++;
+		node = node->next;
 	}
 
 	if (!flag)
-		return codes;
+		return 1;
+//		return codes;
 	else
-		return NULL;
+//		return NULL;
+		return 0;
 }
 
 char* readFile(FILE *file)
@@ -423,7 +491,8 @@ void addElementN(struct stack **l, int code)
 	(*l)->qnt++;
 }
 
-void addElements(struct stack **l, int *nodes, int amount)
+//void addElements(struct stack **l, int *nodes, int amount)
+void addElements(struct stack **l, struct tokenNode *node, int amount)
 {
 	int i;
 //	struct node *e;
@@ -434,7 +503,8 @@ void addElements(struct stack **l, int *nodes, int amount)
 //		e->next = NULL;
 
 //		addElement(l,e);
-		addElementN(l,nodes[i]);
+		addElementN(l,node->token->code);
+		node = node->next;
 	}
 }
 
@@ -630,13 +700,16 @@ struct prod* createProds()
 //	}
 }
 
-int parseSLR(int** mat, int *input, int inputSize, struct prod *p)
+//int parseSLR(int** mat, int *input, int inputSize, struct prod *p)
+int parseSLR(int** mat, struct tokenList *list, int inputSize, struct prod *p)
 {
 	int at = 0;
 	struct stack *estados = NULL, *entrada = NULL;
 	initStack(&estados);
 	initStack(&entrada);
-	addElements(&entrada,input,inputSize);
+	struct tokenNode *n = list->first;
+	//addElements(&entrada,input,inputSize);
+	addElements(&entrada,n,list->qnt);
 
 //	printStack(entrada);
 
@@ -737,7 +810,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = calloc(100, sizeof(char));
-		strcpy(name, "../../trabalho2/Entradas/all.in");
+		strcpy(name, "Entradas/-declare.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
@@ -752,15 +825,19 @@ int main(int argc, char** argv)
 
 		if (text != NULL)
 		{
-			char **tokens = NULL;
+			struct tokenList *tokens;
+//			char **tokens = NULL;
 			int tokensAmount = 0, emptyAmount = 0;
 			tokens = tokenizer(text, &tokensAmount, &emptyAmount);
 
 //			printf("Amounts: %d %d\n", tokensAmount, emptyAmount);
-			int *codes = NULL;
+//			int *codes = NULL;
+//			codes = verifyTokens(tokens, tokensAmount, emptyAmount);
+			int codes = 0;
 			codes = verifyTokens(tokens, tokensAmount, emptyAmount);
 
-			if (codes != NULL)
+//			if (codes != NULL)
+			if (codes)
 			{
 //				int i;
 //				for (i = 0; i <= tokensAmount-emptyAmount; i++)
@@ -775,7 +852,8 @@ int main(int argc, char** argv)
 				{
 					mat = readMatrix(file);
 					prods = createProds();
-					if(parseSLR(mat,codes,tokensAmount - emptyAmount + 1,prods))
+//					if(parseSLR(mat,codes,tokensAmount - emptyAmount + 1,prods))
+					if(parseSLR(mat,tokens,tokensAmount - emptyAmount + 1,prods))
 						printf("SIM\n");
 					else
 						printf("NAO\n");
