@@ -25,7 +25,7 @@ struct tokenList{
 
 void addToken(struct tokenList **l, struct token *token)
 {
-	struct tokenNode *t = calloc(1,sizeof(struct tokeNode*));
+	struct tokenNode *t = calloc(1,sizeof(struct tokenNode));
 	t->token = token;
 	t->next = NULL;
 
@@ -89,9 +89,10 @@ int tokenToCode(char *token, char type)
 	return i;
 }
 
-void printError(char *content, int line)
+// void printError(char *content, int line)
+void printError(struct token *t)
 {
-	printf("LINHA %d: %s\n", line, content);
+	printf("LINHA %d: %s\n", t->line, t->text);
 }
 
 int isPrintable(int code)
@@ -181,7 +182,7 @@ struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
 	do
 //	{
 //		token = (char**) calloc((int)strlen(file), sizeof(char*));
-		tokens = (struct tokenList*) calloc((int)strlen(file), sizeof(struct tokenList*));
+		tokens = (struct tokenList*) calloc((int)strlen(file), sizeof(struct tokenList));
 //	}
 	while (tokens == NULL);
 
@@ -189,7 +190,7 @@ struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
 	{
 //		free(token[j]);
 //		tokens[j].text = NULL;
-		token = (struct token*) calloc(1,sizeof(struct token*));
+		token = (struct token*) calloc(1,sizeof(struct token));
 
 		int separator = -1;
 
@@ -236,34 +237,36 @@ struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
 	return tokens;
 }
 
-int validNumber(char *s, int line)
+//int validNumber(char *s, int line)
+int validNumber(struct token *t)
 {
 	int j = 1;
 
-	while (isdigit(s[j]) && j < 10)
+	while (isdigit(t->text[j]) && j < 10)
 		j++;
 
-	if (j == strlen(s))
+	if (j == strlen(t->text))
 		return 1;
 	else
 	{
-		printError(s, line);
+		printError(t);
 		return 0;
 	}
 }
 
-int validChar(char* s, int line)
+//int validChar(char* s, int line)
+int validChar(struct token *t)
 {
-	int j = 1, size = strlen(s), count = 0;
+	int j = 1, size = strlen(t->text), count = 0;
 
-	if (s[size-1] == '\'')
+	if (t->text[size-1] == '\'')
 	{
-		while (isPrintable(s[j]) && j < size - 1)
+		while (isPrintable(t->text[j]) && j < size - 1)
 		{
-			if ( s[j] == '\\' &&
-				 (s[j+1] == '\"' || s[j+1] == '\\' || s[j+1] == 't' || s[j+1] == 'n'  || s[j+1] == '\''))
+			if ( t->text[j] == '\\' &&
+				 (t->text[j+1] == '\"' || t->text[j+1] == '\\' || t->text[j+1] == 't' || t->text[j+1] == 'n'  || t->text[j+1] == '\''))
 				j++;
-			else if (s[j] == '\\' || s[j] == '\"')
+			else if (t->text[j] == '\\' || t->text[j] == '\"')
 				break;
 			j++;
 			count++;
@@ -273,38 +276,39 @@ int validChar(char* s, int line)
 			return 1;
 		else
 		{
-			printError(s, line);
+			printError(t);
 			return 0;
 		}
 	}
 	else
 	{
-		if (s[size-1] == '\t' || s[size-1] == '\n')
+		if (t->text[size-1] == '\t' || t->text[size-1] == '\n')
 		{
-			char temp = s[size-1];
-			s[size-1] = '\0';
-			printError(s, line);
-			s[size-1] = temp;
+			char temp = t->text[size-1];
+			t->text[size-1] = '\0';
+			printError(t);
+			t->text[size-1] = temp;
 		}
 		else
-			printError(s, line);
+			printError(t);
 
 		return 0;
 	}
 }
 
-int validString(char* s, int line)
+// int validString(char* s, int line)
+int validString(struct token *t)
 {
-	int j = 1, size = strlen(s), count = 0;
+	int j = 1, size = strlen(t->text), count = 0;
 
-	if (s[size-1] == '\"')
+	if (t->text[size-1] == '\"')
 	{
-		while (isPrintable(s[j]) && j < size - 1)
+		while (isPrintable(t->text[j]) && j < size - 1)
 		{
-			if ( s[j] == '\\' &&
-				 (s[j+1] == '\"' || s[j+1] == '\\' || s[j+1] == 't' || s[j+1] == 'n'  || s[j+1] == '\''))
+			if ( t->text[j] == '\\' &&
+				 (t->text[j+1] == '\"' || t->text[j+1] == '\\' || t->text[j+1] == 't' || t->text[j+1] == 'n'  || t->text[j+1] == '\''))
 				j++;
-			else if (s[j] == '\\' || s[j] == '\'')
+			else if (t->text[j] == '\\' || t->text[j] == '\'')
 				break;
 			j++;
 			count++;
@@ -314,35 +318,36 @@ int validString(char* s, int line)
 			return 1;
 		else
 		{
-			printError(s, line);
+			printError(t);
 			return 0;
 		}
 	}
 	else
 	{
-		if (s[size-1] == '\t' || s[size-1] == '\n')
+		if (t->text[size-1] == '\t' || t->text[size-1] == '\n')
 		{
-			char temp = s[size-1];
-			s[size-1] = '\0';
-			printError(s, line);
-			s[size-1] = temp;
+			char temp = t->text[size-1];
+			t->text[size-1] = '\0';
+			printError(t);
+			t->text[size-1] = temp;
 		}
 		else
-			printError(s, line);
+			printError(t);
 
 		return 0;
 	}
 }
 
-int validSeparator(char* s, int line)
+// int validSeparator(char* s, int line)
+int validSeparator(struct token *t)
 {
-	if ((isSeparator(s[0]) && strlen(s) == 1) ||
-		(strlen(s) == 2 && ((s[0] == '>' && s[1] == '=') ||
-							(s[0] == '<' && (s[1] == '>' || s[1] == '=')))))
+	if ((isSeparator(t->text[0]) && strlen(t->text) == 1) ||
+		(strlen(t->text) == 2 && ((t->text[0] == '>' && t->text[1] == '=') ||
+							(t->text[0] == '<' && (t->text[1] == '>' || t->text[1] == '=')))))
 		return 1;
 	else
 	{
-		printError(s, line);
+		printError(t);
 		return 0;
 	}
 }
@@ -360,7 +365,7 @@ int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
 		if (node->token->text[0] == '\'')
 		{
 //			if (validChar(tokens[i], line))
-			if (validChar(node->token->text,node->token->line))
+			if (validChar(node->token))
 			{
 //				codes[index] = tokenToCode(tokens[i],'c');
 				node->token->code = tokenToCode(node->token->text,'c');
@@ -372,7 +377,7 @@ int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
 //		else if (tokens[i][0] == '\"')
 		else if (node->token->text[0] == '\"')
 		{
-			if (validString(node->token->text,node->token->line))
+			if (validString(node->token))
 //			if (validString(tokens[i], line))
 			{
 //				codes[index] = tokenToCode(tokens[i],'s');
@@ -392,7 +397,7 @@ int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
 		else if (isdigit(node->token->text[0]))
 //		else if (isdigit(tokens[i][0]))
 		{
-			if (validNumber(node->token->text,node->token->line))
+			if (validNumber(node->token))
 //			if (validNumber(tokens[i], line))
 			{
 //				codes[index] = tokenToCode(tokens[i],'n');
@@ -402,7 +407,7 @@ int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
 			else
 				flag = 1;
 		}
-		else if (validSeparator(node->token->text,node->token->line))
+		else if (validSeparator(node->token))
 //		else if (validSeparator(tokens[i], line))
 		{
 			//if (strcmp(tokens[i]," ") && strcmp(tokens[i], "\n") && strcmp(tokens[i],"\t"))
@@ -492,11 +497,12 @@ void addElementN(struct stack **l, int code)
 }
 
 //void addElements(struct stack **l, int *nodes, int amount)
-void addElements(struct stack **l, struct tokenNode *node, int amount)
+void addElements(struct stack **l, struct tokenList *list)
 {
 	int i;
 //	struct node *e;
-	for (i = 0; i < amount; i++)
+	struct tokenNode *node = list->first;
+	for (i = 0; i < list->qnt; i++)
 	{
 //		e = malloc(sizeof(struct node));
 //		e->code = nodes[i];
@@ -707,11 +713,13 @@ int parseSLR(int** mat, struct tokenList *list, int inputSize, struct prod *p)
 	struct stack *estados = NULL, *entrada = NULL;
 	initStack(&estados);
 	initStack(&entrada);
-	struct tokenNode *n = list->first;
+	// struct tokenNode *n = list->first;
 	//addElements(&entrada,input,inputSize);
-	addElements(&entrada,n,list->qnt);
+	// addElements(&entrada,n,list->qnt);
+	addElements(&entrada,list);
+	addElementN(&entrada,0);
 
-//	printStack(entrada);
+	// printStack(entrada);
 
 	for (;;)
 	{
