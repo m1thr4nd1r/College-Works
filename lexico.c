@@ -215,7 +215,7 @@ struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
 		token->text[separator] = '\0';
 		token->line = line;
 
-		printf("|(%d)%s/\n",j, token->text);
+		//printf("|(%d)%s/\n",j, token->text);
 
 		if (token->text[(int)strlen(token->text) - 1] == '\n')
 			line++;
@@ -230,7 +230,7 @@ struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
 		i += separator;
 	}
 
-	printf("%d\n",tokens->qnt);
+	//printf("%d\n",tokens->qnt);
 	*amount = j;
 	*emptyAmount = k;
 	return tokens;
