@@ -157,9 +157,9 @@ int nextSeparator(char *line, char type)
 	return i;
 }
 
-struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
+struct tokenList* tokenizer(char *file)
 {
-	int i = 0, j = 0, k = 0, line = 1;
+	int i = 0, line = 1;
 	struct tokenList *tokens = NULL;
 	struct token *token = NULL;
 
@@ -206,12 +206,8 @@ struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount)
 		else
 			addToken(&tokens,token);
 
-		j++;
 		i += separator;
 	}
-
-	*amount = j;
-	*emptyAmount = k;
 	return tokens;
 }
 
@@ -326,9 +322,9 @@ int validSeparator(struct token *t)
 	}
 }
 
-int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
+int verifyTokens(struct tokenList* tokens)
 {
-	int i, index = 0, flag = 0;
+	int i, flag = 0;
 	struct tokenNode* node = tokens->first;
 
 	for (i = 0; i < tokens->qnt; i++)
@@ -336,43 +332,28 @@ int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
 		if (node->token->text[0] == '\'')
 		{
 			if (validChar(node->token))
-			{
 				node->token->code = tokenToCode(node->token->text,'c');
-				index++;
-			}
 			else
 				flag = 1;
 		}
 		else if (node->token->text[0] == '\"')
 		{
 			if (validString(node->token))
-			{
 				node->token->code = tokenToCode(node->token->text,'s');
-				index++;
-			}
 			else
 				flag = 1;
 		}
 		else if (isalpha(node->token->text[0]))
-		{
 			node->token->code = tokenToCode(node->token->text,'i');
-			index++;
-		}
 		else if (isdigit(node->token->text[0]))
 		{
 			if (validNumber(node->token))
-			{
 				node->token->code = tokenToCode(node->token->text,'n');
-				index++;
-			}
 			else
 				flag = 1;
 		}
 		else if (validSeparator(node->token))
-		{
 			node->token->code = tokenToCode(node->token->text,'t');
-			index++;
-		}
 		else
 			flag = 1;
 
@@ -381,9 +362,7 @@ int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount)
 
 	if (!flag)
 		return 1;
-//		return codes;
 	else
-//		return NULL;
 		return 0;
 }
 

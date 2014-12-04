@@ -1,12 +1,10 @@
 #include "sintatico.h"
 
-// --------------Analise Sintatica-------------- //
-
 const char nonterminals[][9] = {"ARIT","COMMAND","CONS","DEC","DECLARE","ELSE","F","FOR","FOREACH","G","ID","IF","OP","OPERANDO","PRINT","PUT","READ","REL","RESIZE","S","TYPE","VAR"};
 
 char p[] = {"SS > S $\nS > COMMAND\nCOMMAND > IF COMMAND\nCOMMAND > DECLARE COMMAND\nCOMMAND > RESIZE COMMAND\nCOMMAND > PUT COMMAND\nCOMMAND > FOR COMMAND\nCOMMAND > FOREACH COMMAND\nCOMMAND > READ COMMAND\nCOMMAND > PRINT COMMAND\nCOMMAND >\nDECLARE > declare ID DEC as TYPE .\nDEC > , ID DEC\nDEC >\nID > id\nID > id [ ]\nTYPE > number\nTYPE > letter\nRESIZE > resize id to ARIT .\nPUT > put ARIT in VAR .\nPUT > put string in id .\nARIT > ARIT + F\nARIT > ARIT - F\nARIT > F\nF > F * G\nF > F / G\nF > F % G\nF > G\nF > - G\nG > ( ARIT )\nG > OPERANDO\nOPERANDO > CONS\nOPERANDO > VAR\nCONS > num\nCONS > char\nVAR > id [ ARIT ]\nVAR > id\nREL > ARIT OP ARIT\nOP > <\nOP > >\nOP > <=\nOP > >=\nOP > <>\nOP > =\nIF > if REL then [ COMMAND ] ELSE\nELSE > else [ COMMAND ]\nELSE >\nFOR > for VAR from ARIT to ARIT do [ COMMAND ]\nFOREACH > foreach VAR in id do [ COMMAND ]\nREAD > read id .\nPRINT > print OPERANDO .\nPRINT > print string ."};
 
-void addElementN(struct stack **l, int code)
+void addFirstElement(struct stack **l, int code)
 {
 	struct node *e = malloc(sizeof(struct node));
 	e->code = code;
@@ -25,25 +23,18 @@ void addElementN(struct stack **l, int code)
 	(*l)->qnt++;
 }
 
-//void addElements(struct stack **l, int *nodes, int amount)
 void addElements(struct stack **l, struct tokenList *list)
 {
 	int i;
-//	struct node *e;
 	struct tokenNode *node = list->first;
 	for (i = 0; i < list->qnt; i++)
 	{
-//		e = malloc(sizeof(struct node));
-//		e->code = nodes[i];
-//		e->next = NULL;
-
-//		addElement(l,e);
-		addElementN(l,node->token->code);
+		addFirstElement(l,node->token->code);
 		node = node->next;
 	}
 }
 
-void addElementI(struct stack **l, int code)
+void addLastElement(struct stack **l, int code)
 {
 	struct node *e = malloc(sizeof(struct node));
 	e->code = code;
@@ -62,12 +53,11 @@ void addElementI(struct stack **l, int code)
 	}
 }
 
-struct node* popElement(struct stack **l)
+struct node* popLastElement(struct stack **l)
 {
 	struct node *n = (*l)->first, *temp = (*l)->first;
 	if ((*l)->qnt == 1)
 	{
-//		n = (*l)->first;
 		(*l)->first = NULL;
 		(*l)->last = NULL;
 	}
@@ -85,14 +75,18 @@ struct node* popElement(struct stack **l)
 	return n;
 }
 
-int popNElements(struct stack **l, int amount, int at)
+int popElements(struct stack **l, int amount, int at)
 {
-	if (amount == 0) return at;
-	int i = 0;
-	struct node *e;
-	for (i = 0; i < amount; i++)
-		e = popElement(l);
-	return e->code;
+	if (amount == 0)
+		return at;
+	else
+	{
+		int i = 0;
+		struct node *e = NULL;
+		for (i = 0; i < amount; i++)
+			e = popLastElement(l);
+		return e->code;
+	}
 }
 
 struct node* popFirstElement(struct stack **l)
@@ -100,7 +94,6 @@ struct node* popFirstElement(struct stack **l)
 	struct node *n = (*l)->first;
 	if ((*l)->qnt <= 1)
 	{
-//		n = (*l)->first;
 		(*l)->first = NULL;
 		(*l)->last = NULL;
 		(*l)->qnt = 0;
@@ -172,11 +165,8 @@ struct prod* createProds()
 
 	struct prod *prods = NULL;
 	prods = malloc(sizeof(struct prod) * size);
-//	for (i = 0; i < size; i++)
-//		prods[i] = calloc(1,sizeof(struct prod));
 
 	for (i = 0; i < size; i++)
-//	while (p[begin] > 0)
 	{
 		amount = 1;
 		lhs = calloc(50,sizeof(char));
@@ -190,7 +180,7 @@ struct prod* createProds()
 		end = strcspn(p+begin,"\n");
 		if (!end)
 		{
-			strcat(rhs,"&"); // Qual o codigo para vazio ?
+			strcat(rhs,"&");
 			amount--;
 		}
 		else
@@ -204,9 +194,8 @@ struct prod* createProds()
 			temp = strchr(temp + 1,' ');
 		}
 
-//		prods[i] = malloc(sizeof(struct prod));
-		prods[i].lhs = lhs;
-		prods[i].productions = rhs;
+//		prods[i].lhs = lhs;
+//		prods[i].productions = rhs;
 		prods[i].p = nonterminalIndex(lhs);
 		prods[i].n = amount;
 		prods[i].q = malloc(sizeof(int) * amount);
@@ -235,18 +224,14 @@ struct prod* createProds()
 //	}
 }
 
-//int parseSLR(int** mat, int *input, int inputSize, struct prod *p)
 int parseSLR(int** mat, struct tokenList *list, int inputSize, struct prod *p)
 {
 	int at = 0;
 	struct stack *estados = NULL, *entrada = NULL;
 	initStack(&estados);
 	initStack(&entrada);
-	// struct tokenNode *n = list->first;
-	//addElements(&entrada,input,inputSize);
-	// addElements(&entrada,n,list->qnt);
 	addElements(&entrada,list);
-	addElementN(&entrada,0);
+	addFirstElement(&entrada,0); // Adicionando o $ no final da entrada;
 
 	// printStack(entrada);
 
@@ -263,16 +248,18 @@ int parseSLR(int** mat, struct tokenList *list, int inputSize, struct prod *p)
 			return 1;
 		else if (acao > 0)
 		{
-			addElementN(&estados, at);
+			addFirstElement(&estados, at);
 			at = acao;
 		}
 		else
 		{
-			addElementI(&entrada,elem);
-			addElementI(&entrada, p[-acao].p);
-			at = popNElements(&estados,p[-acao].n,at);
+			addLastElement(&entrada,elem);
+			addLastElement(&entrada, p[-acao].p);
+			at = popElements(&estados,p[-acao].n,at);
 		}
 	}
+
+	return -1;
 }
 
 int** readMatrix(FILE *file)
@@ -284,7 +271,7 @@ int** readMatrix(FILE *file)
 
 	do
 	{
-		text = calloc(size+1,sizeof(char));//(char*) malloc(sizeof(char) * (size + 1));
+		text = calloc(size+1,sizeof(char));
 	} while (text == NULL);
 
 	fread(text, 1, size+1, file);
@@ -336,5 +323,3 @@ int** readMatrix(FILE *file)
 
 	return mat;
 }
-
-// --------------------------------------------- //

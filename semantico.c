@@ -31,23 +31,14 @@ int main(int argc, char** argv)
 		if (text != NULL)
 		{
 			struct tokenList *tokens;
-//			char **tokens = NULL;
 			int tokensAmount = 0, emptyAmount = 0;
-			tokens = tokenizer(text, &tokensAmount, &emptyAmount);
+			tokens = tokenizer(text);
 
-//			printf("Amounts: %d %d\n", tokensAmount, emptyAmount);
-//			int *codes = NULL;
-//			codes = verifyTokens(tokens, tokensAmount, emptyAmount);
 			int codes = 0;
-			codes = verifyTokens(tokens, tokensAmount, emptyAmount);
+			codes = verifyTokens(tokens);
 
-//			if (codes != NULL)
 			if (codes)
 			{
-//				int i;
-//				for (i = 0; i <= tokensAmount-emptyAmount; i++)
-//					printf("%d ",codes[i]);
-
 				int **mat = NULL;
 				struct prod *prods = NULL;
 				name = calloc(20,sizeof(char));
@@ -57,7 +48,6 @@ int main(int argc, char** argv)
 				{
 					mat = readMatrix(file);
 					prods = createProds();
-//					if(parseSLR(mat,codes,tokensAmount - emptyAmount + 1,prods))
 					if(parseSLR(mat,tokens,tokensAmount - emptyAmount + 1,prods))
 						printf("SIM\n");
 					else

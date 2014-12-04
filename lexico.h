@@ -14,8 +14,6 @@
 #include <ctype.h> // isdigit isalpha isalnum
 #include <limits.h> // INT_MAX INT_MIN
 
-//const char terminals[][9] = {"$","%","(",")","*","+",",","-",".","/","<","<=","<>","=",">",">=","[","]","as","char","declare","do","else","for","foreach","from","id","if","in","letter","num","number","print","put","read","resize","string","then","to"};
-
 struct token{
 	int code, value, line;
 	char *text, type;
@@ -33,7 +31,7 @@ struct tokenList{
 
 char* readFile(FILE *file);
 
-int verifyTokens(struct tokenList* tokens, int amount, int emptyAmount);
+int verifyTokens(struct tokenList* tokens);
 
 int validSeparator(struct token *t);
 
@@ -43,7 +41,7 @@ int validChar(struct token *t);
 
 int validNumber(struct token *t);
 
-struct tokenList* tokenizer(char *file, int *amount, int *emptyAmount);
+struct tokenList* tokenizer(char *file);
 
 int nextSeparator(char *line, char type);
 
