@@ -1,6 +1,6 @@
 #! /bin/bash
 
-gcc -g lexico.c
+gcc -g lexico.c sintatico.c semantico.c
 flag=true
 
 #input="Entradas/sample3.in"
