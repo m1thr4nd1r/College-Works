@@ -48,7 +48,7 @@ int nonterminalIndex(char* token);
 
 struct prod* createProds();
 
-int parseSLR(int** mat, struct tokenList *list, int inputSize, struct prod *p);
+int parseSLR(int** mat, struct tokenList *list, struct prod *p);
 
 int** readMatrix(FILE *file);
 

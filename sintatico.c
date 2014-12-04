@@ -224,7 +224,7 @@ struct prod* createProds()
 //	}
 }
 
-int parseSLR(int** mat, struct tokenList *list, int inputSize, struct prod *p)
+int parseSLR(int** mat, struct tokenList *list, struct prod *p)
 {
 	int at = 0;
 	struct stack *estados = NULL, *entrada = NULL;

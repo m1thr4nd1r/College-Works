@@ -31,7 +31,6 @@ int main(int argc, char** argv)
 		if (text != NULL)
 		{
 			struct tokenList *tokens;
-			int tokensAmount = 0, emptyAmount = 0;
 			tokens = tokenizer(text);
 
 			int codes = 0;
@@ -48,7 +47,7 @@ int main(int argc, char** argv)
 				{
 					mat = readMatrix(file);
 					prods = createProds();
-					if(parseSLR(mat,tokens,tokensAmount - emptyAmount + 1,prods))
+					if(parseSLR(mat,tokens,prods))
 						printf("SIM\n");
 					else
 						printf("NAO\n");
