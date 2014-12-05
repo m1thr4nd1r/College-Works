@@ -285,9 +285,7 @@ struct treeNode* parseSLR(int** mat, struct tokenList *list, struct prod *p)
 		{
 			node = popElements(&stack,stack->qnt,&at);
 			root = node;
-
-			printTree(root,"SS");
-
+//			printTree(root,"SS");
 			return root;
 		}
 		else if (acao > 0)
