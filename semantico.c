@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = calloc(100, sizeof(char));
-		strcpy(name, "Entradas/-declare.in");
+		strcpy(name, "Entradas/io.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
 
 		if (text != NULL)
 		{
-			struct tokenList *tokens;
+			struct tokenList *tokens = NULL;
 			tokens = tokenizer(text);
 
 			int codes = 0;
@@ -47,7 +47,9 @@ int main(int argc, char** argv)
 				{
 					mat = readMatrix(file);
 					prods = createProds();
-					if(parseSLR(mat,tokens,prods))
+					struct treeNode* root;
+					root = parseSLR(mat,tokens,prods);
+					if(root != NULL)
 						printf("SIM\n");
 					else
 						printf("NAO\n");

@@ -12,7 +12,7 @@ const char terminals[][9] = {"$","%","(",")","*","+",",","-",".","/","<","<=","<
 
 void addToken(struct tokenList **l, struct token *token)
 {
-	struct tokenNode *t = calloc(1,sizeof(struct tokenNode));
+	struct tokenElement *t = calloc(1,sizeof(struct tokenElement));
 	t->token = token;
 	t->next = NULL;
 
@@ -165,7 +165,7 @@ struct tokenList* tokenizer(char *file)
 
 	do
 	{
-		tokens = (struct tokenList*) calloc((int)strlen(file), sizeof(struct tokenList));
+		tokens = (struct tokenList*) calloc((int)strlen(file) + 1, sizeof(struct tokenList));
 	}
 	while (tokens == NULL);
 
@@ -325,7 +325,7 @@ int validSeparator(struct token *t)
 int verifyTokens(struct tokenList* tokens)
 {
 	int i, flag = 0;
-	struct tokenNode* node = tokens->first;
+	struct tokenElement* node = tokens->first;
 
 	for (i = 0; i < tokens->qnt; i++)
 	{

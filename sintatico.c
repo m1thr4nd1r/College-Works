@@ -4,12 +4,21 @@ const char nonterminals[][9] = {"ARIT","COMMAND","CONS","DEC","DECLARE","ELSE","
 
 char p[] = {"SS > S $\nS > COMMAND\nCOMMAND > IF COMMAND\nCOMMAND > DECLARE COMMAND\nCOMMAND > RESIZE COMMAND\nCOMMAND > PUT COMMAND\nCOMMAND > FOR COMMAND\nCOMMAND > FOREACH COMMAND\nCOMMAND > READ COMMAND\nCOMMAND > PRINT COMMAND\nCOMMAND >\nDECLARE > declare ID DEC as TYPE .\nDEC > , ID DEC\nDEC >\nID > id\nID > id [ ]\nTYPE > number\nTYPE > letter\nRESIZE > resize id to ARIT .\nPUT > put ARIT in VAR .\nPUT > put string in id .\nARIT > ARIT + F\nARIT > ARIT - F\nARIT > F\nF > F * G\nF > F / G\nF > F % G\nF > G\nF > - G\nG > ( ARIT )\nG > OPERANDO\nOPERANDO > CONS\nOPERANDO > VAR\nCONS > num\nCONS > char\nVAR > id [ ARIT ]\nVAR > id\nREL > ARIT OP ARIT\nOP > <\nOP > >\nOP > <=\nOP > >=\nOP > <>\nOP > =\nIF > if REL then [ COMMAND ] ELSE\nELSE > else [ COMMAND ]\nELSE >\nFOR > for VAR from ARIT to ARIT do [ COMMAND ]\nFOREACH > foreach VAR in id do [ COMMAND ]\nREAD > read id .\nPRINT > print OPERANDO .\nPRINT > print string ."};
 
-void addFirstElement(struct stack **l, int code)
+void printTree(struct treeNode *root, char *parent)
 {
-	struct node *e = malloc(sizeof(struct node));
-	e->code = code;
-	e->next = NULL;
+	int i;
+	printf("%s:",parent);
+	for (i = 0; i < root->qnt; i++)
+		printf("%s(%d) ",root->elements[i].token,root->elements[i].code);
+	printf("\n");
 
+	for (i = 0; i < root->qnt; i++)
+		if (root->elements[i].child != NULL)
+					printTree(root->elements[i].child, root->elements[i].token);
+}
+
+void addLastElement(struct stack **l, struct stackNode *e)
+{
 	if ((*l)->first == NULL)
 	{
 		(*l)->first = e;
@@ -26,19 +35,38 @@ void addFirstElement(struct stack **l, int code)
 void addElements(struct stack **l, struct tokenList *list)
 {
 	int i;
-	struct tokenNode *node = list->first;
+	struct tokenElement *elem = list->first;
+	struct stackNode *node = NULL;
+
 	for (i = 0; i < list->qnt; i++)
 	{
-		addFirstElement(l,node->token->code);
-		node = node->next;
+		node = calloc(1,sizeof(struct stackNode));
+		node->token = calloc(strlen(elem->token->text)+1,sizeof(char));
+		strcpy(node->token, elem->token->text);
+		node->code = elem->token->code;
+		node->state = -1;
+		node->child = NULL;
+		node->next = NULL;
+
+		addLastElement(l,node);
+		elem = elem->next;
 	}
+
+	// Adicionando o $ no final da entrada
+	node = calloc(1,sizeof(struct stackNode));
+	node->token = calloc(2,sizeof(char));
+	strcpy(node->token, "$");
+	node->code = 0;
+	node->state = -1;
+	node->child = NULL;
+	node->next = NULL;
+
+	addLastElement(l,node);
+	// ---------------------------------//
 }
 
-void addLastElement(struct stack **l, int code)
+void addFirstElement(struct stack **l, struct stackNode *e)
 {
-	struct node *e = malloc(sizeof(struct node));
-	e->code = code;
-	e->next = NULL;
 	if ((*l)->first == NULL)
 	{
 		(*l)->first = e;
@@ -53,9 +81,9 @@ void addLastElement(struct stack **l, int code)
 	}
 }
 
-struct node* popLastElement(struct stack **l)
+struct stackNode* popLastElement(struct stack **l)
 {
-	struct node *n = (*l)->first, *temp = (*l)->first;
+	struct stackNode *n = (*l)->first, *temp = (*l)->first;
 	if ((*l)->qnt == 1)
 	{
 		(*l)->first = NULL;
@@ -75,23 +103,29 @@ struct node* popLastElement(struct stack **l)
 	return n;
 }
 
-int popElements(struct stack **l, int amount, int at)
+struct treeNode* popElements(struct stack **l, int amount, int* at)
 {
-	if (amount == 0)
-		return at;
-	else
+	int i = 0;
+	struct stackNode *e = NULL;
+	struct treeNode *t = calloc(1,sizeof(struct treeNode));
+	t->elements = calloc(amount,sizeof(struct element));
+	t->qnt = amount;
+
+	for (i = 0; i < amount; i++)
 	{
-		int i = 0;
-		struct node *e = NULL;
-		for (i = 0; i < amount; i++)
-			e = popLastElement(l);
-		return e->code;
+		e = popLastElement(l);
+		t->elements[amount - i - 1].code = e->code;
+		t->elements[amount - i - 1].token = e->token;
+		t->elements[amount - i - 1].child = e->child;
 	}
+
+	*at = e->state;
+	return t;
 }
 
-struct node* popFirstElement(struct stack **l)
+struct stackNode* popFirstElement(struct stack **l)
 {
-	struct node *n = (*l)->first;
+	struct stackNode *n = (*l)->first;
 	if ((*l)->qnt <= 1)
 	{
 		(*l)->first = NULL;
@@ -109,11 +143,11 @@ struct node* popFirstElement(struct stack **l)
 
 void clearStack(struct stack **l)
 {
-	struct node *e = (*l)->first;
+	struct stackNode *e = (*l)->first;
 
 	while (e != NULL)
 	{
-		struct node *temp = e;
+		struct stackNode *temp = e;
 		e = e->next;
 		free(temp);
 	}
@@ -125,14 +159,14 @@ void clearStack(struct stack **l)
 
 void printStack(struct stack *l)
 {
-	struct node *e = l->first;
+	struct stackNode *e = l->first;
 	int index = 0;
 
 	while (e != NULL)
 	{
 //		printf("Elemento %d:\n", index);
 //		printf("code:  %d:\n", e->code);
-		printf("(%d)%d ", index, e->code);
+		printf("(%d)%d : %s - %d\n", index, e->state, e->token, e->code);
 		e = e->next;
 		index++;
 	}
@@ -224,42 +258,70 @@ struct prod* createProds()
 //	}
 }
 
-int parseSLR(int** mat, struct tokenList *list, struct prod *p)
+struct treeNode* parseSLR(int** mat, struct tokenList *list, struct prod *p)
 {
-	int at = 0;
-	struct stack *estados = NULL, *entrada = NULL;
-	initStack(&estados);
-	initStack(&entrada);
-	addElements(&entrada,list);
-	addFirstElement(&entrada,0); // Adicionando o $ no final da entrada;
+	int at = 0, acao;
+	struct stack *stack = NULL, *input = NULL;
+	struct stackNode *elem = NULL;
+	struct treeNode *root = NULL, *node = NULL;
 
-	// printStack(entrada);
+	initStack(&stack);
+	initStack(&input);
+	addElements(&input,list);
+
+//	printStack(input);
 
 	for (;;)
 	{
-		int elem = popFirstElement(&entrada)->code;
-		int acao = mat[at][elem];
+		elem = popFirstElement(&input);
+		acao = mat[at][elem->code];
+
 		if (acao == INT_MIN)
 		{
-//			printf("estado: %d acao: %d elem: %d\n", at, acao, elem);
-			return 0;
+//			printf("estado: %d acao: %d elem: (%d)%s - %s\n", at, acao, elem->code, elem->token, input->first->token);
+			return NULL;
 		}
 		else if (acao == INT_MAX)
-			return 1;
-		else if (acao > 0)
 		{
-			addFirstElement(&estados, at);
+			node = popElements(&stack,stack->qnt,&at);
+			root = node;
+
+			printTree(root,"SS");
+
+			return root;
+		}
+		else if (acao > 0)
+//		Mudança de estado
+		{
+			elem->state = at;
+			addLastElement(&stack, elem);
 			at = acao;
 		}
 		else
+//		Redução
 		{
-			addLastElement(&entrada,elem);
-			addLastElement(&entrada, p[-acao].p);
-			at = popElements(&estados,p[-acao].n,at);
+			addFirstElement(&input,elem);
+
+			if (p[-acao].n > 0)
+			{
+				node = popElements(&stack,p[-acao].n,&at);
+				root = node;
+			}
+			else
+				node = NULL;
+
+			elem = calloc(1,sizeof(struct stackNode));
+			elem->state = -1;
+			elem->code = p[-acao].p;
+			elem->token = calloc(9,sizeof(char));
+			strcat(elem->token,nonterminals[p[-acao].p - 39]);
+			elem->child = node;
+
+			addFirstElement(&input, elem);
 		}
 	}
 
-	return -1;
+	return NULL;
 }
 
 int** readMatrix(FILE *file)

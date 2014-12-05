@@ -19,13 +19,13 @@ struct token{
 	char *text, type;
 };
 
-struct tokenNode{
+struct tokenElement{
 	struct token *token;
-	struct tokenNode *next;
+	struct tokenElement *next;
 };
 
 struct tokenList{
-	struct tokenNode *first, *last;
+	struct tokenElement *first, *last;
 	int qnt;
 };
 

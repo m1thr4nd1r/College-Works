@@ -15,28 +15,43 @@ struct prod{
 //	char *lhs, *productions; // Para Debug
 } *r;
 
-struct node{
-	int code;
-	struct node *next;
-};
-
-struct stack{
-	struct node *first;
-	struct node *last;
+struct treeNode{
+	struct element *elements; // ou struct element elements[10]
 	int qnt;
 };
 
-void addFirstElement(struct stack **l, int code);
+struct element{
+	int code;
+	char *token;
+	struct treeNode *child;
+};
+
+struct stackNode{
+	int code, state;
+	char *token;
+	struct treeNode *child;
+	struct stackNode *next;
+};
+
+struct stack{
+	struct stackNode *first;
+	struct stackNode *last;
+	int qnt;
+};
+
+void printTree(struct treeNode *root, char *parent);
+
+void addLastElement(struct stack **l, struct stackNode *e);
 
 void addElements(struct stack **l, struct tokenList *list);
 
-void addLastElement(struct stack **l, int code);
+void addFirstElement(struct stack **l, struct stackNode *e);
 
-struct node* popLastElement(struct stack **l);
+struct stackNode* popLastElement(struct stack **l);
 
-int popElements(struct stack **l, int amount, int at);
+struct treeNode* popElements(struct stack **l, int amount, int *at);
 
-struct node* popFirstElement(struct stack **l);
+struct stackNode* popFirstElement(struct stack **l);
 
 void clearStack(struct stack **l);
 
@@ -48,7 +63,7 @@ int nonterminalIndex(char* token);
 
 struct prod* createProds();
 
-int parseSLR(int** mat, struct tokenList *list, struct prod *p);
+struct treeNode* parseSLR(int** mat, struct tokenList *list, struct prod *p);
 
 int** readMatrix(FILE *file);
 
