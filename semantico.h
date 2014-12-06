@@ -10,4 +10,49 @@
 
 #include "sintatico.h"
 
+struct id{
+	char *name;
+	struct id *next;
+};
+
+struct idList{
+	struct id *first;
+	struct id *last;
+	int qnt;
+};
+
+//struct varTable{
+//	struct idList *table[4];
+	// 0 -> num
+	// 1 -> numVec
+	// 2 -> letter
+	// 3 -> letterVec
+//};
+
+struct context{
+//	struct varTable *table;
+	struct idList *table[4];
+	struct context *parent;
+};
+
+int declared(char *c, struct context *context);
+
+int declare(struct treeNode *root, struct context *context);
+
+void resize(struct treeNode *root);
+
+void put(struct treeNode *root);
+
+void cond(struct treeNode *root);
+
+void loop(struct treeNode *root);
+
+void foreach(struct treeNode *root);
+
+void read(struct treeNode *root);
+
+void write(struct treeNode *root);
+
+void treeCheck(struct treeNode *root, struct context *context);
+
 #endif /* SEMANTICO_H_ */
