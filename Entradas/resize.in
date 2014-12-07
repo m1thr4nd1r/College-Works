@@ -1,2 +1,4 @@
+DECLARE vetor[] as number.
+Declare nome,a as letter.
 RESIZE vetor TO a+b.
 RESIZE nome TO MAXTAM.

@@ -40,7 +40,7 @@ int declared(char *c, struct context *context)
 			while (var != NULL && !flag)
 			{
 				if (strcmp(var->name, c) == 0)
-					flag = 1;
+					return i + 1;
 				var = var->next;
 			}
 			i++;
@@ -49,7 +49,7 @@ int declared(char *c, struct context *context)
 		context = context->parent;
 	}
 
-	return flag;
+	return 0;
 }
 
 int declare(struct treeNode *root, struct context *context)
@@ -73,7 +73,7 @@ int declare(struct treeNode *root, struct context *context)
 							}
 							else
 							{
-								printf("NAO");
+								printf("DECLARE: Não declarar variáveis (%s)\n", root->elements[1].child->elements[0].token);
 								return 1;
 							}
 						}
@@ -92,7 +92,7 @@ int declare(struct treeNode *root, struct context *context)
 							}
 							else
 							{
-								printf("NAO");
+								printf("DECLARE: Não declarar variáveis (%s)\n", root->elements[1].child->elements[0].token);
 								return 1;
 							}
 						}
@@ -102,8 +102,121 @@ int declare(struct treeNode *root, struct context *context)
 	return 0;
 }
 
-//void resize(struct treeNode *root);
-//void put(struct treeNode *root);
+int arit(struct treeNode *root, struct context *context)
+{
+//	ARIT -> ARIT + F || ARIT - F || F
+//	F -> F * G || F / G || F % G || G || - G
+//	G -> ( ARIT ) || OPERANDO
+//	OPERANDO -> CONS || VAR
+//	CONS -> num || char
+//	VAR -> id [ ARIT ] || id
+	int i = 0, flag = 0;
+	if (root != NULL)
+	{
+		while (i < root->qnt && !flag)
+		{
+			flag += arit(root->elements[i].child, context);
+			i++;
+		}
+
+		if (!flag && root->elements[0].code == 26)
+		{
+			int j = declared(root->elements[0].token,context);
+			if (!j)
+			{
+				printf("ARIT: Não declarar variáveis (%s)\n", root->elements[0].token);
+				flag += 1;
+			}
+			else if (root->qnt == 1 && (j-1) % 2)
+			{
+				printf("ARIT: Não indexar variáveis que sejam vetores (%s)\n", root->elements[0].token);
+				flag += 1;
+			}
+			else if (root->qnt > 1 && j % 2)
+			{
+				printf("ARIT: Indexar variáveis que não sejam vetores (%s)\n", root->elements[0].token);
+				flag += 1;
+			}
+		}
+	}
+	return flag;
+}
+
+int resize(struct treeNode *root, struct context *context)
+{
+	// resize id to ARIT .
+	int i = declared(root->elements[1].token, context);
+
+	if (!i)
+	{
+		printf("RESIZE: Não declarar variáveis (%s)\n", root->elements[1].token);
+		return 1;
+	}
+	else if (i % 2)
+	{
+		printf("RESIZE: Alocar variáveis que não sejam vetores (%s)\n", root->elements[1].token);
+		return 1;
+	}
+
+	int j = arit(root->elements[3].child, context);
+
+	return j;
+}
+
+int var(struct treeNode *root, struct context *context)
+{
+	// id || id [ ARIT ]
+	int i = declared(root->elements[0].token, context);
+
+	if (!i)
+	{
+		printf("VAR: Não declarar variáveis (%s)\n", root->elements[0].token);
+		return 1;
+	}
+
+	int j = 0;
+	if (root->qnt > 1)
+		j = arit(root->elements[2].child, context);
+
+	if (!j)
+	{
+		printf("VAR: ARIT invalido\n");
+		return 1;
+	}
+
+	return i && j;
+}
+
+int put(struct treeNode *root, struct context *context)
+{
+//	put ARIT in VAR . || put string in id .
+	int i, j;
+	if (root->elements[1].code == 39) // put ARIT in VAR .
+	{
+		printf("PUT:\n");
+		i = arit(root->elements[1].child, context);
+		j = var(root->elements[3].child, context);
+
+		return i || j;
+	}
+	else if (root->elements[1].code == 36) // put string in id .
+	{
+		i = declared(root->elements[3].token, context);
+		if (!i)
+		{
+			printf("PUT: Não declarar variáveis (%s)\n", root->elements[3].token);
+			return 1;
+		}
+		else if (i != 4)
+		{
+			printf("PUT: Variavel nao é vetor de letter (%s)\n", root->elements[3].token);
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 //void cond(struct treeNode *root);
 //void loop(struct treeNode *root);
 //void foreach(struct treeNode *root);
@@ -114,31 +227,36 @@ struct context* createContext()
 {
 	struct context *c = NULL;
 	c = calloc(1,sizeof(struct context));
-//	c->table = calloc(1,sizeof(struct varTable));
 	int i;
 	for (i = 0; i < 4; i++)
 		c->table[i] = calloc(1,sizeof(struct idList));
-//	c->table->letter = calloc(1,sizeof(struct idList));
-//	c->table->letterVec = calloc(1,sizeof(struct idList));
-//	c->table->num = calloc(1,sizeof(struct idList));
-//	c->table->numVec = calloc(1,sizeof(struct idList));
 
 	return c;
 }
 
-void treeCheck(struct treeNode *root, struct context *context)
+int treeCheck(struct treeNode *root, struct context *context)
 {
+	int i;
+
 	if (root != NULL)
 	{
-		int i, flag;
 		for (i = 0; i < root->qnt; i++)
 		{
-			if (root->elements[i].code == 43) // DECLARE
-				declare(root->elements[i].child, context);
-//			else if (root->elements[i].code == 57) // RESIZE
-//				resize(root->elements[i].child);
-//			else if (root->elements[i].code == 54) // PUT
-//				put(root->elements[i].child);
+			if (root->elements[i].code == 43)
+			{
+				if (declare(root->elements[i].child, context)) // DECLARE
+					return 1;
+			}
+			else if (root->elements[i].code == 57) // RESIZE
+			{
+				if (resize(root->elements[i].child, context))
+					return 2;
+			}
+			else if (root->elements[i].code == 54) // PUT
+			{
+				if (put(root->elements[i].child, context))
+					return 3;
+			}
 //			else if (root->elements[i].code == 50) // IF
 //				cond(root->elements[i].child);
 //			else if (root->elements[i].code == 46) // FOR
@@ -150,10 +268,20 @@ void treeCheck(struct treeNode *root, struct context *context)
 //			else if (root->elements[i].code == 53) // PRINT
 //				write(root->elements[i].child);
 			else
-				treeCheck(root->elements[i].child, context);
+				return treeCheck(root->elements[i].child, context);
 		}
 	}
+
+	return 0;
 }
+
+char errors[6][100] = {  "Não declarar variáveis",
+						 "Redeclarar variáveis",
+						 "Usar vetores não alocados",
+						 "Alocar variáveis que não sejam vetores",
+						 "Indexar variáveis que não sejam vetores",
+						 "Não indexar variáveis que sejam vetores",
+						 "Utilizar variáveis que não sejam vetores como vetores em loops vetoriais" };
 
 int main(int argc, char** argv)
 {
@@ -163,7 +291,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = calloc(100, sizeof(char));
-		strcpy(name, "Entradas/declare.in");
+		strcpy(name, "Entradas/resize.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
@@ -201,8 +329,11 @@ int main(int argc, char** argv)
 					{
 						printf("SIM\n");
 						struct context *context = createContext();
-						treeCheck(root, context);
-						printf("s");
+						int t = treeCheck(root, context);
+						if (t > 0)
+							printf("NAO(%d)\n",t);
+						else
+							printf("SIM\n");
 					}
 					else
 						printf("NAO\n");
@@ -219,5 +350,3 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
-

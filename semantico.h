@@ -39,9 +39,11 @@ int declared(char *c, struct context *context);
 
 int declare(struct treeNode *root, struct context *context);
 
-void resize(struct treeNode *root);
+int resize(struct treeNode *root, struct context *context);
 
-void put(struct treeNode *root);
+int arit(struct treeNode *root, struct context *context);
+
+int put(struct treeNode *root, struct context *context);
 
 void cond(struct treeNode *root);
 
@@ -53,6 +55,6 @@ void read(struct treeNode *root);
 
 void write(struct treeNode *root);
 
-void treeCheck(struct treeNode *root, struct context *context);
+int treeCheck(struct treeNode *root, struct context *context);
 
 #endif /* SEMANTICO_H_ */
