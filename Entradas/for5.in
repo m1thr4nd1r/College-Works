@@ -1,0 +1,5 @@
+declare n,vet as number.
+
+foreach n in vet do [
+put soma+n in soma.
+]
