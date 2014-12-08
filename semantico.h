@@ -12,6 +12,7 @@
 
 struct id{
 	char *name;
+	int alloc;
 	struct id *next;
 };
 
@@ -45,15 +46,15 @@ int arit(struct treeNode *root, struct context *context);
 
 int put(struct treeNode *root, struct context *context);
 
-void cond(struct treeNode *root);
+int cond(struct treeNode *root, struct context *context);
 
-void loop(struct treeNode *root);
+int loop(struct treeNode *root, struct context *context);
 
-void foreach(struct treeNode *root);
+int foreach(struct treeNode *root, struct context *context);
 
-void read(struct treeNode *root);
+int read(struct treeNode *root, struct context *context);
 
-void write(struct treeNode *root);
+int write(struct treeNode *root, struct context *context);
 
 int treeCheck(struct treeNode *root, struct context *context);
 

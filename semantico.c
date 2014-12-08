@@ -7,10 +7,19 @@
 
 #include "semantico.h"
 
+void printErrorCause(char *func, char *error, char *name)
+{
+	if (name == NULL)
+		printf("%s: %s com problema\n",func,error);
+	else
+		printf("%s: %s (%s)\n",func,error,name);
+}
+
 void addId(struct idList **l, char *name)
 {
 	struct id *t = calloc(1,sizeof(struct id));
 	t->name = name;
+	t->alloc = 0;
 	t->next = NULL;
 
 	if ((*l)->first == NULL)
@@ -73,7 +82,7 @@ int declare(struct treeNode *root, struct context *context)
 							}
 							else
 							{
-								printf("DECLARE: Não declarar variáveis (%s)\n", root->elements[1].child->elements[0].token);
+								printErrorCause("DECLARE","Redeclarar variáveis",root->elements[1].child->elements[0].token);
 								return 1;
 							}
 						}
@@ -92,11 +101,31 @@ int declare(struct treeNode *root, struct context *context)
 							}
 							else
 							{
-								printf("DECLARE: Não declarar variáveis (%s)\n", root->elements[1].child->elements[0].token);
+								printErrorCause("DECLARE","Redeclarar variáveis",root->elements[1].child->elements[0].token);
 								return 1;
 							}
 						}
 						break;
+	}
+
+	return 0;
+}
+
+int alloced(char *name, int type, struct context *context)
+{
+	struct id *var;
+
+	while (context != NULL)
+	{
+		var = context->table[type-1]->first;
+		while (var != NULL)
+		{
+			if (strcmp(var->name, name) == 0)
+				return var->alloc;
+			var = var->next;
+		}
+
+		context = context->parent;
 	}
 
 	return 0;
@@ -124,22 +153,50 @@ int arit(struct treeNode *root, struct context *context)
 			int j = declared(root->elements[0].token,context);
 			if (!j)
 			{
-				printf("ARIT: Não declarar variáveis (%s)\n", root->elements[0].token);
+				printErrorCause("ARIT","Não declarar variáveis",root->elements[0].token);
+				flag += 1;
+			}
+			else if ((j-1) % 2 && !alloced(root->elements[0].token, j, context))
+			{
+				printErrorCause("ARIT","Usar vetores não alocados",root->elements[0].token);
 				flag += 1;
 			}
 			else if (root->qnt == 1 && (j-1) % 2)
 			{
-				printf("ARIT: Não indexar variáveis que sejam vetores (%s)\n", root->elements[0].token);
+				printErrorCause("ARIT","Não indexar variáveis que sejam vetores",root->elements[0].token);
 				flag += 1;
 			}
 			else if (root->qnt > 1 && j % 2)
 			{
-				printf("ARIT: Indexar variáveis que não sejam vetores (%s)\n", root->elements[0].token);
+				printErrorCause("ARIT","Indexar variáveis que não sejam vetores",root->elements[0].token);
 				flag += 1;
 			}
 		}
 	}
 	return flag;
+}
+
+int alloc(char *name, int type, struct context *context)
+{
+	struct id *var;
+
+	while (context != NULL)
+	{
+		var = context->table[type-1]->first;
+		while (var != NULL)
+		{
+			if (strcmp(var->name, name) == 0)
+			{
+				var->alloc = 1;
+				return 0;
+			}
+			var = var->next;
+		}
+
+		context = context->parent;
+	}
+
+	return 1;
 }
 
 int resize(struct treeNode *root, struct context *context)
@@ -149,16 +206,23 @@ int resize(struct treeNode *root, struct context *context)
 
 	if (!i)
 	{
-		printf("RESIZE: Não declarar variáveis (%s)\n", root->elements[1].token);
+		printErrorCause("RESIZE","Não declarar variáveis",root->elements[1].token);
 		return 1;
 	}
 	else if (i % 2)
 	{
-		printf("RESIZE: Alocar variáveis que não sejam vetores (%s)\n", root->elements[1].token);
+		printErrorCause("RESIZE","Alocar variáveis que não sejam vetores",root->elements[1].token);
 		return 1;
 	}
 
 	int j = arit(root->elements[3].child, context);
+
+	if (!j)
+	{
+		j = alloc(root->elements[1].token, i, context);
+		if (j)
+			printErrorCause("RESIZE","alloc",NULL);
+	}
 
 	return j;
 }
@@ -170,32 +234,48 @@ int var(struct treeNode *root, struct context *context)
 
 	if (!i)
 	{
-		printf("VAR: Não declarar variáveis (%s)\n", root->elements[0].token);
+		printErrorCause("VAR","Não declarar variáveis",root->elements[0].token);
 		return 1;
 	}
 
 	int j = 0;
-	if (root->qnt > 1)
+	if ((i-1) % 2 && !alloced(root->elements[0].token, i, context))
+	{
+		printErrorCause("VAR","Usar vetores não alocados",root->elements[0].token);
+		return 1;
+	}
+	if (root->qnt > 1 && i % 2)
+	{
+		printErrorCause("VAR","Indexar variáveis que não sejam vetores",root->elements[0].token);
+		return 1;
+	}
+	else if (root->qnt > 1)
 		j = arit(root->elements[2].child, context);
 
-	if (!j)
+	if (j)
 	{
-		printf("VAR: ARIT invalido\n");
+		printErrorCause("VAR","ARIT",NULL);
 		return 1;
 	}
 
-	return i && j;
+	return !i || j;
 }
 
 int put(struct treeNode *root, struct context *context)
 {
 //	put ARIT in VAR . || put string in id .
-	int i, j;
+	int i, j = 0;
 	if (root->elements[1].code == 39) // put ARIT in VAR .
 	{
-		printf("PUT:\n");
 		i = arit(root->elements[1].child, context);
-		j = var(root->elements[3].child, context);
+
+		if (!i)
+			j = var(root->elements[3].child, context);
+		else
+			printErrorCause("PUT","ARIT",NULL);
+
+		if (j)
+			printErrorCause("PUT","VAR",NULL);
 
 		return i || j;
 	}
@@ -204,12 +284,12 @@ int put(struct treeNode *root, struct context *context)
 		i = declared(root->elements[3].token, context);
 		if (!i)
 		{
-			printf("PUT: Não declarar variáveis (%s)\n", root->elements[3].token);
+			printErrorCause("PUT","Não declarar variáveis",root->elements[3].token);
 			return 1;
 		}
 		else if (i != 4)
 		{
-			printf("PUT: Variavel nao é vetor de letter (%s)\n", root->elements[3].token);
+			printErrorCause("PUT","Variavel nao é vetor de letter",root->elements[3].token);
 			return 1;
 		}
 	}
@@ -217,11 +297,17 @@ int put(struct treeNode *root, struct context *context)
 	return 0;
 }
 
-//void cond(struct treeNode *root);
-//void loop(struct treeNode *root);
-//void foreach(struct treeNode *root);
-//void read(struct treeNode *root);
-//void write(struct treeNode *root);
+int rel(struct treeNode *root, struct context *context)
+{
+//	ARIT OP ARIT
+	if (arit(root->elements[0].child,context) ||
+		arit(root->elements[2].child,context))
+	{
+		printErrorCause("REL","ARIT",NULL);
+		return 1;
+	}
+	return 0;
+}
 
 struct context* createContext()
 {
@@ -233,6 +319,162 @@ struct context* createContext()
 
 	return c;
 }
+
+int cond(struct treeNode *root, struct context *context)
+{
+//	if REL then [ COMMAND ] ELSE
+//	else [ COMMAND ] || &
+
+	int i = rel(root->elements[1].child, context);
+	if (i)
+	{
+		printErrorCause("IF","REL",NULL);
+		return 1;
+	}
+
+	int j = 0;
+	if (root->elements[4].child != NULL)
+	{
+		struct context *c = createContext();
+		c->parent = context;
+		j = treeCheck(root->elements[4].child, c);
+		free(c);
+	}
+
+	if (j)
+	{
+		printErrorCause("IF","COMMAND",NULL);
+		return 1;
+	}
+
+	int k = 0;
+	if (root->elements[6].child != NULL)
+	{
+		struct context *c = createContext();
+		c->parent = context;
+		k = treeCheck(root->elements[6].child->elements[2].child, c);
+		free(c);
+	}
+
+	if (k)
+	{
+		printErrorCause("ELSE","COMMAND",NULL);
+		return 1;
+	}
+
+	return 0;
+}
+
+int loop(struct treeNode *root, struct context *context)
+{
+//	for VAR from ARIT to ARIT do [ COMMAND ]
+	int i = var(root->elements[1].child, context);
+	if (i)
+	{
+		printErrorCause("FOR","VAR",NULL);
+		return 1;
+	}
+
+	i = arit(root->elements[3].child, context);
+	if (i)
+	{
+		printErrorCause("FOR","ARIT",NULL);
+		return 1;
+	}
+
+	i = arit(root->elements[5].child, context);
+	if (i)
+	{
+		printErrorCause("FOR","ARIT",NULL);
+		return 1;
+	}
+
+	if (root->elements[8].child != NULL)
+	{
+		struct context *c = createContext();
+		c->parent = context;
+		i = treeCheck(root->elements[8].child, c);
+		free(c);
+	}
+
+	if (i)
+	{
+		printErrorCause("FOR","COMMAND",NULL);
+		return 1;
+	}
+
+	return 0;
+}
+
+int foreach(struct treeNode *root, struct context *context)
+{
+//	foreach VAR in id do [ COMMAND ]
+	int i = var(root->elements[1].child, context);
+	if (i)
+	{
+		printErrorCause("FOREACH","VAR",NULL);
+		return 1;
+	}
+
+	i = declared(root->elements[3].token,context);
+	if (!i)
+	{
+		printErrorCause("FOREACH","Não declarar variáveis", root->elements[3].token);
+		return 1;
+	}
+	else if (i % 2)
+	{
+		printErrorCause("FOREACH","Utilizar variáveis que não sejam vetores como vetores em loops vetoriais", root->elements[3].token);
+		return 1;
+	}
+	else if (!alloced(root->elements[3].token, i, context))
+	{
+		printErrorCause("FOREACH","Usar vetores não alocados", root->elements[3].token);
+		return 1;
+	}
+
+	if (root->elements[6].child != NULL)
+	{
+		struct context *c = createContext();
+		c->parent = context;
+		i = treeCheck(root->elements[6].child, c);
+		free(c);
+	}
+
+	if (i)
+	{
+		printErrorCause("FOREACH","COMMAND",NULL);
+		return 1;
+	}
+
+	return 0;
+}
+
+int read(struct treeNode *root, struct context *context)
+{
+//	read VAR .
+	int i = var(root->elements[1].child, context);
+	if (i)
+		printErrorCause("READ","VAR", NULL);
+
+	return i;
+}
+
+int write(struct treeNode *root, struct context *context)
+{
+//	print OPERANDO . || print string .
+	int i = 0;
+	if (root->elements[1].child != NULL &&
+		root->elements[1].child->elements[0].code == 60)
+		i = var(root->elements[1].child->elements[0].child, context);
+
+	if (i)
+		printErrorCause("PRINT","VAR", NULL);
+
+	return i;
+}
+
+
 
 int treeCheck(struct treeNode *root, struct context *context)
 {
@@ -257,16 +499,31 @@ int treeCheck(struct treeNode *root, struct context *context)
 				if (put(root->elements[i].child, context))
 					return 3;
 			}
-//			else if (root->elements[i].code == 50) // IF
-//				cond(root->elements[i].child);
-//			else if (root->elements[i].code == 46) // FOR
-//				loop(root->elements[i].child);
-//			else if (root->elements[i].code == 47) // FOREACH
-//				foreach(root->elements[i].child);
-//			else if (root->elements[i].code == 55) // READ
-//				read(root->elements[i].child);
-//			else if (root->elements[i].code == 53) // PRINT
-//				write(root->elements[i].child);
+			else if (root->elements[i].code == 50) // IF
+			{
+				if(cond(root->elements[i].child, context))
+					return 4;
+			}
+			else if (root->elements[i].code == 46) // FOR
+			{
+				if(loop(root->elements[i].child, context))
+					return 5;
+			}
+			else if (root->elements[i].code == 47) // FOREACH
+			{
+				if(foreach(root->elements[i].child,context))
+					return 6;
+			}
+			else if (root->elements[i].code == 55) // READ
+			{
+				if (read(root->elements[i].child, context))
+					return 7;
+			}
+			else if (root->elements[i].code == 53) // PRINT
+			{
+				if (write(root->elements[i].child, context))
+					return 8;
+			}
 			else
 				return treeCheck(root->elements[i].child, context);
 		}
@@ -274,14 +531,6 @@ int treeCheck(struct treeNode *root, struct context *context)
 
 	return 0;
 }
-
-char errors[6][100] = {  "Não declarar variáveis",
-						 "Redeclarar variáveis",
-						 "Usar vetores não alocados",
-						 "Alocar variáveis que não sejam vetores",
-						 "Indexar variáveis que não sejam vetores",
-						 "Não indexar variáveis que sejam vetores",
-						 "Utilizar variáveis que não sejam vetores como vetores em loops vetoriais" };
 
 int main(int argc, char** argv)
 {
@@ -291,7 +540,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = calloc(100, sizeof(char));
-		strcpy(name, "Entradas/resize.in");
+		strcpy(name, "Entradas/for4.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
@@ -331,7 +580,8 @@ int main(int argc, char** argv)
 						struct context *context = createContext();
 						int t = treeCheck(root, context);
 						if (t > 0)
-							printf("NAO(%d)\n",t);
+//							printf("NAO(%d)\n",t);
+							printf("NAO\n");
 						else
 							printf("SIM\n");
 					}
