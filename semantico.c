@@ -9,10 +9,10 @@
 
 void printErrorCause(char *func, char *error, char *name)
 {
-	if (name == NULL)
-		printf("%s: %s com problema\n",func,error);
-	else
-		printf("%s: %s (%s)\n",func,error,name);
+	// if (name == NULL)
+	// 	printf("%s: %s com problema\n",func,error);
+	// else
+	// 	printf("%s: %s (%s)\n",func,error,name);
 }
 
 void addId(struct idList **l, char *name)
