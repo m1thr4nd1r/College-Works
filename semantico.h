@@ -36,6 +36,8 @@ struct context{
 	struct context *parent;
 };
 
+void printErrorCause(char *func, char *error, char *name);
+
 int declared(char *c, struct context *context);
 
 int declare(struct treeNode *root, struct context *context);
