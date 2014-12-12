@@ -292,6 +292,13 @@ int put(struct treeNode *root, struct context *context)
 			printErrorCause("PUT","Variavel nao é vetor de letter",root->elements[3].token);
 			return 1;
 		}
+
+		i = alloced(root->elements[3].token,i,context);
+		if (!i)
+		{
+			printErrorCause("PUT","Vetor nao alocado",root->elements[3].token);
+			return 1;
+		}
 	}
 
 	return 0;
@@ -540,7 +547,7 @@ int main(int argc, char** argv)
 	if (argc == 1)
 	{
 		name = calloc(100, sizeof(char));
-		strcpy(name, "Entradas/for4.in");
+		strcpy(name, "foo.in");
 	}
 	else
 //		Caso seja passado como ./a.exe < test.in, entao o indice abaixo troca de 1 para 2
