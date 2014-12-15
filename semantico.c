@@ -12,7 +12,7 @@ void printErrorCause(char *func, char *error, char *name)
 	// if (name == NULL)
 	// 	printf("%s: %s com problema\n",func,error);
 	// else
-	// 	printf("%s: %s (%s)\n",func,error,name);
+		// printf("%s: %s (%s)\n",func,error,name);
 }
 
 void addId(struct idList **l, char *name)
@@ -449,6 +449,7 @@ int foreach(struct treeNode *root, struct context *context)
 		return 1;
 	}
 
+	i = 0;
 	if (root->elements[6].child != NULL)
 	{
 		struct context *c = createContext();
