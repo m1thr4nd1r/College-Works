@@ -1,0 +1,8 @@
+declare n[],vet[] as number.
+
+resize vet to 1.
+resize n to 1.
+
+foreach n in vet do [
+declare soma as letter.
+]
