@@ -1,0 +1,6 @@
+declare n,vet[],a[] as number.
+
+resize a to 2.
+resize vet to a[1].
+
+foreach n in vet do [ ]
