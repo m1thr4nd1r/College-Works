@@ -422,6 +422,15 @@ int foreach(struct treeNode *root, struct context *context)
 		printErrorCause("FOREACH","VAR",NULL);
 		return 1;
 	}
+	else
+	{
+		i = declared(root->elements[1].child->elements[0].token,context);
+		if ((i-1) % 2 && root->elements[1].child->qnt == 1)
+		{
+			printErrorCause("FOREACH","Não indexar vetores", root->elements[1].child->elements[0].token);
+			return 1;
+		}
+	}
 
 	i = declared(root->elements[3].token,context);
 	if (!i)
