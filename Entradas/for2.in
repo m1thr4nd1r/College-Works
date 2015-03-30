@@ -1,0 +1,5 @@
+declare I,N as number.
+
+FOR I fRoM 1 to N do[
+PUT fat * i in fat.
+]

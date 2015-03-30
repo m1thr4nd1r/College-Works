@@ -1,0 +1,5 @@
+declare i,a as number.
+
+for I from 1 to 10 do [
+put 0 in a[i].
+]

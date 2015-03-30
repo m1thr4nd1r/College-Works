@@ -1,0 +1,7 @@
+print fat.
+PRINT a.
+PRINT 100.
+PRINT "flag; a; alfa".
+PRINT '\n'.
+
+read N.

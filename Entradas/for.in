@@ -1,0 +1,13 @@
+FOR I fRoM 1 to N do[
+PUT fat * i in fat.
+]
+
+FOR I['a'+'b'] from 2+'c' to n do []
+
+for I from 1 to 10 do [
+put 0 in a[i].
+]
+
+foreach n in vet do [
+put soma+n in soma.
+]

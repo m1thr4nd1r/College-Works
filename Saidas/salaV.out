@@ -1,0 +1,9 @@
+LINHA 14: '\t\t'
+LINHA 15: "a'a"
+LINHA 16: !
+LINHA 17: "
+LINHA 18: "
+LINHA 19: ''
+LINHA 19: '
+LINHA 20: 1abc
+LINHA 21: '

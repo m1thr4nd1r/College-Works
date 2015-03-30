@@ -1,0 +1,9 @@
+declare a,b as letter.
+
+IF a > b THEN [
+	declare c as number.
+	PUT a IN c.
+]
+ELSE [
+	PUT b IN c . 
+]

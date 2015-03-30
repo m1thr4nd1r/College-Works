@@ -1,0 +1,7 @@
+Declare FAT,i,a as number.
+Declare text[] as letter.
+
+PUT fat * i in fAT.
+put 1 In FAT.
+PUT 1 in a.
+PUT "teste" in text.

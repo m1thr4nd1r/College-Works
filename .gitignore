@@ -1,4 +1,3 @@
-=======
 # Compiled source #
 ###################
 *.com
@@ -40,3 +39,10 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+=======
+*.sol
+pre-commit
+.settings/
+/a.out
+*.o
+*.exe

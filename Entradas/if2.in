@@ -1,0 +1,3 @@
+declare a,b,c as letter.
+
+if a+'a'-2%0 > b*'c'/3 then [ read d. ]

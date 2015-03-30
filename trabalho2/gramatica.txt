@@ -1,0 +1,52 @@
+r0 SS -> #S $
+r1 #S -> #COMMAND
+r2 #COMMAND -> #IF #COMMAND
+r3 #COMMAND -> #DECLARE #COMMAND
+r4 #COMMAND -> #RESIZE #COMMAND
+r5 #COMMAND -> #PUT #COMMAND
+r6 #COMMAND -> #FOR #COMMAND
+r7 #COMMAND -> #FOREACH #COMMAND
+r8 #COMMAND -> #READ #COMMAND
+r9 #COMMAND -> #PRINT #COMMAND
+r10 #COMMAND -> &
+r11 #DECLARE -> declare #ID #DEC as #TYPE .
+r12 #DEC -> , #ID #DEC
+r13 #DEC -> &
+r14 #ID -> id
+r15 #ID -> id [ ]
+r16 #TYPE -> number
+r17 #TYPE -> letter
+r18 #RESIZE -> resize id to #ARIT .
+r19 #PUT -> put #ARIT in #VAR .
+r20 #PUT -> put string in id .
+r21 #ARIT -> #ARIT + #F
+r22 #ARIT -> #ARIT - #F
+r23 #ARIT -> #F
+r24 #F -> #F * #G
+r25 #F -> #F / #G
+r26 #F -> #F % #G
+r27 #F -> #G
+r28 #F -> - #G
+r29 #G -> ( #ARIT )
+r30 #G -> #OPERANDO
+r31 #OPERANDO -> #CONS
+r32 #OPERANDO -> #VAR
+r33 #CONS -> num
+r34 #CONS -> char
+r35 #VAR -> id [ #ARIT ]
+r36 #VAR -> id
+r37 #REL -> #ARIT #OP #ARIT
+r38 #OP -> <
+r39 #OP -> >
+r40 #OP -> <=
+r41 #OP -> >=
+r42 #OP -> <>
+r43 #OP -> =
+r44 #IF -> if #REL then [ #COMMAND ] #ELSE
+r45 #ELSE -> else [ #COMMAND ]
+r46 #ELSE -> &
+r47 #FOR -> for #VAR from #ARIT to #ARIT do [ #COMMAND ]
+r48 #FOREACH -> foreach #VAR in id do [ #COMMAND ]
+r49 #READ -> read VAR .
+r50 #PRINT -> print #OPERANDO .
+r51 #PRINT -> print string .

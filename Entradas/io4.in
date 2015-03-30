@@ -1,0 +1,15 @@
+declare fat,a[],N,q[] as number.
+
+resize a to 10.
+resize Q to 2.
+
+print fat.
+PRINT a.
+print a[1].
+PRINT 100.
+PRINT "flag; a; alfa".
+PRINT '\n'.
+
+read N.
+read a[2].
+read Q.

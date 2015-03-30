@@ -1,0 +1,21 @@
+declare a, b as letter. 
+    
+IF a >= b THEN [
+
+    put C in d.
+    
+    
+    IF a >= b THEN [
+
+        put C in d.
+    ] else [
+        
+        put C in d.
+        
+        IF a <> b THEN [
+
+        put C in d.
+        ]
+    ] 
+    
+] 
